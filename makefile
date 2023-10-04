@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/10/04 09:12:53 by jperinch         ###   ########.fr        #
+#    Updated: 2023/10/04 09:15:39 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,13 +42,14 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS)  $(PRINTF) $(MLX) $(OBJ) -o $(NAME)
-
 clean:
 	rm -rf $(OBJ_DIR)
 	@make clean -sC $(MLX_PATH)
 
-
-fclean: $(clean)
+fclean:
+	rm -rf $(OBJ_DIR)
+	@make clean -sC $(MLX_PATH)
 	rm -rf $(MLX_NAME)
+
 
 re:     fclean all
