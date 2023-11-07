@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/10/04 09:15:39 by jperinch         ###   ########.fr        #
+#    Updated: 2023/11/07 10:39:07 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ OBJ_DIR = obj
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -fsanitize=address -g3##-Wall -Wextra -Werror 
 CC = gcc
 
 MLX_PATH	= ./mlx/
@@ -30,7 +30,7 @@ all: $(MLX) $(NAME)   $(OBJ)
 
 $(MLX):
 	@echo "Making MiniLibX..."
-	@make -sC $(MLX_PATH)
+	@make -sC  $(MLX_PATH)
 	cp $(MLX) ./
 
 $(OBJ_DIR):
@@ -48,6 +48,7 @@ clean:
 
 fclean:
 	rm -rf $(OBJ_DIR)
+	rm -rf $(NAME)
 	@make clean -sC $(MLX_PATH)
 	rm -rf $(MLX_NAME)
 
