@@ -14,7 +14,7 @@ void drawline(float x, float y, float x1, float y1,t_data img, void *mlx_win)
     float y2 = y;
     while (x2<x1)
     {
-        my_mlx_pixel_put(&img,800/2 + x2, 800/2+ y2,0x00FFFFF); 
+        my_mlx_pixel_put(&img,800/2 + x2, 800/2+ y2,0xFFFFFFF); 
         x2 = x2 + 0.001;
         y2 = m*(x2-x)+y;
     }
@@ -36,23 +36,31 @@ void wall(t_data img, void * mlx_win, int map[4][4],int color)
 
         if(map[i][j] == 1)
         {
-            while (c <100)
+            while (c < 200)
             {
-                    drawline(point.x,point.y+c,point.x+100,point.y+c,img,mlx_win);
+                    drawline(point.x - 400,point.y+c -400,point.x+200-400,point.y+c-400,img,mlx_win);
                 c++;
+            }
+        }
+        if(map[i][j] == 2)
+        {
+            int cs = 0;
+            while (cs <10)
+            {
+                    drawline(point.x - 400 +100,point.y+cs -400,point.x+10-400+100,point.y+cs-400,img,mlx_win);
+                cs++;
             }
         }
         printf("x:%f\n",point.x);
         printf("y:%f\n",point.y);
-        point.x+=100;
+        point.x+=200;
         j++;
     }
         point.x=0;
-        point.y+=100;
+        point.y+=200;
 
     i++;
   }
-  
 }
 
 void inits(t_data **img, void **mlx_ptr, void **win_ptr)
@@ -65,7 +73,7 @@ void inits(t_data **img, void **mlx_ptr, void **win_ptr)
 	(*img)->width = 800;
 	(*img)->height = 800;
 	*mlx_ptr = mlx_init();
-	*win_ptr = mlx_new_window(*mlx_ptr, (*img)->width+100, (*img)->height+100, "mlx");
+	*win_ptr = mlx_new_window(*mlx_ptr, (*img)->width, (*img)->height, "mlx");
 	(*img)->img = mlx_new_image(*mlx_ptr, (*img)->width, (*img)->height);
 	(*img)->addr = mlx_get_data_addr((*img)->img, &((*img)->bpp),
 			&((*img)->line_bytes), &((*img)->endian));
@@ -75,7 +83,7 @@ int main(int argc, char **argv)
 {
     int map[4][4] = {   {1,1,1,1},
                         {1,0,0,1},
-                        {1,0,0,1},
+                        {1,0,2,1},
                         {1,1,1,1}   };
 	void	*mlx_ptr;
 	void	*win_ptr;
@@ -85,9 +93,9 @@ int main(int argc, char **argv)
 	{
 		inits(&img, &mlx_ptr, &win_ptr);
 
-		wall(*img,win_ptr,map,0x00FF0000);
+		wall(*img,win_ptr,map,0x00FFFFFF);
 
-		mlx_put_image_to_window(*(img->mlx_ptr), *(img->win_ptr), img->img, -400, -400);
+		mlx_put_image_to_window(*(img->mlx_ptr), *(img->win_ptr), img->img, 0, 0);
 		mlx_loop(*(img->mlx_ptr));
 	}
 	else

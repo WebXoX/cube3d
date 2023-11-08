@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/07 15:55:36 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/11/08 09:26:44 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <math.h>
 #include <unistd.h>
 # include "mlx/mlx.h"
-# include "minilibx-linux/mlx.h"
+// # include "minilibx-linux/mlx.h"
 // # include "minilibx-linux/mlx_int.h"
 # include "mlx/mlx.h"
 

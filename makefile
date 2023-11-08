@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/11/08 09:25:26 by jperinch         ###   ########.fr        #
+#    Updated: 2023/11/08 09:40:07 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,29 +24,25 @@ OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 # CFLAGS =  -Wall -Wextra -Werror 
-LFLAGS = -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
+# LFLAGS = -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
+# LFLAGS = -L./mlx -lmlx -L$(INCLIB) -framework OpenGL -framework AppKit
 
 CC = gcc
 
-MLX_PATH	= ./mlx/
-MLX_NAME	= libmlx.dylib
-MLX			= $(MLX_PATH)$(MLX_NAME)
-
-MLX_PATH_L	= ./minilibx-linux/
-MLX_NAME_L	= libmlx.a
+MLX_PATH_L	= ./mlx/
+MLX_NAME_L	= libmlx.dylib
 MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
+
+# MLX_PATH_L	= ./minilibx-linux/
+# MLX_NAME_L	= libmlx.a
+# MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
 
 all: $(MLX_L) $(NAME)   $(OBJ)
 
 $(MLX_L):
 	@echo "Making MiniLibX..."
-<<<<<<< HEAD
-	@make -sC  $(MLX_PATH)
-	cp $(MLX) ./
-=======
 	@make -sC $(MLX_PATH_L)
-	# cp $(MLX_L) ./
->>>>>>> cee797d503c50363f8ddcba168a0b09ee238d479
+	cp $(MLX_L) ./
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
@@ -56,7 +52,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	
 
 $(NAME): $(OBJ)
-	$(CC)   -o $(NAME) $(OBJ) $(LFLAGS)
+	$(CC) $(MLX_NAME_L) $(OBJ) $(LFLAGS) -o  $(NAME)
 clean:
 	rm -rf $(OBJ_DIR)
 	@make clean -sC $(MLX_PATH_L)
