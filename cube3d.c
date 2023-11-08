@@ -85,7 +85,7 @@ void	ft_free(void **mat, int row)
 
 void inits(t_data **img, void **mlx_ptr, void **win_ptr)
 {
-	(*img) = ft_calloc(1, sizeof(t_data));
+	(*img) = calloc(1, sizeof(t_data));
 	if (!(*img))
 		return ;
 	(*img)->mlx_ptr = mlx_ptr;

@@ -19,6 +19,16 @@
 #include <math.h>
 #include <unistd.h>
 # include "mlx/mlx.h"
+# include "minilibx-linux/mlx.h"
+// # include "minilibx-linux/mlx_int.h"
+# include "mlx/mlx.h"
+
+typedef struct point3d
+{
+    float x;
+    float y;
+    float z;
+}   coordinate_t;
 
 typedef struct s_data
 {
