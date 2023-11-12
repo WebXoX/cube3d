@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/08 09:26:44 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/12 19:40:31 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef struct s_data
 	int		height;
 	void	**mlx_ptr;
 	void	**win_ptr;
-
+	int		*map;
+	coordinate_t player;
 }	t_data;
 
 typedef struct s_line

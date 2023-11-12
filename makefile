@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/11/08 09:40:07 by jperinch         ###   ########.fr        #
+#    Updated: 2023/11/12 19:47:12 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ OBJ_DIR = obj
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
-# CFLAGS =  -Wall -Wextra -Werror 
+CFLAGS = -fsanitize=address -g3
 # LFLAGS = -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
 # LFLAGS = -L./mlx -lmlx -L$(INCLIB) -framework OpenGL -framework AppKit
 
@@ -52,7 +52,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	
 
 $(NAME): $(OBJ)
-	$(CC) $(MLX_NAME_L) $(OBJ) $(LFLAGS) -o  $(NAME)
+	$(CC) $(MLX_NAME_L) $(OBJ) $(CFLAGS) $(LFLAGS) -o  $(NAME)
 clean:
 	rm -rf $(OBJ_DIR)
 	@make clean -sC $(MLX_PATH_L)
