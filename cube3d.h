@@ -39,9 +39,9 @@ typedef struct s_data
 	int		endian;
 	int		width;
 	int		height;
-	void	**mlx_ptr;
-	void	**win_ptr;
-	int		*map;
+	void	*mlx_ptr;
+	void	*win_ptr;
+	int		map[4][4];
 	coordinate_t player;
 }	t_data;
 
