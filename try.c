@@ -6,7 +6,7 @@
 /*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/16 13:46:12 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/11/16 16:13:36 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ void	run(t_data *canva)
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
-	dst = data->addr + (y * data->line_bytes + x * (data->bpp / 8));
-	*(unsigned int*)dst = color;
+
+	if ((data->width > x && data->height > y) && (0 <= x && 0 <= y))
+	{
+		dst = data->addr + (y * data->line_bytes + x * (data->bpp / 8));
+		*(unsigned int *)dst = color;
+	}
 }
 
 // void drawline(float x, float y, float x1, float y1,t_data img, void *mlx_win,int color)
@@ -136,8 +140,8 @@ int cast(t_data *canva)
 {
 	float x1 = 0;
 	float x2 = 0;
-	float dir_x = 0;
-    float dir_y = 100;
+	float dir_x = 50;
+    float dir_y = 0;
 	float y1 = canva->height;
 	float y2 = canva->width;
 
@@ -262,7 +266,7 @@ int	main(int argv, char *argc[])
 {
 
 	t_data	canva;
-	canva.height = 800;
+	canva.height = 400;
 	canva.width = 400;
 	canva.mlx_ptr = mlx_init();
 	call( &canva);
