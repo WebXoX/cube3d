@@ -1,17 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   try.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/07/13 10:41:05 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:46:12 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 int	move(t_data *img,float x,float y);
+
+
+
 
 int	moves(int keycode, t_data *vars)
 {
@@ -48,7 +51,7 @@ void	run(t_data *canva)
 {
 	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
 		0);
-	mlx_key_hook(canva->win_ptr, moves, &(*canva));
+		mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
 	mlx_loop(canva->mlx_ptr);
 }
 
@@ -58,18 +61,105 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	dst = data->addr + (y * data->line_bytes + x * (data->bpp / 8));
 	*(unsigned int*)dst = color;
 }
-void drawline(float x, float y, float x1, float y1,t_data img, void *mlx_win,int color)
+
+// void drawline(float x, float y, float x1, float y1,t_data img, void *mlx_win,int color)
+// {
+//     float m = (y1-y)/(x1-x);
+//     float x2 = x ;
+//     float y2 = y;
+// 	if(x2 <= x1)
+// 	{
+// 		while (x2<=x1)
+// 		{
+// 			my_mlx_pixel_put(&img,x2,y2,color);
+// 			x2 = x2 + 0.001;
+// 			y2 = m * (x2-x)+y;
+// 		}
+// 	}
+// 	// else
+// 	// {
+// 	// 	float x2 = x1 ;
+//     // 	float y2 = y1;
+// 	// 	while (x2<x)
+// 	// 	{
+// 	// 		my_mlx_pixel_put(&img,x2,y2,color);
+// 	// 		x2 = x2 + 0.001;
+// 	// 		y2 = m * (x2-x)+y;
+// 	// 	}
+// 	// }
+// }
+
+void	step(int *p2, int *p1, double *error, double dp)
 {
-    float m = (y1-y)/(x1-x);
-    float x2 = x ;
-    float y2 = y;
-    while (x2<x1)
-    {
-        my_mlx_pixel_put(&img,x2,y2,color); 
-        x2 = x2 + 0.001;
-        y2 = m*(x2-x)+y;
-    }
+	*error = *error + dp;
+	if (*p1 < *p2)
+		*p1 = *p1 + 1;
+	else
+		*p1 = *p1 - 1;
 }
+
+
+void	drawline(int *vals, t_data *img, int *color_list)
+{
+	int	i;
+	int color;
+	t_line line;
+
+	color = color_list[0];
+	line.dx = abs(vals[2] - vals[0]);
+	line.dy = -abs(vals[3] - vals[1]);
+	line.error = line.dx + line.dy;
+	i = 0;
+	while (1)
+	{
+		my_mlx_pixel_put(img, vals[0], vals[1], color);
+		if (vals[1] == vals[3] && vals[2] == vals[0])
+			break ;
+		line.e2 = 2 * line.error;
+		if (line.e2 <= line.dx)
+		{
+			if (vals[3] == vals[1])
+				break ;
+			step(&vals[3], &vals[1], &(line.error), line.dx);
+		}
+		if (line.e2 >= line.dy)
+		{
+			if (vals[0] == vals[2])
+				break ;
+			step(&vals[2], &vals[0], &(line.error), line.dy);
+		}
+		i++;
+	}
+}
+
+int cast(t_data *canva)
+{
+	float x1 = 0;
+	float x2 = 0;
+	float dir_x = 0;
+    float dir_y = 100;
+	float y1 = canva->height;
+	float y2 = canva->width;
+
+	float x3 = canva->player.x;
+	float y3 = canva->player.y;
+	float x4 = canva->player.x + dir_x;
+	float y4 = canva->player.y + dir_y;
+
+	printf("HEREEEEEE %f %f %f %f %f %f %f %f\n", x1, x2, x3, x4, y1, y2, y3, y4);
+	drawline((int[]){0,0,400,800},canva,(int[]){0x880808});
+	drawline((int[]){x3,y3,x4,y4},canva,(int[]){0x880808});
+	float den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+	if (den == 0)
+		return 0;
+	float t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+	float u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+	if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
+		return 1;
+	else
+		return 0;
+}
+
 void render(t_data *img)
 {
     int i   =   0;
@@ -79,9 +169,9 @@ int map[4][4] = {   {1,1,1,1},
                         {1,0,2,1},
                         {1,1,1,1}   };
     coordinate_t    point;
-    point.x =    0;   
+    point.x =    0;
     point.y =    0;
-    int ratio_y = img->height/4; 
+    int ratio_y = img->height/4;
     int ratio_x = img->width/4;
     while (i < 4)
     {
@@ -89,25 +179,27 @@ int map[4][4] = {   {1,1,1,1},
         while (j < 4)
         {
                 int c = 0;
+				//draw map
                 if(map[i][j] == 1)
                 {
                     while (c < ratio_y - 10)
                     {
-                        drawline(point.x ,point.y + c ,point.x 
-                                + ratio_x-10 ,point.y + c , *img, img->win_ptr,0xFFFFFFF);
+                        drawline((int[]){point.x ,point.y + c ,point.x
+                                + ratio_x-10 ,point.y + c} , img, (int[]){0xFFFFFFF});
                         c++;
                     }
                 }
+				//draw player
                 if(map[i][j] == 2)
                 {
-					img->player.x = point.x;
-					img->player.y = point.y;
+					img->player.x = point.x  + ratio_x/2;
 				    int cs = 0;
+					img->player.y = point.y ;
                     while (cs <10)
                     {
 						// printf("in player y:%f  %f\n",point.y, img->player.y);
 						// printf("in player x:%f  %f\n",point.x, img->player.x);
-                        drawline(point.x  + ratio_x/2,point.y + cs ,point.x + 10  + ratio_x/2,point.y + cs ,*img,img->win_ptr,0xFFFFFFF);
+                        drawline((int[]){point.x  + ratio_x/2,point.y + cs ,point.x + 10  + ratio_x/2,point.y + cs} ,img,(int[]){0xFFFFFFF});
                         cs++;
                     }
                 }
@@ -120,18 +212,22 @@ int map[4][4] = {   {1,1,1,1},
         point.y+=ratio_y;
         i++;
     }
+	printf("THE ANSWER IS: %d\n", cast(img));
     run(&(*img));
 }
+
+
 int	move(t_data *img,float x, float y)
 {
 	int i = 0;
-	 int ratio_y = img->height/8; 
-    int ratio_x = img->width/8; 
+	 int ratio_y = img->height/8;
+    int ratio_x = img->width/8;
 			printf("in player y:%f\n",img->player.y);
 			printf("in player x:%f\n", img->player.x);
 	while (i <10)
 	{
-		drawline(img->player.x  + ratio_x,img->player.y + i ,img->player.x + 10  + ratio_x,img->player.y + i ,*img,img->win_ptr,0x000);
+		//draw over old pos
+		drawline((int[]){img->player.x  + ratio_x,img->player.y + i ,img->player.x + 10  + ratio_x,img->player.y + i },img,(int[]){0x000});
 		i++;
 	}
 	img->player.y -= y;
@@ -141,7 +237,8 @@ int	move(t_data *img,float x, float y)
 			printf("in player y:%f\n",img->player.y);
 	while (i <10)
 	{
-		drawline(img->player.x  + ratio_x ,img->player.y + i ,img->player.x + 10  + ratio_x ,img->player.y + i ,*img,img->win_ptr,0xFFFFFFF);
+		//draw new pos
+		drawline((int[]){img->player.x  + ratio_x ,img->player.y + i ,img->player.x + 10  + ratio_x ,img->player.y + i} ,img, (int[]){0xFFFFFFF});
 		i++;
 	}
     run(img);
@@ -163,9 +260,9 @@ void	call(t_data *canva)
 
 int	main(int argv, char *argc[])
 {
-	
-	t_data	canva;	 
-	canva.height = 200;
+
+	t_data	canva;
+	canva.height = 800;
 	canva.width = 400;
 	canva.mlx_ptr = mlx_init();
 	call( &canva);

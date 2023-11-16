@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
+#    By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/11/12 19:47:12 by jperinch         ###   ########.fr        #
+#    Updated: 2023/11/14 09:30:45 by afarheen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,18 +24,18 @@ OBJ_DIR = obj
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 CFLAGS = -fsanitize=address -g3
-LFLAGS = -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
-# LFLAGS = -L./mlx -lmlx -L$(INCLIB) -framework OpenGL -framework AppKit
+# LFLAGS = -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
+LFLAGS = -L./mlx -lmlx -L$(INCLIB) -framework OpenGL -framework AppKit
 
 CC = gcc
 
-# MLX_PATH_L	= ./mlx/
-# MLX_NAME_L	= libmlx.dylib
-# MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
-
-MLX_PATH_L	= ./minilibx-linux/
-MLX_NAME_L	= libmlx.a
+MLX_PATH_L	= ./mlx/
+MLX_NAME_L	= libmlx.dylib
 MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
+
+# MLX_PATH_L	= ./minilibx-linux/
+# MLX_NAME_L	= libmlx.a
+# MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
 
 all: $(MLX_L) $(NAME)   $(OBJ)
 
@@ -49,7 +49,7 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-	
+
 
 $(NAME): $(OBJ)
 	$(CC) $(MLX_NAME_L) $(OBJ) $(CFLAGS) $(LFLAGS) -o  $(NAME)
