@@ -6,7 +6,7 @@
 /*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/16 16:13:36 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/11/16 17:07:00 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int cast(t_data *canva)
 {
 	float x1 = 0;
 	float x2 = 0;
-	float dir_x = 50;
+	float dir_x = -10;
     float dir_y = 0;
 	float y1 = canva->height;
 	float y2 = canva->width;
@@ -150,7 +150,7 @@ int cast(t_data *canva)
 	float x4 = canva->player.x + dir_x;
 	float y4 = canva->player.y + dir_y;
 
-	printf("HEREEEEEE %f %f %f %f %f %f %f %f\n", x1, x2, x3, x4, y1, y2, y3, y4);
+	printf("HEREEEEEE %f %f %f %f \n", x3, x4, y3, y4);
 	drawline((int[]){0,0,400,800},canva,(int[]){0x880808});
 	drawline((int[]){x3,y3,x4,y4},canva,(int[]){0x880808});
 	float den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
@@ -228,10 +228,11 @@ int	move(t_data *img,float x, float y)
     int ratio_x = img->width/8;
 			printf("in player y:%f\n",img->player.y);
 			printf("in player x:%f\n", img->player.x);
+	drawline((int[]){img->player.x,img->player.y  ,img->player.x - 10 ,img->player.y },img,(int[]){0x000});
 	while (i <10)
 	{
 		//draw over old pos
-		drawline((int[]){img->player.x  + ratio_x,img->player.y + i ,img->player.x + 10  + ratio_x,img->player.y + i },img,(int[]){0x000});
+		drawline((int[]){img->player.x  ,img->player.y + i ,img->player.x + 10  ,img->player.y + i },img,(int[]){0x000});
 		i++;
 	}
 	img->player.y -= y;
@@ -242,11 +243,11 @@ int	move(t_data *img,float x, float y)
 	while (i <10)
 	{
 		//draw new pos
-		drawline((int[]){img->player.x  + ratio_x ,img->player.y + i ,img->player.x + 10  + ratio_x ,img->player.y + i} ,img, (int[]){0xFFFFFFF});
+		drawline((int[]){img->player.x ,img->player.y + i ,img->player.x + 10 ,img->player.y + i} ,img, (int[]){0xFFFFFFF});
 		i++;
 	}
+	printf("THE ANSWER IS: %d\n", cast(img));
     run(img);
-
 	return (0);
 }
 
@@ -266,7 +267,7 @@ int	main(int argv, char *argc[])
 {
 
 	t_data	canva;
-	canva.height = 400;
+	canva.height = 800;
 	canva.width = 400;
 	canva.mlx_ptr = mlx_init();
 	call( &canva);
