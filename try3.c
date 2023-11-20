@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   try2.c                                             :+:      :+:    :+:   */
+/*   try3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/20 14:20:17 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:21:56 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define PI 3.1415926535
+#define DR 0.0174533
 #include "cube3d.h"
 int	move(t_data *img,float x,float y);
 void	drawline(int *vals, t_data *img, int *color_list);
 void ray(t_data *img);
-void map(t_data *img);
+void wall(t_data *img);
+void tile(t_data *img);
+void player(t_data *img);
 
 
 
@@ -72,15 +75,34 @@ int	moves(int keycode, t_data *vars)
 		exit(1);
 	return (0);
 }
+float dist(float ax, float ay, float bx, float by, float amgle)
+{
+	return (sqrt((bx-ax)*(bx-ax) - (by-ay)*(by-ay)));
+}
 void ray(t_data *img)
 {
 	int map[24]={1,1,1,1,1,1,1,0,1,0,0,1,1,0,2,0,0,1,1,1,1,1,1,1};
 	int r,mx,my,mp,dof;
-	float rx,ry,ra,xo,yo;
-	ra = img->player.da;
-	for (r = 0; r < 1; r++)
+	float rx,ry,ra,xo,yo, dista;
+	ra = img->player.da-DR*30;
+	if (ra<0)
+	{
+		ra +=2*PI; 
+		/* code */
+	}
+	if (ra> 2*PI)
+	{
+		ra -=2*PI; 
+		/* code */
+	}
+	
+	
+	for (r = 0; r < 5; r++)
 	{
 		/* code */
+		float dish=1000000;
+		float hx= img->player.x;
+		float hy= img->player.y;
 		dof=0;
 		float aTan = -1/tan(ra);
 		if(ra > PI)
@@ -88,14 +110,14 @@ void ray(t_data *img)
 			ry=(((int)img->player.y >>6)<<6)-0.0001;
 			rx=  (img->player.y-ry)*aTan+img->player.x;
 			yo=-64;
-			xo=yo*aTan;
+			xo=-yo*aTan;
 		}
 		if(ra < PI)
 		{
 			ry=(((int)img->player.y >>6)<<6)+64;
 			rx=  (img->player.y-ry)*aTan+img->player.x;
 			yo=64;
-			xo=yo*aTan;
+			xo=-yo*aTan;
 		}
 		if(ra==0||ra==PI)
 		{
@@ -108,8 +130,14 @@ void ray(t_data *img)
 			mx=(int)(rx)>>6;
 			my=(int)(ry)>>6;
 			mp=my*6*mx;
-			if(mp<4*6 &&map[mp]==1)
+			printf("angle will make it map bounce %d\n\n",mp);
+			if(mp>0 && mp<4*6 &&map[mp]==1)
+			{
+				hx=rx;
+				hy=ry;
+				dish = dist(img->player.x,img->player.y,hx,hy,ra);
 				dof=8;
+			}
 			else
 			{
 				rx+=xo;
@@ -117,8 +145,76 @@ void ray(t_data *img)
 				dof+=1;
 			}
 		}
+		// drawline((int []){img->player.x,img->player.y,rx,ry},img,(int[]){0xFF001});
+		float disv=1000000;
+		float vx= img->player.x;
+		float vy= img->player.y;
+		dof=0;
+		float nTan = -tan(ra);
+		if(ra > PI/2 && ra < 3*PI/2)
+		{
+			rx=(((int)img->player.x >>6)<<6)-0.0001;
+			ry=  (img->player.x-rx)*nTan+img->player.y;
+			xo=-64;
+			yo=-xo*nTan;
+		}
+		if(ra < PI/2 || ra > 3*PI/2)
+		{
+			rx=(((int)img->player.x >>6)<<6)+64;
+			ry=  (img->player.x-rx)*nTan+img->player.y;
+			xo=64;
+			yo=-xo*nTan;
+		}
+		if(ra==0||ra==PI)
+		{
+			ry=img->player.y;
+			rx= img->player.x;
+			dof=8;
+		}
+		while (dof<8)
+		{
+			mx=(int)(rx)>>6;
+			my=(int)(ry)>>6;
+			mp=my*6*mx;
+			printf("angle will make it map bounce %d\n\n",mp);
+			if(mp>0 && mp<4*6 &&map[mp]==1)
+			{
+				vx=rx;
+				vy=ry;
+				disv = dist(img->player.x,img->player.y,vx,vy,ra);
+				dof=8;
+			}
+			else
+			{
+				rx+=xo;
+				ry+=yo;
+				dof+=1;
+			}
+		}
+		if(disv <dish)
+		{
+			rx=vx;
+			ry=vy;
+			dista=disv;
+		}
+		if(disv >dish)
+		{
+			rx=hx;
+			ry=hy;
+			dista=dish;
+		}
 		drawline((int []){img->player.x,img->player.y,rx,ry},img,(int[]){0xFf0000});
-		
+		ra +=DR;
+		if (ra<0)
+	{
+		ra +=2*PI; 
+		/* code */
+	}
+	if (ra> 2*PI)
+	{
+		ra -=2*PI; 
+		/* code */
+	}
 	}
 	
 }
@@ -244,92 +340,27 @@ void render(t_data *img)
 {
     int i   =   0;
     int j   =   0;
-int map[4][6] = {   {1,1,1,1,1,1},
-					{1,0,1,0,0,1},
-					{1,0,2,0,0,1},
-					{1,1,1,1,1,1}   };
+	int map[4][6] = {   {1,1,1,1,1,1},
+						{1,0,1,0,0,1},
+						{1,0,2,0,0,1},
+						{1,1,1,1,1,1}   };
     coordinate_t    point;
     point.x =    0;
     point.y =    0;
     int ratio_y = img->height/4;
     int ratio_x = img->width/6;
-	 while (i < 4)
-    {
-        j=0;
-        while (j < 6)
-        {
-                int c = 0;
-                    while (c < ratio_y - 10)
-                    {
-                        drawline((int[]){point.x ,point.y + c ,point.x
-                                + ratio_x-10 ,point.y + c} , img, (int[]){0x00});
-                        c++;
-                    }
-            point.x+=ratio_x;
-            j++;
-        }
-        point.x=0;
-        point.y+=ratio_y;
-        i++;
-    }
-	i=0;
-	j=0;
-        point.x=0;
-        point.y=0;
-
     while (i < 4)
     {
         j=0;
         while (j < 6)
         {
-                int c = 0;
-				//draw map
-                if(map[i][j] == 1)
-                {
-                    while (c < ratio_y - 10)
-                    {
-                        drawline((int[]){point.x ,point.y + c ,point.x
-                                + ratio_x-10 ,point.y + c} , img, (int[]){0xFFFFFFF});
-                        c++;
-                    }
-                }
-				if(map[i][j] == 0)
-                {
-                    while (c < ratio_y - 10)
-                    {
-                        drawline((int[]){point.x ,point.y + c ,point.x
-                                + ratio_x-10 ,point.y + c} , img, (int[]){0x00});
-                        c++;
-                    }
-                }
-				//draw player
-                if(map[i][j] == 2)
-                {
-					// img->player.x = point.x  + ratio_x/2;
-					// img->player.y = point.y  + ratio_y/2;
-					// point.x += ratio_x/2;
-					// point.y += ratio_y/2;
-				    int cs = 0;
-					// img->player.y = point.y ;
-                    while (cs <10)
-                    {
-						printf("in player y:%f  %f\n",point.y, img->player.y);
-						printf("in player x:%f  %f\n\n",point.x, img->player.x);
-                        drawline((int[]){img->player.x ,img->player.y + cs ,img->player.x+ 10 ,img->player.y + cs} ,img,(int[]){0xFFFFFFF});
-                        cs++;
-                    }
-                }
-            printf("x:%f\n",point.x);
-            printf("y:%f\n",point.y);
-            point.x+=ratio_x;
             j++;
         }
         point.x=0;
         point.y+=ratio_y;
         i++;
     }
-	drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
-	printf("THE ANSWER IS: %d\n", cast(img));
+	// drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
 	ray(img);
     run(&(*img));
 }
@@ -338,91 +369,166 @@ int map[4][6] = {   {1,1,1,1,1,1},
 int	move(t_data *img,float x, float y)
 {
 	int i = 0;
-	 int ratio_y = img->height/4;
+	int j =0;
+	int ratio_y = img->height/4;
     int ratio_x = img->width/6;
 	coordinate_t point;
 	point.x=0;
 	point.y=0;
 	printf("in player y:%f\n",img->player.y);
 	printf("in player x:%f\n", img->player.x);
-	// int map[4][6]={   {1,1,1,1,1,1},
-	// 				{1,0,1,0,0,1},
-	// 				{1,0,2,0,0,1},
-	// 				{1,1,1,1,1,1}   };
-	// drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0x0000});
-	// int x;
-	// while (x<img->width)
-	// {
-	// 	/* code */
-	// 	x++;
-	// }
-	map(img);
-	// drawline((int[]){img->player.x,img->player.y,img->player.x+3,img->player.y},img,(int[]){0x000});
-
-	// drawline((int[]){img->player.x,img->player.y  ,img->player.x - 10 ,img->player.y },img,(int[]){0x000});
-	// while (i <10)
-	// {
-	// 	//draw over old pos
-	// 	drawline((int[]){img->player.x  ,img->player.y + i ,img->player.x + 10  ,img->player.y + i },img,(int[]){0x000});
-	// 	i++;
-	// }
-	// drawline((int[]){img->player.x,img->player.y,img->player.x+3,img->player.y},img,(int[]){0xFFFFFFF});
+	// wall(img);
+	tile(img);
 	img->player.y -= y;
 	img->player.x -= x;
 	i=0;
+		    while (j <10)
+			{
+				// printf("in player y:%f  %f\n",point.y, img->player.y);
+				// printf("in player x:%f  %f\n\n",point.x, img->player.x);
+				drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
+				j++;
+			}
+	// player(img);
 	render(img);
-
-	// 		printf("in player x:%f\n", img->player.x);
-	// 		printf("in player y:%f\n",img->player.y);
-	// drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
-
-	// while (i <10)
-	// {
-	// 	//draw new pos
-	// 	drawline((int[]){img->player.x ,img->player.y + i ,img->player.x + 10 ,img->player.y + i} ,img, (int[]){0xFFFFFFF});
-	// 	i++;
-	// }
-	printf("THE ANSWER IS: %d\n", cast(img));
     run(img);
 	return (0);
 }
-void map(t_data *img)
+
+void player(t_data *img)
 {
-	int ratio_y = img->height/4;
-    int ratio_x = img->width/6;
-	int i=0;
+	int i;
+    int j;
+	coordinate_t point;
+	int map[4][6] = {   {1,1,1,1,1,1},
+						{1,0,1,0,0,1},
+						{1,0,2,0,0,1},
+						{1,1,1,1,1,1}   };
+	i=0;
+	j=0;
+		while (i < 4)
+		{
+			j=0;
+			while (j < 6)
+			{
+				int c;
+						printf("in player x:%f  ls\n\n",point.x);
+
+				if(map[i][j]==2)
+				{
+					img->player.x = point.x  + 64/2;
+					img->player.y = point.y  + 64/2;
+					// printf("in player y:%f  %f\n",point.y, img->player.y);
+						// printf("in player x:%f  %f\n\n",point.x, img->player.x);
+                        
+					c = 0;
+					while (c < 10)
+					{
+						drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
+
+						c++;
+					}
+				}
+				point.x+=64;
+				j++;
+			}
+			point.x=0;
+			point.y+=64;
+			i++;
+		}
+	// else
+	// 	    while (j <10)
+    //                 {
+	// 					// printf("in player y:%f  %f\n",point.y, img->player.y);
+	// 					// printf("in player x:%f  %f\n\n",point.x, img->player.x);
+    //                     drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
+    //                     j++;
+    //                 }
+}
+
+
+void tile(t_data *img)
+{
+	int i;
+    int j;
+	coordinate_t point;
+	int map[4][6] = {   {1,1,1,1,1,1},
+						{1,0,1,0,0,1},
+						{1,0,2,0,0,1},
+						{1,1,1,1,1,1}   };
+	i=0;
+	j=0;
+	while (i < 4)
+    {
+        j=0;
+        while (j < 6)
+		{
+			int c;
+			if(map[i][j]==0 || map[i][j]== 2)
+			{
+				c = 0;
+				while (c < 64 - 2)
+				{
+					drawline((int[]){point.x ,point.y + c ,point.x
+							+ 64-2 ,point.y + c} , img, (int[]){0x000});
+					c++;
+				}
+			}
+			point.x+=64;
+            j++;
+		}
+        point.x=0;
+        point.y+=64;
+        i++;
+	}
+}
+void wall(t_data *img)
+{
+	int ratio_y;
+    int ratio_x;
+	int i;
+    int j;
+	coordinate_t point;
+	int map[4][6] = {   {1,1,1,1,1,1},
+						{1,0,1,0,0,1},
+						{1,0,2,0,0,1},
+						{1,1,1,1,1,1}   };
+    j   =   0;
+	i	=	0;
+	ratio_y = img->height/4;
+    ratio_x = img->width/6;	
+	
 	while (i < img->height)
 	{
 		
-		drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x880});
+		drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
 		i++;
 	}
-	int j;
 	i=0;
-	int x;
-	// int y;
-	//  while (i < 4)
-    // {
-    //     j=0;
-    //     while (j < 6)
-    //     {
-    //             int c = 0;
-	// 			//draw map
-            
-    //                 while (c < ratio_y - 10)
-    //                 {
-    //                     drawline((int[]){x ,y + c ,x
-    //                             + ratio_x-10 ,y + c} , img, (int[]){0x00});
-    //                     c++;
-    //                 }
-	// 			j++;
-	// 			x+=ratio_x;
-    //             }
-    //     i++;
-	// 	y+=ratio_y;
-    //     }
-	// // run(img);
-	
+	j=0;
+	while (i < 4)
+    {
+        j=0;
+        while (j < 6)
+		{
+			int c;
+			if(map[i][j]==1)
+			{
+				c = 0;
+				while (c < 64 - 2)
+				{
+					drawline((int[]){point.x ,point.y + c ,point.x
+							+ 64-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
+					c++;
+				}
+			}
+			point.x+=64;
+            j++;
+		}
+        point.x=0;
+        point.y+=64;
+        i++;
+	}
 }
 
 void	call(t_data *canva)
@@ -436,7 +542,9 @@ void	call(t_data *canva)
 				"cub3d");
 	canva->player.x =  (canva->width)/6 *2 + canva->width/(6*2);
 	canva->player.y =  (canva->height)/4 *2+ canva->height/(4*2);
-	map(canva);
+	wall(canva);
+	tile(canva);
+	player(canva);
 	render(canva);
 }
 
@@ -444,8 +552,8 @@ int	main(int argv, char *argc[])
 {
 
 	t_data	canva;
-	canva.height = 800;
-	canva.width = 1000;
+	canva.height = 1024;
+	canva.width = 1500;
 	canva.mlx_ptr = mlx_init();
 	call( &canva);
 	return (0);
