@@ -28,6 +28,9 @@ typedef struct point3d
     float x;
     float y;
     float z;
+    float dx;
+    float dy;
+    float da;
 }   coordinate_t;
 
 typedef struct s_data
