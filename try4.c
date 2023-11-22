@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   try3.c                                             :+:      :+:    :+:   */
+/*   try4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/20 16:21:56 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:08:34 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void ray(t_data *img)
     };
 	int r,mx,my,mp,dof;
 	float rx,ry,ra,xo,yo, dista;
-	ra = img->player.da-DR*30;
+	ra = img->player.da-DR*180;
 	if (ra<0)
 	{
 		ra +=2*PI; 
@@ -116,14 +116,14 @@ void ray(t_data *img)
 		float aTan = -1/tan(ra);
 		if(ra > PI)
 		{
-			ry=(((int)img->player.y >>6)<<6)-0.0001;
+			ry=(((int)img->player.y/64) * 64)-0.0001;
 			rx=  (img->player.y-ry)*aTan+img->player.x;
 			yo=-64;
 			xo=-yo*aTan;
 		}
 		if(ra < PI)
 		{
-			ry=(((int)img->player.y >>6)<<6)+64;
+			ry=(((int)img->player.y/64)*64)+64;
 			rx=  (img->player.y-ry)*aTan+img->player.x;
 			yo=64;
 			xo=-yo*aTan;
@@ -135,12 +135,12 @@ void ray(t_data *img)
 			dof=8;
 		}
 		while (dof<8)
-		{
-			mx=(int)(rx)>>6;
-			my=(int)(ry)>>6;
-			mp=my*6*mx;
+		{ 
+			mx=(int)(rx)/64;
+			my=(int)(ry)/64;
+			mp=my*8*mx;
 			printf("angle will make it map bounce %d\n\n",mp);
-			if(mp>0 && mp<4*6 &&map[mp]==1)
+			if(mp>0 && mp<64 &&map[mp]==1)
 			{
 				hx=rx;
 				hy=ry;
@@ -186,7 +186,7 @@ void ray(t_data *img)
 			my=(int)(ry)>>6;
 			mp=my*6*mx;
 			printf("angle will make it map bounce %d\n\n",mp);
-			if(mp>0 && mp<4*6 &&map[mp]==1)
+			if(mp>0 && mp<64 &&map[mp]==1)
 			{
 				vx=rx;
 				vy=ry;
@@ -213,7 +213,7 @@ void ray(t_data *img)
 			dista=dish;
 		}
 		drawline((int []){img->player.x,img->player.y,rx,ry},img,(int[]){0xFf0000});
-		ra +=DR;
+		// ra +=DR;
 		if (ra<0)
 	{
 		ra +=2*PI; 
@@ -368,6 +368,8 @@ int	move(t_data *img,float x, float y)
 	//ray is called in this function
 	// render(img);
 	//runs loop
+	ray(img);
+
     run(img);
 	return (0);
 }
@@ -547,6 +549,7 @@ void	call(t_data *canva)
 	tile(canva);
 	player(canva);
 	drawline((int[]){canva->player.x,canva->player.y,canva->player.x -canva->player.dx*5,canva->player.y-canva->player.dy *5},canva,(int[]){0xFFFFFFF});
+	ray(canva);
 	run(canva);
 	// render(canva);
 }
