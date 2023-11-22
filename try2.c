@@ -126,7 +126,7 @@ void	run(t_data *canva)
 {
 	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
 		0);
-		mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
+		// mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
 	mlx_key_hook(canva->win_ptr, moves, &(*canva));
 	mlx_loop(canva->mlx_ptr);
 }

@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "xshm.h": "c"
+        "xshm.h": "c",
+        "cmath": "c"
     }
 }

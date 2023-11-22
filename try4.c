@@ -14,37 +14,36 @@
 #define DR 0.0174533
 #include "cube3d.h"
 int	move(t_data *img,float x,float y);
-void	drawline(int *vals, t_data *img, int *color_list);
+void drawline(int *vals, t_data *img, int *color_list);
 void ray(t_data *img);
 void wall(t_data *img);
 void tile(t_data *img);
 void player(t_data *img);
 
 
-
-
 int	moves(int keycode, t_data *vars)
 {
 	printf("keycode :: %d\n",keycode);
+	//w
 	if (keycode == 13 || keycode == 119)
-	{
-		vars->player.x += vars->player.dx; 
-		vars->player.y += vars->player.dy; 
-		
-		move(vars,0,5);
-		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-		return (1);
-	}
-    else if (keycode == 1|| keycode == 115)
 	{
 		vars->player.x -= vars->player.dx; 
 		vars->player.y -= vars->player.dy; 
 		
-		move(vars,0,-5);
+		move(vars,0,0);
+		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+		return (1);
+	}//s
+    else if (keycode == 1|| keycode == 115)
+	{
+		vars->player.x += vars->player.dx; 
+		vars->player.y += vars->player.dy; 
+		
+		move(vars,0,0);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		
 		return (1);
-	}
+	}//a
     else if (keycode == 0|| keycode == 97)
 	{
 		vars->player.da -=0.1;
@@ -54,10 +53,10 @@ int	moves(int keycode, t_data *vars)
 		}
 		vars->player.dx = cos(vars->player.da)*5;
 		vars->player.dy = sin(vars->player.da)*5;
-		move(vars,5,0);
+		move(vars,0,0);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
-	}
+	}//d
     else if (keycode == 2|| keycode == 100)
 	{
 		vars->player.da +=0.1;
@@ -67,7 +66,7 @@ int	moves(int keycode, t_data *vars)
 		}
 		vars->player.dx = cos(vars->player.da)*5;
 		vars->player.dy = sin(vars->player.da)*5;
-		move(vars,-5,0);
+		move(vars,0,0);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
 	}
@@ -81,7 +80,17 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 }
 void ray(t_data *img)
 {
-	int map[24]={1,1,1,1,1,1,1,0,1,0,0,1,1,0,2,0,0,1,1,1,1,1,1,1};
+    int map[]=           //the map array. Edit to change level but keep the outer walls
+    {
+    1,1,1,1,1,1,1,1,
+    1,0,1,0,0,0,0,1,
+    1,0,1,0,0,0,0,1,
+    1,0,1,0,0,0,0,1,
+    1,0,0,0,0,0,0,1,
+    1,0,0,0,0,1,0,1,
+    1,0,0,0,0,0,0,1,
+    1,1,1,1,1,1,1,1,	
+    };
 	int r,mx,my,mp,dof;
 	float rx,ry,ra,xo,yo, dista;
 	ra = img->player.da-DR*30;
@@ -222,7 +231,7 @@ void	run(t_data *canva)
 {
 	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
 		0);
-		// mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
+		mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
 	mlx_key_hook(canva->win_ptr, moves, &(*canva));
 	mlx_loop(canva->mlx_ptr);
 }
@@ -237,33 +246,6 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 		*(unsigned int *)dst = color;
 	}
 }
-
-// void drawline(float x, float y, float x1, float y1,t_data img, void *mlx_win,int color)
-// {
-//     float m = (y1-y)/(x1-x);
-//     float x2 = x ;
-//     float y2 = y;
-// 	if(x2 <= x1)
-// 	{
-// 		while (x2<=x1)
-// 		{
-// 			my_mlx_pixel_put(&img,x2,y2,color);
-// 			x2 = x2 + 0.001;
-// 			y2 = m * (x2-x)+y;
-// 		}
-// 	}
-// 	// else
-// 	// {
-// 	// 	float x2 = x1 ;
-//     // 	float y2 = y1;
-// 	// 	while (x2<x)
-// 	// 	{
-// 	// 		my_mlx_pixel_put(&img,x2,y2,color);
-// 	// 		x2 = x2 + 0.001;
-// 	// 		y2 = m * (x2-x)+y;
-// 	// 	}
-// 	// }
-// }
 
 void	step(int *p2, int *p1, double *error, double dp)
 {
@@ -340,26 +322,17 @@ void render(t_data *img)
 {
     int i   =   0;
     int j   =   0;
-	int map[4][6] = {   {1,1,1,1,1,1},
-						{1,0,1,0,0,1},
-						{1,0,2,0,0,1},
-						{1,1,1,1,1,1}   };
-    coordinate_t    point;
-    point.x =    0;
-    point.y =    0;
-    int ratio_y = img->height/4;
-    int ratio_x = img->width/6;
-    while (i < 4)
+	int map[8][8]=           //the map array. Edit to change level but keep the outer walls
     {
-        j=0;
-        while (j < 6)
-        {
-            j++;
-        }
-        point.x=0;
-        point.y+=ratio_y;
-        i++;
-    }
+    {1,1,1,1,1,1,1,1},
+    {1,0,1,0,0,0,0,1},
+    {1,0,1,0,0,0,0,1},
+    {1,0,1,0,0,0,0,1},
+    {1,0,0,0,0,0,0,1},
+    {1,0,0,0,0,1,0,1},
+    {1,0,2,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1}
+    };
 	// drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
 	ray(img);
     run(&(*img));
@@ -368,29 +341,33 @@ void render(t_data *img)
 
 int	move(t_data *img,float x, float y)
 {
-	int i = 0;
+	int i ;
 	int j =0;
-	int ratio_y = img->height/4;
-    int ratio_x = img->width/6;
+	// int ratio_y = img->height/4;
+    // int ratio_x = img->width/6;
 	coordinate_t point;
 	point.x=0;
 	point.y=0;
-	printf("in player y:%f\n",img->player.y);
-	printf("in player x:%f\n", img->player.x);
-	// wall(img);
+	//wall and tile re draw
+	wall(img);
 	tile(img);
 	img->player.y -= y;
 	img->player.x -= x;
 	i=0;
-		    // while (j <10)
-			// {
-			// 	// printf("in player y:%f  %f\n",point.y, img->player.y);
-			// 	// printf("in player x:%f  %f\n\n",point.x, img->player.x);
-			// 	drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
-			// 	j++;
-			// }
+	//player re draw
+	// while (j <10)
+	// {
+	// 	printf("in motion player y: %f\n", img->player.y);
+	// 	printf("in motion player x: %f\n\n", img->player.x);
+	// 	drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
+	// 	j++;
+	// }
 	player(img);
-	render(img);
+	drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
+
+	//ray is called in this function
+	// render(img);
+	//runs loop
     run(img);
 	return (0);
 }
@@ -399,32 +376,36 @@ void player(t_data *img)
 {
 	int i;
     int j;
+	int c;
 	coordinate_t point;
-	int map[4][6] = {   {1,1,1,1,1,1},
-						{1,0,1,0,0,1},
-						{1,0,2,0,0,1},
-						{1,1,1,1,1,1}   };
+    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+        {
+        {1,1,1,1,1,1,1,1},
+        {1,0,1,0,0,0,0,1},
+        {1,0,1,0,0,0,0,1},
+        {1,0,1,0,0,0,0,1},
+        {1,0,0,0,0,0,0,1},
+        {1,0,0,0,0,1,0,1},
+        {1,0,2,0,0,0,0,1},
+        {1,1,1,1,1,1,1,1}
+        };
 	i=0;
 	j=0;
-		while (i < 4)
+		while (i < 8)
 		{
 			j=0;
-			while (j < 6)
+			while (j < 8)
 			{
-				int c;
-						printf("in player x:%f  ls\n\n",point.x);
-
 				if(map[i][j]==2)
 				{
-					img->player.x = point.x  + 64/2;
-					img->player.y = point.y  + 64/2;
-					// printf("in player y:%f  %f\n",point.y, img->player.y);
-						// printf("in player x:%f  %f\n\n",point.x, img->player.x);
+					c=0;
+					// img->player.x = point.x  + 64/2;
+					// img->player.y = point.y  + 64/2;
                         
-					c = 0;
 					while (c < 10)
 					{
-						drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
+						printf("in player x:%d\n\n",c);
+						drawline((int[]){img->player.x ,img->player.y + c ,img->player.x+ 10 ,img->player.y + c} ,img,(int[]){0x735674});
 
 						c++;
 					}
@@ -436,14 +417,6 @@ void player(t_data *img)
 			point.y+=64;
 			i++;
 		}
-	// else
-	// 	    while (j <10)
-    //                 {
-	// 					// printf("in player y:%f  %f\n",point.y, img->player.y);
-	// 					// printf("in player x:%f  %f\n\n",point.x, img->player.x);
-    //                     drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
-    //                     j++;
-    //                 }
 }
 
 
@@ -452,16 +425,22 @@ void tile(t_data *img)
 	int i;
     int j;
 	coordinate_t point;
-	int map[4][6] = {   {1,1,1,1,1,1},
-						{1,0,1,0,0,1},
-						{1,0,2,0,0,1},
-						{1,1,1,1,1,1}   };
+	int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+    {
+    {1,1,1,1,1,1,1,1},
+    {1,0,1,0,0,0,0,1},
+    {1,0,1,0,0,0,0,1},
+    {1,0,1,0,0,0,0,1},
+    {1,0,0,0,0,0,0,1},
+    {1,0,0,0,0,1,0,1},
+    {1,0,2,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1}
+    };
 	i=0;
-	j=0;
-	while (i < 4)
+	while (i < 8)
     {
         j=0;
-        while (j < 6)
+        while (j < 8)
 		{
 			int c;
 			if(map[i][j]==0 || map[i][j]== 2)
@@ -469,10 +448,27 @@ void tile(t_data *img)
 				c = 0;
 				while (c < 64 - 2)
 				{
+					printf("from tile : %d\n",c);
 					drawline((int[]){point.x ,point.y + c ,point.x
 							+ 64-2 ,point.y + c} , img, (int[]){0x000});
 					c++;
 				}
+				if ( map[i][j] == 2)
+				{
+					// img->player.x = point.x  + 64/2;
+					// img->player.y = point.y  + 64/2;
+                        
+					c = 0;
+					while (c < 10)
+					{
+						printf("in player x:%d\n\n",c);
+						// drawline((int[]){img->player.x ,img->player.y + c ,img->player.x+ 10 ,img->player.y + c} ,img,(int[]){0x75643});
+
+						c++;
+					}
+					// return ;
+				}
+				
 			}
 			point.x+=64;
             j++;
@@ -484,19 +480,22 @@ void tile(t_data *img)
 }
 void wall(t_data *img)
 {
-	int ratio_y;
-    int ratio_x;
 	int i;
     int j;
 	coordinate_t point;
-	int map[4][6] = {   {1,1,1,1,1,1},
-						{1,0,1,0,0,1},
-						{1,0,2,0,0,1},
-						{1,1,1,1,1,1}   };
+	int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+    {
+		{1,1,1,1,1,1,1,1},
+		{1,0,1,0,0,0,0,1},
+		{1,0,1,0,0,0,0,1},
+		{1,0,1,0,0,0,0,1},
+		{1,0,0,0,0,0,0,1},
+		{1,0,0,0,0,1,0,1},
+		{1,0,2,0,0,0,0,1},
+		{1,1,1,1,1,1,1,1}
+    };
     j   =   0;
 	i	=	0;
-	ratio_y = img->height/4;
-    ratio_x = img->width/6;	
 	
 	while (i < img->height)
 	{
@@ -506,10 +505,10 @@ void wall(t_data *img)
 	}
 	i=0;
 	j=0;
-	while (i < 4)
+	while (i < 8)
     {
         j=0;
-        while (j < 6)
+        while (j < 8)
 		{
 			int c;
 			if(map[i][j]==1)
@@ -517,6 +516,7 @@ void wall(t_data *img)
 				c = 0;
 				while (c < 64 - 2)
 				{
+					printf("from wall: %d\n",c);
 					drawline((int[]){point.x ,point.y + c ,point.x
 							+ 64-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
 					c++;
@@ -540,20 +540,25 @@ void	call(t_data *canva)
 			&canva->line_bytes, &canva->endian);
 	canva->win_ptr = mlx_new_window(canva->mlx_ptr, canva->width, canva->height,
 				"cub3d");
-	canva->player.x =  (canva->width)/6 *2 + canva->width/(6*2);
-	canva->player.y =  (canva->height)/4 *2+ canva->height/(4*2);
+	canva->player.x = 64 *2  + 64/2;
+	canva->player.y = 64 * 6 + 64/2;
+                        
 	wall(canva);
 	tile(canva);
 	player(canva);
-	render(canva);
+	drawline((int[]){canva->player.x,canva->player.y,canva->player.x -canva->player.dx*5,canva->player.y-canva->player.dy *5},canva,(int[]){0xFFFFFFF});
+	run(canva);
+	// render(canva);
 }
 
 int	main(int argv, char *argc[])
 {
 
 	t_data	canva;
-	canva.height = 1024;
-	canva.width = 1500;
+	canva.height = 512;
+	canva.width = 1024;
+	canva.player.dx = cos(canva.player.da)*5;
+	canva.player.dy = sin(canva.player.da)*5;
 	canva.mlx_ptr = mlx_init();
 	call( &canva);
 	return (0);
