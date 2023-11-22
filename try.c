@@ -6,14 +6,24 @@
 /*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/16 17:07:00 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:08:02 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-int	move(t_data *img,float x,float y);
+int	move(t_data *img,float x,float y, char rot);
+int	moves(int keycode, t_data *vars);
+void render(t_data *img, char ctxt);
+void call(t_data *img);
 
 
+void	run(t_data *canva)
+{
+	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
+		0);
+		mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
+	mlx_loop(canva->mlx_ptr);
+}
 
 
 int	moves(int keycode, t_data *vars)
@@ -21,38 +31,35 @@ int	moves(int keycode, t_data *vars)
 	printf("keycode :: %d\n",keycode);
 	if (keycode == 13 || keycode == 119)
 	{
-		move(vars,0,5);
+		move(vars,0,5, 0);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
 	}
     else if (keycode == 1|| keycode == 115)
 	{
-		move(vars,0,-5);
+		move(vars,0,-5, 0);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
 	}
     else if (keycode == 0|| keycode == 97)
 	{
-		move(vars,5,0);
+		float x =  vars->dir_x * cos(5 * (M_PI/180)) - vars->dir_y *sin(5* (M_PI/180)) ;
+		float y= vars->dir_y * cos(5* (M_PI/180)) + vars->dir_x *sin(5* (M_PI/180));
+		move(vars, x, y, 1);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
 	}
     else if (keycode == 2|| keycode == 100)
 	{
-		move(vars,-5,0);
+		float x =  vars->dir_x * cos(-5 * (M_PI/180)) - vars->dir_y *sin(-5* (M_PI/180)) ;
+		float y = vars->dir_y * cos(-5* (M_PI/180)) + vars->dir_x *sin(-5* (M_PI/180));
+		move(vars, x, y, 1);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
 	}
 	if (keycode < 0)
 		exit(1);
 	return (0);
-}
-void	run(t_data *canva)
-{
-	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
-		0);
-		mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
-	mlx_loop(canva->mlx_ptr);
 }
 
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
@@ -136,35 +143,102 @@ void	drawline(int *vals, t_data *img, int *color_list)
 	}
 }
 
+int draw_angles(t_data *canva,int color)
+{
+		float x1 = 0;
+	float x2 = canva->width;
+	// float dir_x = -10;
+    // float dir_y = 0;
+	float y1 = 0;
+	float den, t, u;
+	float y2 = canva->height;
+
+	float x3 = canva->player.x + 5;
+	float y3 = canva->player.y + 5;
+	int angle;
+	angle = -180;
+	while(angle <= 180)
+	{
+		float dirx =  canva->dir_x * cos(angle * (M_PI/180)) - canva->dir_y *sin(angle* (M_PI/180)) ;
+		float diry = canva->dir_y * cos(angle* (M_PI/180)) + canva->dir_x *sin(angle* (M_PI/180));
+		float x4 = canva->player.x + 5 + dirx;
+		float y4 = canva->player.y +5 + diry;
+		den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+		if (den == 0)
+			return 0;
+		t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+		u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+		angle += 5;
+		if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
+		{
+			x4 = x1 + (t*(x2-x1));
+			y4 = y1 + (t*(y2-y1));
+			drawline((int[]){x3,y3,x4,y4},canva,(int[]){color});
+		}
+	}
+	return 0;
+}
+
+// int draw_angles(t_data *canva,int color)
+// {
+// 		float x1 = 0;
+// 	float x2 = canva->width;
+// 	// float dir_x = -10;
+//     // float dir_y = 0;
+// 	float y1 = 0;
+// 	float den, t, u;
+// 	float y2 = canva->height;
+
+// 	float x3 = canva->player.x + 5;
+// 	float y3 = canva->player.y + 5;
+// 	int angle;
+// 	angle = -180;
+// 	// while(angle <= 180)
+// 	// {
+// 	// 	float dirx =  canva->dir_x * cos(angle * (M_PI/180)) - canva->dir_y *sin(angle* (M_PI/180)) ;
+// 	// 	float diry = canva->dir_y * cos(angle* (M_PI/180)) + canva->dir_x *sin(angle* (M_PI/180));
+// 		float x4 = canva->player.x + 5 + canva->dir_x;
+// 		float y4 = canva->player.y +5 + canva->dir_y;
+// 		den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+// 		if (den == 0)
+// 			return 0;
+// 		t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+// 		u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+// 		// angle += 5;
+// 		if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
+// 		{
+// 			x4 = x1 + (t*(x2-x1));
+// 			y4 = y1 + (t*(y2-y1));
+// 			drawline((int[]){x3,y3,x4,y4},canva,(int[]){color});
+// 		}
+// 	// }
+// 	return 0;
+// }
+
+
 int cast(t_data *canva)
 {
 	float x1 = 0;
-	float x2 = 0;
-	float dir_x = -10;
-    float dir_y = 0;
-	float y1 = canva->height;
-	float y2 = canva->width;
+	float x2 = canva->width;
+	// float dir_x = -10;
+    // float dir_y = 0;
+	float y1 = 0;
+	float den, t, u;
+	float y2 = canva->height;
 
-	float x3 = canva->player.x;
-	float y3 = canva->player.y;
-	float x4 = canva->player.x + dir_x;
-	float y4 = canva->player.y + dir_y;
 
-	printf("HEREEEEEE %f %f %f %f \n", x3, x4, y3, y4);
-	drawline((int[]){0,0,400,800},canva,(int[]){0x880808});
-	drawline((int[]){x3,y3,x4,y4},canva,(int[]){0x880808});
-	float den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-	if (den == 0)
-		return 0;
-	float t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-	float u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-	if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
-		return 1;
-	else
+
+	float x3 = canva->player.x + 5;
+	float y3 = canva->player.y + 5;
+
+
+	// printf("HEREEEEEE %f %f %f %f \n", x3, x4, y3, y4);
+	drawline((int[]){x1,y1,x2,y2},canva,(int[]){0x880808});//{x1,y1,x2,y2}
+	draw_angles(canva, 0x880808);
 		return 0;
 }
 
-void render(t_data *img)
+void render(t_data *img, char ctxt)
 {
     int i   =   0;
     int j   =   0;
@@ -194,7 +268,7 @@ int map[4][4] = {   {1,1,1,1},
                     }
                 }
 				//draw player
-                if(map[i][j] == 2)
+                if(map[i][j] == 2 && ctxt == 0)
                 {
 					img->player.x = point.x  + ratio_x/2;
 				    int cs = 0;
@@ -217,26 +291,39 @@ int map[4][4] = {   {1,1,1,1},
         i++;
     }
 	printf("THE ANSWER IS: %d\n", cast(img));
-    run(&(*img));
+	if(ctxt == 0)
+    	run(&(*img));
 }
 
 
-int	move(t_data *img,float x, float y)
+int	move(t_data *img,float x, float y, char rot)
 {
 	int i = 0;
 	 int ratio_y = img->height/8;
     int ratio_x = img->width/8;
 			printf("in player y:%f\n",img->player.y);
 			printf("in player x:%f\n", img->player.x);
-	drawline((int[]){img->player.x,img->player.y  ,img->player.x - 10 ,img->player.y },img,(int[]){0x000});
-	while (i <10)
+	// drawline((int[]){img->player.x + 5,img->player.y +5  ,img->player.x +5 +img->dir_x ,img->player.y + 5+img->dir_y},img,(int[]){0x000});
+	// while (i <10)
+	// {
+	// 	//draw over old pos
+	// 	drawline((int[]){img->player.x  ,img->player.y + i ,img->player.x + 10  ,img->player.y + i },img,(int[]){0x000});
+	// 	i++;
+	// }
+	if(rot)
 	{
-		//draw over old pos
-		drawline((int[]){img->player.x  ,img->player.y + i ,img->player.x + 10  ,img->player.y + i },img,(int[]){0x000});
-		i++;
+		img->dir_x = x;
+		img->dir_y = y;
 	}
-	img->player.y -= y;
-	img->player.x -= x;
+	else
+	{
+		img->player.y -= y;
+		img->player.x -= x;
+	}
+	img->img = mlx_new_image(img->mlx_ptr, img->width, img->height);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp,
+			&img->line_bytes, &img->endian);
+	render(img, 1);
 	i=0;
 			printf("in player x:%f\n", img->player.x);
 			printf("in player y:%f\n",img->player.y);
@@ -255,12 +342,12 @@ void	call(t_data *canva)
 {
 	int		status;
 
+
 	canva->img = mlx_new_image(canva->mlx_ptr, canva->width, canva->height);
 	canva->addr = mlx_get_data_addr(canva->img, &canva->bpp,
 			&canva->line_bytes, &canva->endian);
 	canva->win_ptr = mlx_new_window(canva->mlx_ptr, canva->width, canva->height,
 				"cub3d");
-	render(canva);
 }
 
 int	main(int argv, char *argc[])
@@ -269,7 +356,10 @@ int	main(int argv, char *argc[])
 	t_data	canva;
 	canva.height = 800;
 	canva.width = 400;
+	canva.dir_x = -10;
+	canva.dir_y = 0;
 	canva.mlx_ptr = mlx_init();
 	call( &canva);
+	render(&canva, 0);
 	return (0);
 }

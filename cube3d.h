@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/12 19:40:31 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:08:34 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,10 @@ typedef struct s_data
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		map[4][4];
+		float	dir_x;
+	float	dir_y;
+	float	lookx;
+	float	looky;
 	coordinate_t player;
 }	t_data;
 
