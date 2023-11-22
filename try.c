@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/22 11:08:02 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:15:54 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,42 @@ void	drawline(int *vals, t_data *img, int *color_list)
 	}
 }
 
+// int draw_angles(t_data *canva,int color)
+// {
+// 		float x1 = 0;
+// 	float x2 = canva->width;
+// 	// float dir_x = -10;
+//     // float dir_y = 0;
+// 	float y1 = 0;
+// 	float den, t, u;
+// 	float y2 = canva->height;
+
+// 	float x3 = canva->player.x + 5;
+// 	float y3 = canva->player.y + 5;
+// 	int angle;
+// 	angle = -45;
+// 	while(angle <= 45)
+// 	{
+// 		float dirx =  canva->dir_x * cos(angle * (M_PI/180)) - canva->dir_y *sin(angle* (M_PI/180)) ;
+// 		float diry = canva->dir_y * cos(angle* (M_PI/180)) + canva->dir_x *sin(angle* (M_PI/180));
+// 		float x4 = canva->player.x + 5 + dirx;
+// 		float y4 = canva->player.y +5 + diry;
+// 		den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+// 		if (den == 0)
+// 			return 0;
+// 		t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+// 		u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
+// 		angle += 1;
+// 		if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
+// 		{
+// 			x4 = x1 + (t*(x2-x1));
+// 			y4 = y1 + (t*(y2-y1));
+// 			drawline((int[]){x3,y3,x4,y4},canva,(int[]){color});
+// 		}
+// 	}
+// 	return 0;
+// }
+
 int draw_angles(t_data *canva,int color)
 {
 		float x1 = 0;
@@ -157,63 +193,27 @@ int draw_angles(t_data *canva,int color)
 	float y3 = canva->player.y + 5;
 	int angle;
 	angle = -180;
-	while(angle <= 180)
-	{
-		float dirx =  canva->dir_x * cos(angle * (M_PI/180)) - canva->dir_y *sin(angle* (M_PI/180)) ;
-		float diry = canva->dir_y * cos(angle* (M_PI/180)) + canva->dir_x *sin(angle* (M_PI/180));
-		float x4 = canva->player.x + 5 + dirx;
-		float y4 = canva->player.y +5 + diry;
+	// while(angle <= 180)
+	// {
+	// 	float dirx =  canva->dir_x * cos(angle * (M_PI/180)) - canva->dir_y *sin(angle* (M_PI/180)) ;
+	// 	float diry = canva->dir_y * cos(angle* (M_PI/180)) + canva->dir_x *sin(angle* (M_PI/180));
+		float x4 = canva->player.x + 5 + canva->dir_x;
+		float y4 = canva->player.y +5 + canva->dir_y;
 		den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
 		if (den == 0)
 			return 0;
 		t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
 		u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-		angle += 5;
+		// angle += 5;
 		if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
 		{
 			x4 = x1 + (t*(x2-x1));
 			y4 = y1 + (t*(y2-y1));
 			drawline((int[]){x3,y3,x4,y4},canva,(int[]){color});
 		}
-	}
+	// }
 	return 0;
 }
-
-// int draw_angles(t_data *canva,int color)
-// {
-// 		float x1 = 0;
-// 	float x2 = canva->width;
-// 	// float dir_x = -10;
-//     // float dir_y = 0;
-// 	float y1 = 0;
-// 	float den, t, u;
-// 	float y2 = canva->height;
-
-// 	float x3 = canva->player.x + 5;
-// 	float y3 = canva->player.y + 5;
-// 	int angle;
-// 	angle = -180;
-// 	// while(angle <= 180)
-// 	// {
-// 	// 	float dirx =  canva->dir_x * cos(angle * (M_PI/180)) - canva->dir_y *sin(angle* (M_PI/180)) ;
-// 	// 	float diry = canva->dir_y * cos(angle* (M_PI/180)) + canva->dir_x *sin(angle* (M_PI/180));
-// 		float x4 = canva->player.x + 5 + canva->dir_x;
-// 		float y4 = canva->player.y +5 + canva->dir_y;
-// 		den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-// 		if (den == 0)
-// 			return 0;
-// 		t = (((x1-x3) * (y3-y4)) - ((y1 - y3) * (x3 - x4)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-// 		u = (((x1-x3) * (y1-y2)) - ((y1 - y3) * (x1 - x2)))/(((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
-// 		// angle += 5;
-// 		if(t >= 0 && t <= 1 && u >= 0 && u >= 0)
-// 		{
-// 			x4 = x1 + (t*(x2-x1));
-// 			y4 = y1 + (t*(y2-y1));
-// 			drawline((int[]){x3,y3,x4,y4},canva,(int[]){color});
-// 		}
-// 	// }
-// 	return 0;
-// }
 
 
 int cast(t_data *canva)

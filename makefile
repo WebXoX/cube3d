@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+         #
+#    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/11/22 11:08:52 by afarheen         ###   ########.fr        #
+#    Updated: 2023/11/22 11:44:29 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ INC=/usr/include
 
 INCLIB=$(INC)/../lib
 
-SRC = 	try.c
+SRC = 	try4.c
 
 OBJ_DIR = obj
 
