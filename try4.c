@@ -93,51 +93,128 @@ void ray3(t_data *img)
             };
  float ra;
  ra =  img->player.da-DR*180;
+  float fRayAngle = atan2(img->player.dy/64 - img->player.y * 64,img->player.dx/64 -img->player.x * 64);
+	float angle[2];
+	angle[0] =cos(fRayAngle);
+	angle[1] =sin(fRayAngle);
  float roots[2];
+ float start[2];
 int mapcor[2];
+int step[2];
 
+start[0] =  img->player.dx;
+start[0] =  img->player.dy;
 mapcor[0] = 3;
-mapcor[1] = 6;
+// mapcor[1] = 6;
 
- roots[0] =sqrt(1+(img->player.dy/img->player.dx)*(img->player.dy/img->player.dx));
- roots[1] =sqrt(1+(img->player.dx/img->player.dy)*(img->player.dx/img->player.dy));
+//  roots[0] =sqrt(1+(img->player.dy/img->player.dx)*(img->player.dy/img->player.dx));
+//  roots[1] =sqrt(1+(img->player.dx/img->player.dy)*(img->player.dx/img->player.dy));
+
+ roots[0] =sqrt(1+(angle[1]/angle[0])*(angle[1]/angle[0]));
+ roots[1] =sqrt(1+(angle[0]/angle[1])*(angle[0]/angle[1]));
  float len[2];
-if(ra > PI)
-{
-    ry=(((int)img->player.y/64) * 64)-0.0001;
-    rx=  (img->player.y-ry)*aTan+img->player.x;
-    yo=-64;
-    xo=-yo*aTan;
-}
-if(ra < PI)
-{
-    ry=(((int)img->player.y/64)*64)+64;
-    rx=  (img->player.y-ry)*aTan+img->player.x;
-    yo=64;
-    xo=-yo*aTan;
-}
-if(ra > PI/2 && ra < 3*PI/2)
-{
-    rx=(((int)img->player.x >>6)<<6)-0.0001;
-    ry=  (img->player.x-rx)*nTan+img->player.y;
-    xo=-64;
-    yo=-xo*nTan;
-}
-if(ra < PI/2 || ra > 3*PI/2)
-{
-    rx=(((int)img->player.x >>6)<<6)+64;
-    ry=  (img->player.x-rx)*nTan+img->player.y;
-    xo=64;
-    yo=-xo*nTan;
-}
-if(ra==0||ra==PI)
-{
-    ry=img->player.y;
-    rx= img->player.x;
-    dof=8;
-}
+
+	if(img->player.dx < 0)
+	{
+		step[0]=-1;
+		len[0]= img->player.x *64  -(mapcor[0]*64) * roots[0];
+		// len[0]= (start[0]-img->player.x)* roots[0];
+	}
+	else
+	{
+		step[0]=1;
+		// len[0]= img->player.x *64  -(mapcor[0]*64) * roots[0];
+		len[0]=(((mapcor[0] + 1) * 64) - img->player.x * 64) * len[0];
+		// len[0]= ((img->player.x + 1 )-start[0])* roots[0];
+	}
+
+	if(img->player.dy < 0)
+	{
+		step[1]=-1;
+		len[1]= img->player.y *64  -(mapcor[1]*64) * roots[1];
+		// len[1]= (start[1]-img->player.y)* roots[1];
+	}
+	else
+	{
+		step[1]=1;
+		len[1]=(((mapcor[1] + 1) * 64) - img->player.y * 64) * len[1];
+
+		// len[1]= img->player.y *64  -(mapcor[1]*64) * roots[1];
+		// len[1]= ((img->player.y + 1 )-start[1])* roots[1];
+	}
+
+	int bTileFound = 0;
+	float fMaxDistance = 300.0f;
+		float fDistance = 0.0f;
+		while (!bTileFound && fDistance < fMaxDistance)
+		{
+			// Walk along shortest path
+			if (len[0] < len[1])
+			{
+				mapcor[0] += step[0];
+				fDistance = len[0];
+				len[0] += roots[0];
+			}
+			else
+			{
+				mapcor[1] += step[1];
+				fDistance = len[1];
+				len[1] += roots[1];
+			}
+
+			// Test tile at new test point
+			if (	mapcor[0] >= 0 && 	mapcor[0] < 8 && 	mapcor[1] >= 0 && 	mapcor[1] < 8)
+			{
+				if (map[mapcor[0]][	mapcor[1]] == 1)
+				{
+					bTileFound = 1;
+				}
+			}
+		}
+		float rxy[2];
+		if(bTileFound ==1)
+		{
+			rxy[0]=start[0] + img->player.x * fDistance;
+			rxy[1]=start[1] + img->player.y * fDistance;
+		}
+	
+				drawline((int []){img->player.x,img->player.y,rxy[0],rxy[1]},img,(int[]){0xFF001});
 
 }
+// if(ra > PI)
+// {
+//     ry=(((int)img->player.y/64) * 64)-0.0001;
+//     rx=  (img->player.y-ry)*aTan+img->player.x;
+//     yo=-64;
+//     xo=-yo*aTan;
+// }
+// if(ra < PI)
+// {
+//     ry=(((int)img->player.y/64)*64)+64;
+//     rx=  (img->player.y-ry)*aTan+img->player.x;
+//     yo=64;
+//     xo=-yo*aTan;
+// }
+// if(ra > PI/2 && ra < 3*PI/2)
+// {
+//     rx=(((int)img->player.x >>6)<<6)-0.0001;
+//     ry=  (img->player.x-rx)*nTan+img->player.y;
+//     xo=-64;
+//     yo=-xo*nTan;
+// }
+// if(ra < PI/2 || ra > 3*PI/2)
+// {
+//     rx=(((int)img->player.x >>6)<<6)+64;
+//     ry=  (img->player.x-rx)*nTan+img->player.y;
+//     xo=64;
+//     yo=-xo*nTan;
+// }
+// if(ra==0||ra==PI)
+// {
+//     ry=img->player.y;
+//     rx= img->player.x;
+//     dof=8;
+// }
 
 // void ray(t_data *img)
 // {
@@ -535,7 +612,7 @@ int move(t_data *img,float x, float y)
     //ray is called in this function
     // render(img);
     //runs loop
-    // ray(img);
+    ray3(img);
 
     run(img);
     return (0);
@@ -718,7 +795,7 @@ void    call(t_data *canva)
     drawline((int[]){canva->player.x ,canva->player.y+6 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
     drawline((int[]){canva->player.x ,canva->player.y+4 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
-    // ray(canva);
+    ray3(canva);
     run(canva);
     // render(canva);
 }
@@ -729,6 +806,7 @@ int main(int argv, char *argc[])
     t_data  canva;
     canva.height = 512;
     canva.width = 1024;
+    canva.player.da = 0.0;
     canva.player.dx = cos(canva.player.da)*5;
     canva.player.dy = sin(canva.player.da)*5;
     canva.mlx_ptr = mlx_init();
