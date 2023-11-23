@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try4.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/23 11:20:30 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/23 14:14:23 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,21 @@ int moves(int keycode, t_data *vars)
     //w
     if (keycode == 13 || keycode == 119)
     {
-        vars->player.x -= vars->player.dx; 
-        vars->player.y -= vars->player.dy; 
-        
+        vars->player.x -= vars->player.dx;
+        vars->player.y -= vars->player.dy;
+
         move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
         return (1);
     }//s
     else if (keycode == 1|| keycode == 115)
     {
-        vars->player.x += vars->player.dx; 
-        vars->player.y += vars->player.dy; 
-        
+        vars->player.x += vars->player.dx;
+        vars->player.y += vars->player.dy;
+
         move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-        
+
         return (1);
     }//a
     else if (keycode == 0|| keycode == 97)
@@ -115,11 +115,11 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 //                 int ty= (int)(img->player.y + fey *fDist);
 //                 if(tx < 0 || tx> )
 //             }
-            
+
 //         }
-        
+
 //     }
-    
+
 // }
 // void ray3(t_data *img)
 // {
@@ -220,7 +220,7 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 // 			rxy[0]=start[0] + img->player.x * fDistance;
 // 			rxy[1]=start[1] + img->player.y * fDistance;
 // 		}
-	
+
 // 				drawline((int []){img->player.x,img->player.y,rxy[0],rxy[1]},img,(int[]){0xFF001});
 
 // }
@@ -270,19 +270,19 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 //     1,0,0,0,0,0,0,1,
 //     1,0,0,0,0,1,0,1,
 //     1,0,0,0,0,0,0,1,
-//     1,1,1,1,1,1,1,1,    
+//     1,1,1,1,1,1,1,1,
 //     };
 //     int r,cx,cy,mx,my,mp,dof,i,j;
 //     float rx,ry,ra,xo,yo, dista;
 //     ra = img->player.da-DR*180;
 //     if (ra<0)
 //     {
-//         ra +=2*PI; 
+//         ra +=2*PI;
 //         /* code */
 //     }
 //     if (ra> 2*PI)
 //     {
-//         ra -=2*PI; 
+//         ra -=2*PI;
 //         /* code */
 //     }
 // 	int index = 0 ;
@@ -327,7 +327,7 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 // 				}
 // 				 int dof=0;
 // 				while (dof <8)
-// 				{ 
+// 				{
 
 // 				 	mx=(int)(rx)/64;
 // 					my=(int)(ry)/64;
@@ -353,14 +353,14 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 // //      float disv=1000000;
 //                 // printf(" player x %f player y %f\n",img->player.x,img->player.y);
 //                 // rx = img->player.x - dist();
-//                 // ry = 
+//                 // ry =
 //                 // drawline((int []){img->player.x,img->player.y,v1[0]-64,v1[1]},img,(int[]){0xFF001});
 //                 // drawline((int []){img->player.x,img->player.y,v2[0],v2[1]},img,(int[]){0xFF001});
 
 //                 // exit(9);
 //             }
 //             // if(i * 64)
-//         }   
+//         }
 //     }
 // }
 int FixAng(int a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
@@ -373,23 +373,33 @@ void ray(t_data *img)
     1,0,1,0,0,0,0,1,
     1,0,1,0,0,0,0,1,
     1,0,0,0,0,0,0,1,
-    1,0,0,0,0,1,0,1, 
+    1,0,0,0,0,1,0,1,
     1,0,0,0,0,0,0,1,
-    1,1,1,1,1,1,1,1, 
+    1,1,1,1,1,1,1,1,
     };
     float px, py;
     px = img->player.x;
     py = img->player.y;
-    int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH; 
-    // ra = img->player.da-DR*30;
-    ra = img->player.da;
-    
+    int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
+    ra = img->player.da-DR*180;
+    // ra = img->player.da;
+
+    if (ra<0)
+    {
+        ra +=2*PI;
+        /* code */
+    }
+    if (ra> 2*PI)
+    {
+        ra -=2*PI;
+        /* code */
+    }
     for (size_t i = 0; i < 90; i++)
     {
         dof =0;
-        float tan1 = 1/tan(ra);
+        float tan1 = -1/tan(ra);
         //horizontal detection
-        if (ra>PI)
+        if (ra > PI)
         {
             //left  angles
             ry = (((int)py>>6)<<6)-0.0001;
@@ -397,12 +407,12 @@ void ray(t_data *img)
             yo = -64;
             xo=-yo*tan1;
         }
-        if(ra<PI)
+        if(ra < PI)
         {
             // right side angles
             ry = (((int)py>>6)<<6)+64;
-            rx=(py-ry)*tan1+px; 
-            yo= 64; 
+            rx=(py-ry)*tan1+px;
+            yo= 64;
             xo=-yo*tan1;
         }
         if(ra==0 || ra==PI)
@@ -410,14 +420,20 @@ void ray(t_data *img)
             //when angle is 180
             rx=px; ry=py; dof=8;
         }
-        while(dof<8) 
-        { 
+        while(dof<8)
+        {
 
-            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;                          
-            if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit         
-            else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
-        } 
-     drawline((int []){px,py,rx,ry},img,(int[]){0xFFFF00});
+            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;
+            if(mp>0 && mp<8*8 && map[mp]==1)
+				dof=8; //hit
+            else
+			{
+				rx+=xo; ry+=yo; dof+=1;
+			}//check next horizontal
+        }
+	float x1 = rx;
+	float y1 = ry;
+	float d1 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
 
         dof =0;
         printf("hoo\n");
@@ -432,35 +448,47 @@ void ray(t_data *img)
             xo = -64;
             yo=-xo*tan2;
         }
-        if(ra<PI/2 || ra >3*PI/2)
+       else  if(ra<PI/2 || ra >3*PI/2)
         {
             //right side
             rx = (((int)px>>6)<<6)+64;
-            ry=(px-rx)*tan2+py; 
-            xo= 64; 
+            ry=(px-rx)*tan2+py;
+            xo= 64;
             yo=-xo*tan2;
         }
-        if(ra==0 || ra==PI)
+        else if(ra==0 || ra==PI)
         {
-        
-            rx=px; ry=py; dof=8;
+		rx=px; ry=py; dof=8;
         }
-        while(dof<8) 
-        { 
+        while(dof<8)
+        {
         printf("hoo dof %f: %f:\n",rx,ry);
 
-            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;                          
-            if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit         
-            else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
-        } 
-
+            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;
+            if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit
+            else
+			{
+				rx+=xo; ry+=yo; dof+=1;
+			}//check next horizontal
+        }
+	float d2 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
+	if(d1 > d2)
+    	drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
+    else
+		drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
+     ra +=DR;
+    if (ra<0)
+    {
+        ra +=2*PI;
         /* code */
-        
-     drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
-    //  ra +=DR;
-
     }
-    
+    if (ra> 2*PI)
+    {
+        ra -=2*PI;
+        /* code */
+    }
+    }
+
 }
 
 void    run(t_data *canva)
@@ -641,7 +669,7 @@ void player(t_data *img)
                     c=0;
                     // img->player.x = point.x  + 64/2;
                     // img->player.y = point.y  + 64/2;
-                        
+
                     while (c < 10)
                     {
                         // printf("in player x:%d\n\n",c);
@@ -697,7 +725,7 @@ void tile(t_data *img)
                 {
                     // img->player.x = point.x  + 64/2;
                     // img->player.y = point.y  + 64/2;
-                        
+
                     c = 0;
                     while (c < 10)
                     {
@@ -708,7 +736,7 @@ void tile(t_data *img)
                     }
                     // return ;
                 }
-                
+
             }
             point.x+=64;
             j++;
@@ -736,10 +764,10 @@ void wall(t_data *img)
     };
     j   =   0;
     i   =   0;
-    
+
     while (i < img->height)
     {
-        
+
         drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
         i++;
     }
@@ -782,7 +810,7 @@ void    call(t_data *canva)
                 "cub3d");
     canva->player.x = 64 *2  + 64/2;
     canva->player.y = 64 * 6 + 64/2;
-                        
+
     wall(canva);
     tile(canva);
     player(canva);
