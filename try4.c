@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/22 15:59:16 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/23 11:20:30 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,109 +78,152 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 {
     return (sqrt((bx-ax)*(bx-ax) - (by-ay)*(by-ay)));
 }
-void ray3(t_data *img)
-{
-    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
-            {
-            {1,1,1,1,1,1,1,1},
-            {1,0,1,0,0,0,0,1},
-            {1,0,1,0,0,0,0,1},
-            {1,0,1,0,0,0,0,1},
-            {1,0,0,0,0,0,0,1},
-            {1,0,0,0,0,1,0,1},
-            {1,0,2,0,0,0,0,1},
-            {1,1,1,1,1,1,1,1}
-            };
- float ra;
- ra =  img->player.da-DR*180;
-  float fRayAngle = atan2(img->player.dy/64 - img->player.y * 64,img->player.dx/64 -img->player.x * 64);
-	float angle[2];
-	angle[0] =cos(fRayAngle);
-	angle[1] =sin(fRayAngle);
- float roots[2];
- float start[2];
-int mapcor[2];
-int step[2];
 
-start[0] =  img->player.dx;
-start[0] =  img->player.dy;
-mapcor[0] = 3;
-// mapcor[1] = 6;
+// void ray4(t_data *img)
+// {
+//     float fFOV = PI/4;
+//         int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+//             {
+//             {1,1,1,1,1,1,1,1},
+//             {1,0,1,0,0,0,0,1},
+//             {1,0,1,0,0,0,0,1},
+//             {1,0,1,0,0,0,0,1},
+//             {1,0,0,0,0,0,0,1},
+//             {1,0,0,0,0,1,0,1},
+//             {1,0,2,0,0,0,0,1},
+//             {1,1,1,1,1,1,1,1}
+//             };
+//  float ra;
+//  ra =  img->player.da-DR*180;
+//   float fRayAngle = atan2(img->player.dy/64 - img->player.y * 64,img->player.dx/64 -img->player.x * 64);
+// 	float angle[2];
 
-//  roots[0] =sqrt(1+(img->player.dy/img->player.dx)*(img->player.dy/img->player.dx));
-//  roots[1] =sqrt(1+(img->player.dx/img->player.dy)*(img->player.dx/img->player.dy));
+//     while (1)
+//     {
+//         for (size_t i = 0; i < 64; i++)
+//         {
+//             float fRaya = (ra - fFOV/2.0)+((float)i/64.0)*fFOV;
 
- roots[0] =sqrt(1+(angle[1]/angle[0])*(angle[1]/angle[0]));
- roots[1] =sqrt(1+(angle[0]/angle[1])*(angle[0]/angle[1]));
- float len[2];
+//             float fDist = 0;
+//             int t=0;
+//             float fex = sinf(fRayAngle);
+//             float fey= cosf(fRayAngle);
+//             while (t==0 && fDist < 64)
+//             {
+//                 fDist +=0.1;
+//                 int tx= (int)(img->player.x + fex *fDist);
+//                 int ty= (int)(img->player.y + fey *fDist);
+//                 if(tx < 0 || tx> )
+//             }
+            
+//         }
+        
+//     }
+    
+// }
+// void ray3(t_data *img)
+// {
+//     int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+//             {
+//             {1,1,1,1,1,1,1,1},
+//             {1,0,1,0,0,0,0,1},
+//             {1,0,1,0,0,0,0,1},
+//             {1,0,1,0,0,0,0,1},
+//             {1,0,0,0,0,0,0,1},
+//             {1,0,0,0,0,1,0,1},
+//             {1,0,2,0,0,0,0,1},
+//             {1,1,1,1,1,1,1,1}
+//             };
+//  float ra;
+//  ra =  img->player.da-DR*180;
+//   float fRayAngle = atan2(img->player.dy/64 - img->player.y * 64,img->player.dx/64 -img->player.x * 64);
+// 	float angle[2];
+// 	angle[0] =cos(fRayAngle);
+// 	angle[1] =sin(fRayAngle);
+//  float roots[2];
+//  float start[2];
+// int mapcor[2];
+// int step[2];
 
-	if(img->player.dx < 0)
-	{
-		step[0]=-1;
-		len[0]= img->player.x *64  -(mapcor[0]*64) * roots[0];
-		// len[0]= (start[0]-img->player.x)* roots[0];
-	}
-	else
-	{
-		step[0]=1;
-		// len[0]= img->player.x *64  -(mapcor[0]*64) * roots[0];
-		len[0]=(((mapcor[0] + 1) * 64) - img->player.x * 64) * len[0];
-		// len[0]= ((img->player.x + 1 )-start[0])* roots[0];
-	}
+// start[0] =  img->player.dx;
+// start[0] =  img->player.dy;
+// mapcor[0] = 3;
+// // mapcor[1] = 6;
 
-	if(img->player.dy < 0)
-	{
-		step[1]=-1;
-		len[1]= img->player.y *64  -(mapcor[1]*64) * roots[1];
-		// len[1]= (start[1]-img->player.y)* roots[1];
-	}
-	else
-	{
-		step[1]=1;
-		len[1]=(((mapcor[1] + 1) * 64) - img->player.y * 64) * len[1];
+// //  roots[0] =sqrt(1+(img->player.dy/img->player.dx)*(img->player.dy/img->player.dx));
+// //  roots[1] =sqrt(1+(img->player.dx/img->player.dy)*(img->player.dx/img->player.dy));
 
-		// len[1]= img->player.y *64  -(mapcor[1]*64) * roots[1];
-		// len[1]= ((img->player.y + 1 )-start[1])* roots[1];
-	}
+//  roots[0] =sqrt(1+(angle[1]/angle[0])*(angle[1]/angle[0]));
+//  roots[1] =sqrt(1+(angle[0]/angle[1])*(angle[0]/angle[1]));
+//  float len[2];
 
-	int bTileFound = 0;
-	float fMaxDistance = 300.0f;
-		float fDistance = 0.0f;
-		while (!bTileFound && fDistance < fMaxDistance)
-		{
-			// Walk along shortest path
-			if (len[0] < len[1])
-			{
-				mapcor[0] += step[0];
-				fDistance = len[0];
-				len[0] += roots[0];
-			}
-			else
-			{
-				mapcor[1] += step[1];
-				fDistance = len[1];
-				len[1] += roots[1];
-			}
+// 	if(img->player.dx < 0)
+// 	{
+// 		step[0]=-1;
+// 		len[0]= img->player.x *64  -(mapcor[0]*64) * roots[0];
+// 		// len[0]= (start[0]-img->player.x)* roots[0];
+// 	}
+// 	else
+// 	{
+// 		step[0]=1;
+// 		// len[0]= img->player.x *64  -(mapcor[0]*64) * roots[0];
+// 		len[0]=(((mapcor[0] + 1) * 64) - img->player.x * 64) * len[0];
+// 		// len[0]= ((img->player.x + 1 )-start[0])* roots[0];
+// 	}
 
-			// Test tile at new test point
-			if (	mapcor[0] >= 0 && 	mapcor[0] < 8 && 	mapcor[1] >= 0 && 	mapcor[1] < 8)
-			{
-				if (map[mapcor[0]][	mapcor[1]] == 1)
-				{
-					bTileFound = 1;
-				}
-			}
-		}
-		float rxy[2];
-		if(bTileFound ==1)
-		{
-			rxy[0]=start[0] + img->player.x * fDistance;
-			rxy[1]=start[1] + img->player.y * fDistance;
-		}
+// 	if(img->player.dy < 0)
+// 	{
+// 		step[1]=-1;
+// 		len[1]= img->player.y *64  -(mapcor[1]*64) * roots[1];
+// 		// len[1]= (start[1]-img->player.y)* roots[1];
+// 	}
+// 	else
+// 	{
+// 		step[1]=1;
+// 		len[1]=(((mapcor[1] + 1) * 64) - img->player.y * 64) * len[1];
+
+// 		// len[1]= img->player.y *64  -(mapcor[1]*64) * roots[1];
+// 		// len[1]= ((img->player.y + 1 )-start[1])* roots[1];
+// 	}
+
+// 	int bTileFound = 0;
+// 	float fMaxDistance = 300.0f;
+// 		float fDistance = 0.0f;
+// 		while (!bTileFound && fDistance < fMaxDistance)
+// 		{
+// 			// Walk along shortest path
+// 			if (len[0] < len[1])
+// 			{
+// 				mapcor[0] += step[0];
+// 				fDistance = len[0];
+// 				len[0] += roots[0];
+// 			}
+// 			else
+// 			{
+// 				mapcor[1] += step[1];
+// 				fDistance = len[1];
+// 				len[1] += roots[1];
+// 			}
+
+// 			// Test tile at new test point
+// 			if (	mapcor[0] >= 0 && 	mapcor[0] < 8 && 	mapcor[1] >= 0 && 	mapcor[1] < 8)
+// 			{
+// 				if (map[mapcor[0]][	mapcor[1]] == 1)
+// 				{
+// 					bTileFound = 1;
+// 				}
+// 			}
+// 		}
+// 		float rxy[2];
+// 		if(bTileFound ==1)
+// 		{
+// 			rxy[0]=start[0] + img->player.x * fDistance;
+// 			rxy[1]=start[1] + img->player.y * fDistance;
+// 		}
 	
-				drawline((int []){img->player.x,img->player.y,rxy[0],rxy[1]},img,(int[]){0xFF001});
+// 				drawline((int []){img->player.x,img->player.y,rxy[0],rxy[1]},img,(int[]){0xFF001});
 
-}
+// }
 // if(ra > PI)
 // {
 //     ry=(((int)img->player.y/64) * 64)-0.0001;
@@ -320,155 +363,106 @@ mapcor[0] = 3;
 //         }   
 //     }
 // }
-// void ray(t_data *img)
-// {
-//     int map[]=           //the map array. Edit to change level but keep the outer walls
-//     {
-//     1,1,1,1,1,1,1,1,
-//     1,0,1,0,0,0,0,1,
-//     1,0,1,0,0,0,0,1,
-//     1,0,1,0,0,0,0,1,
-//     1,0,0,0,0,0,0,1,
-//     1,0,0,0,0,1,0,1, 
-//     1,0,0,0,0,0,0,1,
-//     1,1,1,1,1,1,1,1, 
-//     };
-//  int r,mx,my,mp,dof;
-//  float rx,ry,ra,xo,yo, dista;
-//  ra = img->player.da-DR*180;
-//  if (ra<0)
-//  {
-//      ra +=2*PI; 
-//      /* code */
-//  }
-//  if (ra> 2*PI)
-//  {
-//      ra -=2*PI; 
-//      /* code */
-//  }
+int FixAng(int a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
+void ray(t_data *img)
+{
+    int map[]=           //the map array. Edit to change level but keep the outer walls
+    {
+    1,1,1,1,1,1,1,1,
+    1,0,1,0,0,0,0,1,
+    1,0,1,0,0,0,0,1,
+    1,0,1,0,0,0,0,1,
+    1,0,0,0,0,0,0,1,
+    1,0,0,0,0,1,0,1, 
+    1,0,0,0,0,0,0,1,
+    1,1,1,1,1,1,1,1, 
+    };
+    float px, py;
+    px = img->player.x;
+    py = img->player.y;
+    int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH; 
+    // ra = img->player.da-DR*30;
+    ra = img->player.da;
     
+    for (size_t i = 0; i < 90; i++)
+    {
+        dof =0;
+        float tan1 = 1/tan(ra);
+        //horizontal detection
+        if (ra>PI)
+        {
+            //left  angles
+            ry = (((int)py>>6)<<6)-0.0001;
+            rx=(py-ry)*tan1+px;
+            yo = -64;
+            xo=-yo*tan1;
+        }
+        if(ra<PI)
+        {
+            // right side angles
+            ry = (((int)py>>6)<<6)+64;
+            rx=(py-ry)*tan1+px; 
+            yo= 64; 
+            xo=-yo*tan1;
+        }
+        if(ra==0 || ra==PI)
+        {
+            //when angle is 180
+            rx=px; ry=py; dof=8;
+        }
+        while(dof<8) 
+        { 
+
+            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;                          
+            if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit         
+            else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
+        } 
+     drawline((int []){px,py,rx,ry},img,(int[]){0xFFFF00});
+
+        dof =0;
+        printf("hoo\n");
+        float tan2 = -tan(ra);
+        //vertical detection
+
+        if (ra>PI/2 && ra <3*PI/2)
+        {
+            // left side
+            rx = (((int)px>>6)<<6)-0.0001;
+            ry=(px-rx)*tan2+py;
+            xo = -64;
+            yo=-xo*tan2;
+        }
+        if(ra<PI/2 || ra >3*PI/2)
+        {
+            //right side
+            rx = (((int)px>>6)<<6)+64;
+            ry=(px-rx)*tan2+py; 
+            xo= 64; 
+            yo=-xo*tan2;
+        }
+        if(ra==0 || ra==PI)
+        {
+        
+            rx=px; ry=py; dof=8;
+        }
+        while(dof<8) 
+        { 
+        printf("hoo dof %f: %f:\n",rx,ry);
+
+            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;                          
+            if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit         
+            else{ rx+=xo; ry+=yo; dof+=1;}                                               //check next horizontal
+        } 
+
+        /* code */
+        
+     drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
+    //  ra +=DR;
+
+    }
     
-//  for (r = 0; r < 5; r++)
-//  {
-//      /* code */
-//      float dish=1000000;
-//      float hx= img->player.x;
-//      float hy= img->player.y;
-//      dof=0;
-//      float aTan = tan(ra);
-//      if(ra > PI)
-//      {
-//          ry=(((int)img->player.y/64) * 64)-0.0001;
-//          rx=  (img->player.y-ry)*aTan+img->player.x;
-//          yo=-64;
-//          xo=-yo*aTan;
-//      }
-//      if(ra < PI)
-//      {
-//          ry=(((int)img->player.y/64)*64)+64;
-//          rx=  (img->player.y-ry)*aTan+img->player.x;
-//          yo=64;
-//          xo=-yo*aTan;
-//      }
-//      if(ra==0||ra==PI)
-//      {
-//          ry=img->player.y;
-//          rx= img->player.x;
-//          dof=8;
-//      }
-//      while (dof<8)
-//      { 
-//          mx=(int)(rx)/64;
-//          my=(int)(ry)/64;
-//          mp=(my)*8+mx;
-//          // printf("angle will make it map bounce %d\n\n",mp);
-//          if(mp>0 && mp<64 &&map[mp]==1)
-//          {
-//              hx=rx;
-//              hy=ry;
-//              dish = dist(img->player.x,img->player.y,hx,hy,ra);
-//              dof=8;
-//          }
-//          else
-//          {
-//              rx+=xo;
-//              ry+=yo;
-//              dof+=1;
-//          }
-//      }
-//      // drawline((int []){img->player.x,img->player.y,rx,ry},img,(int[]){0xFF001});
-//      float disv=1000000;
-//      float vx= img->player.x;
-//      float vy= img->player.y;
-//      dof=0;
-//      float nTan = -tan(ra);
-//      if(ra > PI/2 && ra < 3*PI/2)
-//      {
-//          rx=(((int)img->player.x >>6)<<6)-0.0001;
-//          ry=  (img->player.x-rx)*nTan+img->player.y;
-//          xo=-64;
-//          yo=-xo*nTan;
-//      }
-//      if(ra < PI/2 || ra > 3*PI/2)
-//      {
-//          rx=(((int)img->player.x >>6)<<6)+64;
-//          ry=  (img->player.x-rx)*nTan+img->player.y;
-//          xo=64;
-//          yo=-xo*nTan;
-//      }
-//      if(ra==0||ra==PI)
-//      {
-//          ry=img->player.y;
-//          rx= img->player.x;
-//          dof=8;
-//      }
-//      while (dof<8)
-//      {
-//          mx=(int)(rx)>>6;
-//          my=(int)(ry)>>6;
-//          mp=my*6*mx;
-//          // printf("angle will make it map bounce %d\n\n",mp);
-//          if(mp>0 && mp<64 &&map[mp]==1)
-//          {
-//              vx=rx;
-//              vy=ry;
-//              disv = dist(img->player.x,img->player.y,vx,vy,ra);
-//              dof=8;
-//          }
-//          else
-//          {
-//              rx+=xo;
-//              ry+=yo;
-//              dof+=1;
-//          }
-//      }
-//      if(disv <dish)
-//      {
-//          rx=vx;
-//          ry=vy;
-//          dista=disv;
-//      }
-//      if(disv >dish)
-//      {
-//          rx=hx;
-//          ry=hy;
-//          dista=dish;
-//      }
-//      drawline((int []){img->player.x,img->player.y,rx,ry},img,(int[]){0xFf0000});
-//      // ra +=DR;
-//      if (ra<0)
-//  {
-//      ra +=2*PI; 
-//      /* code */
-//  }
-//  if (ra> 2*PI)
-//  {
-//      ra -=2*PI; 
-//      /* code */
-//  }
-//  }
-    
-// }
+}
+
 void    run(t_data *canva)
 {
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
@@ -612,7 +606,7 @@ int move(t_data *img,float x, float y)
     //ray is called in this function
     // render(img);
     //runs loop
-    ray3(img);
+    ray(img);
 
     run(img);
     return (0);
@@ -795,7 +789,8 @@ void    call(t_data *canva)
     drawline((int[]){canva->player.x ,canva->player.y+6 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
     drawline((int[]){canva->player.x ,canva->player.y+4 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
-    ray3(canva);
+    ray(canva);
+    printf("hi");
     run(canva);
     // render(canva);
 }
@@ -806,7 +801,7 @@ int main(int argv, char *argc[])
     t_data  canva;
     canva.height = 512;
     canva.width = 1024;
-    canva.player.da = 0.0;
+    canva.player.da = DR;
     canva.player.dx = cos(canva.player.da)*5;
     canva.player.dy = sin(canva.player.da)*5;
     canva.mlx_ptr = mlx_init();
