@@ -742,6 +742,8 @@ void tile(t_data *img)
     {1,1,1,1,1,1,1,1}
     };
     i=0;
+    int ratio_y = img->height/64;
+    int ratio_x = img->width/64;
     while (i < 8)
     {
         j=0;
@@ -751,20 +753,20 @@ void tile(t_data *img)
             if(map[i][j]==0 || map[i][j]== 2)
             {
                 c = 0;
-                while (c < 66)
-                {
-                    // printf("from tile : %d\n",c);
-                    drawline((int[]){point.x -1 ,point.y-1 + c ,point.x
-                            + 65 ,point.y -1 + c} , img, (int[]){0x045680});
-                    c++;
-                }
+                // while (c < 66)
+                // {
+                //     // printf("from tile : %d\n",c);
+                //     drawline((int[]){point.x -1 ,point.y-1 + c ,point.x
+                //             + ratio_y +1 ,point.y -1 + c} , img, (int[]){0x045680});
+                //     c++;
+                // }
                 c = 0;
 
-                while (c < 64 - 2)
+                while (c < ratio_y - 2)
                 {
                     // printf("from tile : %d\n",c);
                     drawline((int[]){point.x ,point.y + c ,point.x
-                            + 64-2 ,point.y + c} , img, (int[]){0x000});
+                            + ratio_x-2 ,point.y + c} , img, (int[]){0x000});
                     c++;
                 }
                 if ( map[i][j] == 2)
@@ -784,11 +786,11 @@ void tile(t_data *img)
                 }
 
             }
-            point.x+=64;
+            point.x+=ratio_x;
             j++;
         }
         point.x=0;
-        point.y+=64;
+        point.y+=ratio_y;
         i++;
     }
 }
@@ -810,7 +812,8 @@ void wall(t_data *img)
     };
     j   =   0;
     i   =   0;
-
+    int ratio_y = img->height/64;
+    int ratio_x = img->width/64;
     while (i < img->height)
     {
 
@@ -828,19 +831,19 @@ void wall(t_data *img)
             if(map[i][j]==1)
             {
                 c = 0;
-                while (c < 64 - 2)
+                while (c < ratio_y - 2)
                 {
                     printf("from wall: %d\n",c);
                     drawline((int[]){point.x ,point.y + c ,point.x
-                            + 64-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
+                            +ratio_x-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
                     c++;
                 }
             }
-            point.x+=64;
+            point.x+=ratio_x;
             j++;
         }
         point.x=0;
-        point.y+=64;
+        point.y+=ratio_y;
         i++;
     }
 }
@@ -859,8 +862,8 @@ void    call(t_data *canva)
 
     wall(canva);
     tile(canva);
-    ray(canva);
-    player(canva);
+    // ray(canva);
+    // player(canva);
     // drawline((int[]){canva->player.x ,canva->player.y+6 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     // drawline((int[]){canva->player.x ,canva->player.y+4 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
@@ -873,8 +876,8 @@ int main(int argv, char *argc[])
 {
 
     t_data  canva;
-    canva.height = 512;
-    canva.width = 1024;
+    canva.height = 1512;
+    canva.width = 1524;
     canva.player.da = 60.0f *PI/180.0F;
     canva.player.dx = cos(canva.player.da)*5;
     canva.player.dy = sin(canva.player.da)*5;
