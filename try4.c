@@ -378,11 +378,12 @@ void ray(t_data *img)
     1,1,1,1,1,1,1,1,
     };
     float px, py;
-    px = img->player.x;
-    py = img->player.y;
+    px = img->player.x -  img->player.dx*2;
+    py = img->player.y - img->player.dy*2;
     int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
-    ra = img->player.da-DR*180;
-    // ra = img->player.da;
+    // ra = img->player.da-DR*30;
+    ra = img->player.da + PI;
+    printf("ray :: %f------------------------------------->\n",ra);
 
     if (ra<0)
     {
@@ -394,7 +395,8 @@ void ray(t_data *img)
         ra -=2*PI;
         /* code */
     }
-    for (size_t i = 0; i < 90; i++)
+    printf("ray :: %f------------------------------------->\n",ra);
+    for (size_t i = 0; i < 64; i++)
     {
         dof =0;
         float tan1 = -1/tan(ra);
@@ -471,12 +473,47 @@ void ray(t_data *img)
 				rx+=xo; ry+=yo; dof+=1;
 			}//check next horizontal
         }
+        float finald;
 	float d2 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
 	if(d1 > d2)
-    	drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
+    {
+    	drawline((int []){px,py+4,rx,ry},img,(int[]){0xFF0000});
+        finald = d2;
+    }
     else
-		drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
+    {
+		drawline((int []){px,py+4,x1,y1},img,(int[]){0xFF0000});
+        finald = d1;
+    }
+        float ca  = img->player.da - ra;
+        if (ca<0)
+        {
+            ca +=2*PI;
+            /* code */
+        }
+        if (ca> 2*PI)
+        {
+            ca -=2*PI;
+            /* code */
+        }
+        finald = finald* cos(ca);
+	float lh = (64 *320)/finald;
+    if(lh >320)
+        lh=320;
+	float lo = 180 -lh/2;
+    	// drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
+        int j=0;
+
+        while (j <8)
+        {
+    	drawline((int []){((i*8)+530 + j),lo,(i*8)+530+j,lh+lo},img,(int[]){0xFF0000});
+            /* code */
+            j++;
+        }
+        
+    	// drawline((int []){(i*8)+531,0,(i*8)+531,lh},img,(int[]){0xFF0000});
      ra +=DR;
+        
     if (ra<0)
     {
         ra +=2*PI;
@@ -495,7 +532,7 @@ void    run(t_data *canva)
 {
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
-        mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
+        // mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
     mlx_key_hook(canva->win_ptr, moves, &(*canva));
     mlx_loop(canva->mlx_ptr);
 }
@@ -626,15 +663,15 @@ int move(t_data *img,float x, float y)
     //  drawline((int[]){img->player.x ,img->player.y + j ,img->player.x+ 10 ,img->player.y + j} ,img,(int[]){0xFFFFFFF});
     //  j++;
     // }
-    player(img);
-    drawline((int[]){img->player.x,img->player.y+6,img->player.x -img->player.dx*2,img->player.y-img->player.dy *2},img,(int[]){0xFFFFFFF});
-    drawline((int[]){img->player.x,img->player.y+5,img->player.x -img->player.dx*2,img->player.y-img->player.dy *2},img,(int[]){0xFFFFFFF});
-    drawline((int[]){img->player.x,img->player.y+4,img->player.x -img->player.dx*2,img->player.y-img->player.dy *2},img,(int[]){0xFFFFFFF});
+    // drawline((int[]){img->player.x,img->player.y+6,img->player.x -img->player.dx*2,img->player.y-img->player.dy *2},img,(int[]){0x735674});
 
+    // drawline((int[]){img->player.x,img->player.y+4,img->player.x -img->player.dx*2,img->player.y-img->player.dy *2},img,(int[]){0x735674});
     //ray is called in this function
     // render(img);
     //runs loop
     ray(img);
+    drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
+    player(img);
 
     run(img);
     return (0);
@@ -714,6 +751,15 @@ void tile(t_data *img)
             if(map[i][j]==0 || map[i][j]== 2)
             {
                 c = 0;
+                while (c < 66)
+                {
+                    // printf("from tile : %d\n",c);
+                    drawline((int[]){point.x -1 ,point.y-1 + c ,point.x
+                            + 65 ,point.y -1 + c} , img, (int[]){0x045680});
+                    c++;
+                }
+                c = 0;
+
                 while (c < 64 - 2)
                 {
                     // printf("from tile : %d\n",c);
@@ -813,11 +859,11 @@ void    call(t_data *canva)
 
     wall(canva);
     tile(canva);
-    player(canva);
-    drawline((int[]){canva->player.x ,canva->player.y+6 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
-    drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
-    drawline((int[]){canva->player.x ,canva->player.y+4 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0xFFFFFFF});
     ray(canva);
+    player(canva);
+    // drawline((int[]){canva->player.x ,canva->player.y+6 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
+    drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
+    // drawline((int[]){canva->player.x ,canva->player.y+4 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     printf("hi");
     run(canva);
     // render(canva);
@@ -829,7 +875,7 @@ int main(int argv, char *argc[])
     t_data  canva;
     canva.height = 512;
     canva.width = 1024;
-    canva.player.da = DR;
+    canva.player.da = 60.0f *PI/180.0F;
     canva.player.dx = cos(canva.player.da)*5;
     canva.player.dy = sin(canva.player.da)*5;
     canva.mlx_ptr = mlx_init();
