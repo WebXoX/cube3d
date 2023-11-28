@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/11/28 13:11:46 by jperinch         ###   ########.fr        #
+#    Updated: 2023/11/28 14:24:30 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ INC=/usr/include
 INCLIB=$(INC)/../lib
 
 SRC = 	try5.c wall.c tile.c ray.c
+# SRC = 	try3.c
 
 OBJ_DIR = obj
 

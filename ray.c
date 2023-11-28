@@ -1,6 +1,9 @@
 #include "cube3d.h"
 void drawline(int *vals, t_data *img, int *color_list);
-
+int	create_trgb(int t, int r, int g, int b)
+{
+	return (t << 24 | r << 16 | g << 8 | b);
+}
 void ray(t_data *img)
 {
     int map[]=           //the map array. Edit to change level but keep the outer walls
@@ -35,7 +38,7 @@ void ray(t_data *img)
         /* code */
     }
     printf("ray :: %f------------------------------------->\n",ra);
-    for (size_t i = 0; i < 66; i++)
+    for (size_t i = 0; i < 120; i++)
     {
         dof =0;
         float tan1 = -1/tan(ra);
@@ -113,15 +116,23 @@ void ray(t_data *img)
         }
         float finald;
 	float d2 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
+    int color;
 	if(d1 > d2)
     {
-    	drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
+        // rx = rx * img->width/(64*2) ;
+        // ry = ry * img->height/(64*2);
+    	// drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
         finald = d2;
+        color =create_trgb(0,255,0,0);
     }
     else
     {
-		drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
+        // x1 = x1 * img->width/(64*2) ;
+        // y1 = y1 * img->height/(64*2);
+		// drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
         finald = d1;
+        color =create_trgb(0,25,0,0);
+
     }
         float ca  = img->player.da - ra;
         if (ca<0)
@@ -133,13 +144,13 @@ void ray(t_data *img)
 	float lh = (64 *640)/finald;
     if(lh >640)
         lh=640;
-	float lo = 320 -lh/2;
+	float lo = 420 -lh/2;
     int j=0;
-    // while (j <8)
-    // {
-    //     drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){0xFF0000});
-    //     j++;
-    // }
+    while (j <8)
+    {
+        drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
+        j++;
+    }
     ra +=DR;
     if (ra<0)
     {
