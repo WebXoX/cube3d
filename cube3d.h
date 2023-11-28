@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/22 11:08:34 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:57:08 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 // # include "minilibx-linux/mlx.h"
 // # include "minilibx-linux/mlx_int.h"
 # include "mlx/mlx.h"
-
+#define PI 3.1415926535
+#define DR 0.0174533
 typedef struct point3d
 {
     float x;
@@ -50,6 +51,7 @@ typedef struct s_data
 	float	lookx;
 	float	looky;
 	coordinate_t player;
+	coordinate_t player_center;
 }	t_data;
 
 typedef struct s_line
