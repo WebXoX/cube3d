@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/28 12:57:08 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/28 14:57:11 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ typedef struct s_data
 	void	*mlx_ptr;
 	void	*win_ptr;
 	int		map[4][4];
-		float	dir_x;
+	int		maph;
+	int		fov;
+	int		mapw;
+	float	dir_x;
 	float	dir_y;
 	float	lookx;
 	float	looky;
