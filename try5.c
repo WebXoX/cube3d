@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   try5.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/11/30 10:37:29 by jperinch         ###   ########.fr       */
+=======
+/*   Updated: 2023/11/30 14:25:38 by afarheen         ###   ########.fr       */
+>>>>>>> 1aae370453e85f39edafc89011e5f2e170905ac5
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +21,9 @@ void ray(t_data *img);
 void player(t_data *img,float x, float y,int len);
 void tile(t_data *img);
 void wall(t_data *img);
-
+void validate_zeroes(int **map, t_data *canva);
+void validate_spaces(int **map, t_data *canva);
+int *get_numbers(char *line, t_data *canva, int row_num);
 
 int moves(int keycode, t_data *vars)
 {
@@ -79,7 +85,7 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 
 
 void    run(t_data *canva)
-{  
+{
     printf(" dy %f\n dx %f\n da: %f\n\n\n",canva->player.dy,canva->player.dx,canva->player.da);
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
@@ -166,7 +172,7 @@ void clear(t_data *img)
      {
         drawline((int[]){i,0,i, img->height},img,(int[]){0x0000});
      }
-     
+
 }
 
 int move(t_data *img,float x, float y)
@@ -195,7 +201,7 @@ int move(t_data *img,float x, float y)
 
 void player (t_data *img, float x, float y,int len)
 {
-    
+
     int i =0;
     while (i <= len)
     {
@@ -208,7 +214,7 @@ void player (t_data *img, float x, float y,int len)
         drawline((int[]){x+i/2,y+len/2,x  -( img->player.dx*(5)),y  - (img->player.dy*(5))},img,(int[]){0xFFF0000});
 
     // run(img);
-    
+
 }
 void    call(t_data *canva)
 {
@@ -220,7 +226,7 @@ void    call(t_data *canva)
             &canva->line_bytes, &canva->endian);
     canva->win_ptr = mlx_new_window(canva->mlx_ptr, canva->width, canva->height,
                 "cub3d");
-    
+
     ratio_x = canva->width/64;
     ratio_y = canva->height/64;
     // canva->player.x = canva->width/2;
@@ -238,17 +244,92 @@ void    call(t_data *canva)
     // render(canva);
 }
 
-int main(int argv, char *argc[])
+int main(int argc, char *argv[])
 {
 
-    t_data  canva;
-    canva.height = 640;
-    canva.width = 960;
-    canva.player.da = 90.0f *PI/180.0F - 0.001;
-    canva.player.dx = cos(canva.player.da)*5;
-    canva.player.dy = sin(canva.player.da)*5;
-    canva.mlx_ptr = mlx_init();
-    call( &canva);
+    t_data *canva;
+	int fd;
+	char *line;
+	char *nl_pos;
+	int *numbers;
+	int count =0;
+	int line_count = 0;
+	int length;
+
+
+	canva = ft_calloc(1, sizeof(t_data));
+	if(argc > 1)
+	{
+		fd = open(argv[1], O_RDWR);
+		line = get_next_line(fd);
+		while(line)
+		{
+			if(ft_strcmp(line, "\n") == 0)
+			{
+				while(line)
+				{
+					if (ft_strcmp(line, "\n") == 0)
+					{
+						free(line);
+						line = get_next_line(fd);
+					}
+					else
+					{
+						printf("ERROR!!!!!\n");
+						exit(0);
+					}
+				}
+			}
+			else
+			{
+				length = ft_strlen(line);
+				if (length > canva->longest_row)
+					canva->longest_row = length;
+				line = get_next_line(fd);
+				line_count++;
+			}
+		}
+		close(fd);
+		fd = open(argv[1], O_RDWR);
+		canva->map = malloc(sizeof(int*) * line_count);
+		fd = open(argv[1], O_RDWR);
+		line = get_next_line(fd);
+		canva->lengths = malloc(sizeof(int)*line_count);
+		while (line)
+		{
+			if (ft_strcmp(line, "\n") == 0)
+				{
+					free(line);
+					line = get_next_line(fd);
+				}
+			else if(line)
+			{
+				nl_pos = ft_strchr(line, '\n');
+				if (nl_pos)
+					nl_pos[0] = 0;
+				canva->map[count] = get_numbers(line, canva, count);
+				free(line);
+				line = get_next_line(fd);
+				count++;
+			}
+		}
+		close(fd);
+		if(!(canva->player_count))
+		{
+			printf("ERROR!!!!!\n");
+			exit(0);
+		}
+		canva->final_c = count;
+		validate_zeroes(canva->map, canva);
+		validate_spaces(canva->map, canva);
+	}
+    canva->height = 640;
+    canva->width = 960;
+    canva->player.da = 90.0f *PI/180.0F - 0.001;
+    canva->player.dx = cos(canva->player.da)*5;
+    canva->player.dy = sin(canva->player.da)*5;
+    canva->mlx_ptr = mlx_init();
+    call( canva);
     return (0);
 }
 
