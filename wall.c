@@ -6,17 +6,17 @@ void wall(t_data *img)
     int i;
     int j;
     coordinate_t point;
-    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
-    {
-        {1,1,1,1,1,1,1,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,0,0,0,0,0,1},
-        {1,0,0,0,0,1,0,1},
-        {1,0,2,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1}
-    };
+    // int img->map[8][8]=           //the img->map array. Edit to change level but keep the outer walls
+    // {
+    //     {1,1,1,1,1,1,1,1},
+    //     {1,0,1,0,0,0,0,1},
+    //     {1,0,1,0,0,0,0,1},
+    //     {1,0,1,0,0,0,0,1},
+    //     {1,0,0,0,0,0,0,1},
+    //     {1,0,0,0,0,1,0,1},
+    //     {1,0,2,0,0,0,0,1},
+    //     {1,1,1,1,1,1,1,1}
+    // };
     j   =   0;
     i   =   0;
     int ratio_y = img->height/64;
@@ -35,7 +35,7 @@ void wall(t_data *img)
         while (j < 8)
         {
             int c;
-            if(map[i][j]==1)
+            if(img->map[i][j]==1)
             {
                 c = 0;
                 while (c < ratio_y - 2)

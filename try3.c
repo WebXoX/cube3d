@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/20 16:21:56 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:32:13 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ void wall(t_data *img);
 void tile(t_data *img);
 void player(t_data *img);
 
+void validate_zeroes(int **map, t_data *canva);
+void validate_spaces(int **map, t_data *canva);
+int *get_numbers(char *line, t_data *canva, int row_num);
 
 
 
@@ -28,21 +31,21 @@ int	moves(int keycode, t_data *vars)
 	printf("keycode :: %d\n",keycode);
 	if (keycode == 13 || keycode == 119)
 	{
-		vars->player.x += vars->player.dx; 
-		vars->player.y += vars->player.dy; 
-		
+		vars->player.x += vars->player.dx;
+		vars->player.y += vars->player.dy;
+
 		move(vars,0,5);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		return (1);
 	}
     else if (keycode == 1|| keycode == 115)
 	{
-		vars->player.x -= vars->player.dx; 
-		vars->player.y -= vars->player.dy; 
-		
+		vars->player.x -= vars->player.dx;
+		vars->player.y -= vars->player.dy;
+
 		move(vars,0,-5);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-		
+
 		return (1);
 	}
     else if (keycode == 0|| keycode == 97)
@@ -87,16 +90,16 @@ void ray(t_data *img)
 	ra = img->player.da-DR*30;
 	if (ra<0)
 	{
-		ra +=2*PI; 
+		ra +=2*PI;
 		/* code */
 	}
 	if (ra> 2*PI)
 	{
-		ra -=2*PI; 
+		ra -=2*PI;
 		/* code */
 	}
-	
-	
+
+
 	for (r = 0; r < 5; r++)
 	{
 		/* code */
@@ -207,16 +210,16 @@ void ray(t_data *img)
 		ra +=DR;
 		if (ra<0)
 	{
-		ra +=2*PI; 
+		ra +=2*PI;
 		/* code */
 	}
 	if (ra> 2*PI)
 	{
-		ra -=2*PI; 
+		ra -=2*PI;
 		/* code */
 	}
 	}
-	
+
 }
 void	run(t_data *canva)
 {
@@ -420,7 +423,7 @@ void player(t_data *img)
 					img->player.y = point.y  + 64/2;
 					// printf("in player y:%f  %f\n",point.y, img->player.y);
 						// printf("in player x:%f  %f\n\n",point.x, img->player.x);
-                        
+
 					c = 0;
 					while (c < 10)
 					{
@@ -489,18 +492,18 @@ void wall(t_data *img)
 	int i;
     int j;
 	coordinate_t point;
-	int map[4][6] = {   {1,1,1,1,1,1},
-						{1,0,1,0,0,1},
-						{1,0,2,0,0,1},
-						{1,1,1,1,1,1}   };
+	// int map[4][6] = {   {1,1,1,1,1,1},
+	// 					{1,0,1,0,0,1},
+	// 					{1,0,2,0,0,1},
+	// 					{1,1,1,1,1,1}   };
     j   =   0;
 	i	=	0;
 	ratio_y = img->height/4;
-    ratio_x = img->width/6;	
-	
+    ratio_x = img->width/6;
+
 	while (i < img->height)
 	{
-		
+
 		drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
 		i++;
 	}
@@ -512,7 +515,7 @@ void wall(t_data *img)
         while (j < 6)
 		{
 			int c;
-			if(map[i][j]==1)
+			if(img->map[i][j]==1)
 			{
 				c = 0;
 				while (c < 64 - 2)
@@ -548,13 +551,92 @@ void	call(t_data *canva)
 	render(canva);
 }
 
-int	main(int argv, char *argc[])
+int main(int argc, char *argv[])
 {
 
-	t_data	canva;
-	canva.height = 1024;
-	canva.width = 1500;
-	canva.mlx_ptr = mlx_init();
-	call( &canva);
-	return (0);
+    t_data *canva;
+	int fd;
+	char *line;
+	char *nl_pos;
+	int *numbers;
+	int count =0;
+	int line_count = 0;
+	int length;
+
+
+	canva = ft_calloc(1, sizeof(t_data));
+	if(argc > 1)
+	{
+		fd = open(argv[1], O_RDWR);
+		line = get_next_line(fd);
+		while(line)
+		{
+			if(ft_strcmp(line, "\n") == 0)
+			{
+				while(line)
+				{
+					if (ft_strcmp(line, "\n") == 0)
+					{
+						free(line);
+						line = get_next_line(fd);
+					}
+					else
+					{
+						printf("ERROR!!!!!\n");
+						exit(0);
+					}
+				}
+			}
+			else
+			{
+				length = ft_strlen(line);
+				if (length > canva->longest_row)
+					canva->longest_row = length;
+				line = get_next_line(fd);
+				line_count++;
+			}
+		}
+		close(fd);
+		fd = open(argv[1], O_RDWR);
+		canva->map = malloc(sizeof(int*) * line_count);
+		fd = open(argv[1], O_RDWR);
+		line = get_next_line(fd);
+		canva->lengths = malloc(sizeof(int)*line_count);
+		while (line)
+		{
+			if (ft_strcmp(line, "\n") == 0)
+				{
+					free(line);
+					line = get_next_line(fd);
+				}
+			else if(line)
+			{
+				nl_pos = ft_strchr(line, '\n');
+				if (nl_pos)
+					nl_pos[0] = 0;
+				canva->map[count] = get_numbers(line, canva, count);
+				free(line);
+				line = get_next_line(fd);
+				count++;
+			}
+		}
+		close(fd);
+		if(!(canva->player_count))
+		{
+			printf("ERROR!!!!!\n");
+			exit(0);
+		}
+		canva->final_c = count;
+		validate_zeroes(canva->map, canva);
+		validate_spaces(canva->map, canva);
+	}
+    canva->height = 640;
+    canva->width = 960;
+    canva->player.da = 90.0f *PI/180.0F - 0.001;
+    canva->player.dx = cos(canva->player.da)*5;
+    canva->player.dy = sin(canva->player.da)*5;
+    canva->mlx_ptr = mlx_init();
+    call( canva);
+    return (0);
 }
+

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/28 14:57:11 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/30 14:17:39 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 #define CUB3D_H
 
-// #include "libft/libft.h"
+#include "libft/libft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -45,14 +45,18 @@ typedef struct s_data
 	int		height;
 	void	*mlx_ptr;
 	void	*win_ptr;
-	int		map[4][4];
+	int		**map;
 	int		maph;
 	int		fov;
 	int		mapw;
-	float	dir_x;
-	float	dir_y;
 	float	lookx;
 	float	looky;
+	int longest_row;
+	int count;
+	int line_count;
+	int final_c;
+	int *lengths;
+	int player_count;
 	coordinate_t player;
 	coordinate_t player_center;
 }	t_data;
