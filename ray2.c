@@ -17,14 +17,14 @@ void ray(t_data *img)
     1,0,0,0,0,0,0,1,
     1,1,1,1,1,1,1,1,
     };
+    int scale = img->scale;
+
     float px, py;
-    // px = img->player_center.x -  img->player.dx*5;
-    px = img->player_center.x ;
-    py = img->player_center.y ;
-    // py = img->player_center.y - img->player.dy*5;
+    px = img->player.x -  img->player.dx*2;
+    py = img->player.y - img->player.dy*2;
     int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
-    ra = img->player.da + 140.0f *PI/180.0F - 0.001;
-    // ra = img->player.da + PI ;
+    // ra = img->player.da-DR*30;
+    ra = img->player.da + PI;
     printf("ray :: %f------------------------------------->\n",ra);
 
     if (ra<0)
@@ -38,7 +38,7 @@ void ray(t_data *img)
         /* code */
     }
     printf("ray :: %f------------------------------------->\n",ra);
-    for (size_t i = 0; i < 1; i++)
+    for (size_t i = 0; i < 120; i++)
     {
         dof =0;
         float tan1 = -1/tan(ra);
@@ -46,17 +46,17 @@ void ray(t_data *img)
         if (ra > PI)
         {
             //left  angles
-            ry = (((int)py>>6)<<6)-0.0001;
+            ry = (((int)py/scale)*scale)-0.0001;
             rx=(py-ry)*tan1+px;
-            yo = -64;
+            yo = -scale;
             xo=-yo*tan1;
         }
         if(ra < PI)
         {
             // right side angles
-            ry = (((int)py>>6)<<6)+64;
+            ry = (((int)py/scale)*scale)+scale;
             rx=(py-ry)*tan1+px;
-            yo= 64;
+            yo= scale;
             xo=-yo*tan1;
         }
         if(ra==0 || ra==PI)
@@ -67,7 +67,7 @@ void ray(t_data *img)
         while(dof<8)
         {
 
-            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;
+            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*8+mx;
             if(mp>0 && mp<8*8 && map[mp]==1)
 				dof=8; //hit
             else
@@ -80,23 +80,24 @@ void ray(t_data *img)
 	float d1 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
 
         dof =0;
+        printf("hoo\n");
         float tan2 = -tan(ra);
         //vertical detection
 
         if (ra>PI/2 && ra <3*PI/2)
         {
             // left side
-            rx = (((int)px>>6)<<6)-0.0001;
+            rx = (((int)px/scale)*scale)-0.0001;
             ry=(px-rx)*tan2+py;
-            xo = -64;
+            xo = -scale;
             yo=-xo*tan2;
         }
        else  if(ra<PI/2 || ra >3*PI/2)
         {
             //right side
-            rx = (((int)px>>6)<<6)+64;
+            rx = (((int)px/scale)*scale)+scale;
             ry=(px-rx)*tan2+py;
-            xo= 64;
+            xo= scale;
             yo=-xo*tan2;
         }
         else if(ra==0 || ra==PI)
@@ -105,9 +106,9 @@ void ray(t_data *img)
         }
         while(dof<8)
         {
-            printf("hoo dof %f: %f:\n",rx,ry);
+        printf("hoo dof %f: %f:\n",rx,ry);
 
-            mx=(int)(rx)>>6; my=(int)(ry)>>6; mp=my*8+mx;
+            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*8+mx;
             if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit
             else
 			{
@@ -116,42 +117,49 @@ void ray(t_data *img)
         }
         float finald;
 	float d2 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
-    int color;
+	int color;
 	if(d1 > d2)
     {
-        // rx = rx * img->width/(64*2) ;
-        // ry = ry * img->height/(64*2);
-    	// drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
+    	drawline((int []){px,py+4,rx,ry},img,(int[]){0xFF0000});
         finald = d2;
         color =create_trgb(0,255,0,0);
+
     }
     else
     {
-        // x1 = x1 * img->width/(64*2) ;
-        // y1 = y1 * img->height/(64*2);
-		// drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
+		drawline((int []){px,py+4,x1,y1},img,(int[]){0xFF0000});
         finald = d1;
-        color =create_trgb(0,25,0,0);
+        color =create_trgb(0,20,0,0);
 
     }
         float ca  = img->player.da - ra;
         if (ca<0)
+        {
             ca +=2*PI;
+            /* code */
+        }
         if (ca> 2*PI)
+        {
             ca -=2*PI;
-
-    finald = finald* cos(ca);
-	float lh = (64 *640)/finald;
+            /* code */
+        }
+        finald = finald* cos(ca);
+	float lh = (scale *640)/finald;
     if(lh >640)
         lh=640;
-	float lo = 420 -lh/2;
-    int j=0;
-    while (j <8)
-    {
-        drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
-        j++;
-    }
-    ra +=DR;
+	float lo = 640/2 -lh/2;
+    	// drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
+        int j=0;
+
+        while (j < 8)
+        {
+    	    drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
+            j++;
+        }
+        
+    	// drawline((int []){(i*8)+531,0,(i*8)+531,lh},img,(int[]){0xFF0000});
+     ra +=DR/2;
+        
     if (ra<0)
     {
         ra +=2*PI;

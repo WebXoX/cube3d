@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/28 14:57:11 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/30 12:31:53 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_data
 	void	*win_ptr;
 	int		map[4][4];
 	int		maph;
+	int		scale;
 	int		fov;
 	int		mapw;
 	float	dir_x;

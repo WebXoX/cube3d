@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/28 13:35:26 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/30 10:37:29 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,10 @@ void    call(t_data *canva)
     ratio_y = canva->height/64;
     // canva->player.x = canva->width/2;
     // canva->player.y = canva->height/2;
-    canva->player.x =  ratio_x *2 + canva->width/(64*2);
-	canva->player.y =  ratio_x *2+ canva->height/(64*2);
+    // canva->player.x =  ratio_x *2 + canva->width/(64*2);
+	// canva->player.y =  ratio_y *6+ canva->height/(64*2);
+        canva->player.x = 64 *2  + 64/2;
+    canva->player.y = 64 * 6 + 64/2;
     wall(canva);
     tile(canva);
     ray(canva);
