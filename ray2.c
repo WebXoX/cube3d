@@ -68,7 +68,7 @@ void ray(t_data *img)
         {
 
             mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*8+mx;
-            if(mp>0 && mp<8*8 && map[mp]==1)
+            if(mp>0 && mp<14*34 && img->map[mx][my]==1)
 				dof=8; //hit
             else
 			{
@@ -102,14 +102,14 @@ void ray(t_data *img)
         }
         else if(ra==0 || ra==PI)
         {
-		rx=px; ry=py; dof=8;
+		rx=px; ry=py; dof=50;
         }
         while(dof<8)
         {
         printf("hoo dof %f: %f:\n",rx,ry);
 
             mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*8+mx;
-            if(mp>0 && mp<8*8 && map[mp]==1){ dof=8; }//hit
+            if(mp>0 && mp<14*34 && img->map[mx][my]==1){ dof=8; }//hit
             else
 			{
 				rx+=xo; ry+=yo; dof+=1;
@@ -130,7 +130,6 @@ void ray(t_data *img)
 		drawline((int []){px,py+4,x1,y1},img,(int[]){0xFF0000});
         finald = d1;
         color =create_trgb(0,20,0,0);
-
     }
         float ca  = img->player.da - ra;
         if (ca<0)
@@ -151,7 +150,7 @@ void ray(t_data *img)
     	// drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
         int j=0;
 
-        while (j < 8)
+        while (j < 1)
         {
     	    drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
             j++;
@@ -163,12 +162,10 @@ void ray(t_data *img)
     if (ra<0)
     {
         ra +=2*PI;
-        /* code */
     }
     if (ra> 2*PI)
     {
         ra -=2*PI;
-        /* code */
     }
     }
 }

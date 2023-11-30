@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/30 12:40:54 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/11/30 15:01:27 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ void ray(t_data *img);
 void wall(t_data *img);
 void tile(t_data *img);
 void player(t_data *img);
-
+void validate_zeroes(int **map, t_data *canva);
+void validate_spaces(int **map, t_data *canva);
+int *get_numbers(char *line, t_data *canva, int row_num);
 
 int moves(int keycode, t_data *vars)
 {
@@ -637,7 +639,7 @@ void render(t_data *img)
     {1,1,1,1,1,1,1,1}
     };
     // drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
-    // ray(img);
+    ray(img);
     run(&(*img));
 }
 
@@ -665,8 +667,8 @@ int move(t_data *img,float x, float y)
     img->player.x -= x;
     i=0;
 
-
-    drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
+    printf("hi move \n");
+    // drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
 
     run(img);
     return (0);
@@ -737,13 +739,15 @@ void tile(t_data *img)
     {1,1,1,1,1,1,1,1}
     };
     i=0;
-    while (i < 8)
+    while (i <img->final_c)
     {
         j=0;
-        while (j < 8)
+        while (j < img->longest_row)
         {
+                    printf("from tile \n");
+
             int c;
-            if(map[i][j]==0 || map[i][j]== 2)
+            if(img->map[i][j]==0 || img->map[i][j]== 2)
             {
                 c = 0;
                 while (c < img->scale + 2)
@@ -762,7 +766,7 @@ void tile(t_data *img)
                             + img->scale-2 ,point.y + c} , img, (int[]){0x000});
                     c++;
                 }
-                if ( map[i][j] == 2)
+                if ( img->map[i][j] == 2)
                 {
                     // img->player.x = point.x  + 64/2;
                     // img->player.y = point.y  + 64/2;
@@ -792,30 +796,23 @@ void wall(t_data *img)
     int i;
     int j;
     coordinate_t point;
-    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
-    {
-        {1,1,1,1,1,1,1,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,0,0,0,0,0,1},
-        {1,0,0,0,0,1,0,1},
-        {1,0,2,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1}
-    };
+    
     j   =   0;
     i   =   0;
 
     
     i=0;
-    j=0;
-    while (i < 8)
+
+    while (i < img->final_c)
     {
+                    printf("from wall2: %d\n",img->final_c);
         j=0;
-        while (j < 8)
+        while (j < img->longest_row)
         {
+                    printf("from wall: \n");
+
             int c;
-            if(map[i][j]==1)
+            if(img->map[i][j]==1)
             {
                 c = 0;
                 while (c < img->scale - 2)
@@ -847,6 +844,7 @@ void    call(t_data *canva)
                 "cub3d");
     canva->player.x = canva->scale *2  + canva->scale/2;
     canva->player.y = canva->scale * 6 + canva->scale/2;
+                    printf("from wall1: \n");
 
     while (i < canva->height)
     {
@@ -854,28 +852,113 @@ void    call(t_data *canva)
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
         i++;
     }
+                    printf("from wall2: \n");
+
     wall(canva);
+                    printf("from wall2: \n");
     tile(canva);
-    ray(canva);
+                    printf("from wall3: \n");
+
+    // ray(canva);
     player(canva);
+                    printf("from wall4: \n");
+
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     run(canva);
     // render(canva);
+    
 }
 
-int main(int argv, char *argc[])
+
+int main(int argc, char *argv[])
 {
 
-    t_data  canva;
-        canva.height = 640;
-    canva.width = 960;
-    canva.scale = 16;
-    // canva.height = 512;
-    // canva.width = 1024;
-    canva.player.da = 60.0f *PI/180.0F;
-    canva.player.dx = cos(canva.player.da)*5;
-    canva.player.dy = sin(canva.player.da)*5;
-    canva.mlx_ptr = mlx_init();
-    call( &canva);
+    t_data *canva;
+	int fd;
+	char *line;
+	char *nl_pos;
+	int *numbers;
+	int count =0;
+	int line_count = 0;
+	int length;
+
+
+	canva = ft_calloc(1, sizeof(t_data));
+	if(argc > 1)
+	{
+		fd = open(argv[1], O_RDWR);
+		line = get_next_line(fd);
+		while(line)
+		{
+			if(ft_strcmp(line, "\n") == 0)
+			{
+				while(line)
+				{
+					if (ft_strcmp(line, "\n") == 0)
+					{
+						free(line);
+						line = get_next_line(fd);
+					}
+					else
+					{
+						printf("ERROR!!!!!\n");
+						exit(0);
+					}
+				}
+			}
+			else
+			{
+				length = ft_strlen(line);
+				if (length > canva->longest_row)
+					canva->longest_row = length;
+				line = get_next_line(fd);
+				line_count++;
+			}
+		}
+		close(fd);
+		fd = open(argv[1], O_RDWR);
+		canva->map = malloc(sizeof(int*) * line_count);
+		fd = open(argv[1], O_RDWR);
+		line = get_next_line(fd);
+		canva->lengths = malloc(sizeof(int)*line_count);
+		while (line)
+		{
+			if (ft_strcmp(line, "\n") == 0)
+				{
+					free(line);
+					line = get_next_line(fd);
+				}
+			else if(line)
+			{
+				nl_pos = ft_strchr(line, '\n');
+				if (nl_pos)
+					nl_pos[0] = 0;
+				canva->map[count] = get_numbers(line, canva, count);
+				free(line);
+				line = get_next_line(fd);
+				count++;
+			}
+		}
+		close(fd);
+		if(!(canva->player_count))
+		{
+			printf("ERROR!!!!!\n");
+			exit(0);
+		}
+		canva->final_c = count;
+		validate_zeroes(canva->map, canva);
+		validate_spaces(canva->map, canva);
+                    printf("from wall: \n");
+
+	}
+    canva->height = 640;
+    canva->width = 960;
+    canva->scale = 10;
+    canva->player.da = 60.0f *PI/180.0F;
+    canva->player.dx = cos(canva->player.da)*5;
+    canva->player.dy = sin(canva->player.da)*5;
+    canva->mlx_ptr = mlx_init();
+    call( canva);
     return (0);
 }
+
