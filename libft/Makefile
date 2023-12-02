@@ -59,8 +59,8 @@ MY_SOURCES = ft_isalnum.c \
 			get_next_line.c \
 
 MY_OBJS = $(MY_SOURCES:.c=.o)
-CFLAGS += -Wall -Werror -Wextra  -Ofast -march=native
-CC = gcc
+CFLAGS = -Wall -Werror -Wextra 
+CC = cc
 
 all: $(NAME)
 $(NAME): $(MY_OBJS)

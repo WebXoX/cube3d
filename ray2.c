@@ -67,8 +67,9 @@ void ray(t_data *img)
         while(dof<8)
         {
 
-            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*8+mx;
-            if(mp>0 && mp<14*34 && img->map[mx][my]==1)
+            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*img->longest_row+mx;
+            printf("mx:%d\nmy:%d\nmp:%d\nmap:%d\n",mx,my,mp,img->map[mx][my]);
+            if(mp>0 && mp<img->longest_row*img->final_c && img->map[mx][my]==1)
 				dof=8; //hit
             else
 			{

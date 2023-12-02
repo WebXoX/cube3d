@@ -19,8 +19,8 @@ void ray(t_data *img);
 void wall(t_data *img);
 void tile(t_data *img);
 void player(t_data *img);
-void validate_zeroes(int **map, t_data *canva);
-void validate_spaces(int **map, t_data *canva);
+void validate_zeroes(int **map, t_data canva);
+void validate_spaces(int **map, t_data canva);
 int *get_numbers(char *line, t_data *canva, int row_num);
 
 int moves(int keycode, t_data *vars)
@@ -536,8 +536,8 @@ void    run(t_data *canva)
 {
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
-        mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
-    // mlx_key_hook(canva->win_ptr, moves, &(*canva));
+        // mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
+    mlx_key_hook(canva->win_ptr, moves, &(*canva));
     mlx_loop(canva->mlx_ptr);
 }
 
@@ -639,7 +639,7 @@ void render(t_data *img)
     {1,1,1,1,1,1,1,1}
     };
     // drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
-    ray(img);
+    // ray(img);
     run(&(*img));
 }
 
@@ -660,7 +660,7 @@ int move(t_data *img,float x, float y)
     }
     //wall and tile re draw
     tile(img);
-    ray(img);
+    // ray(img);
     wall(img);
     player(img);
     img->player.y -= y;
@@ -680,43 +680,53 @@ void player(t_data *img)
     int j;
     int c;
     coordinate_t point;
-    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
-        {
-        {1,1,1,1,1,1,1,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,1,0,0,0,0,1},
-        {1,0,0,0,0,0,0,1},
-        {1,0,0,0,0,1,0,1},
-        {1,0,2,0,0,0,0,1},
-        {1,1,1,1,1,1,1,1}
-        };
+    // int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+    //     {
+    //     {1,1,1,1,1,1,1,1},
+    //     {1,0,1,0,0,0,0,1},
+    //     {1,0,1,0,0,0,0,1},
+    //     {1,0,1,0,0,0,0,1},
+    //     {1,0,0,0,0,0,0,1},
+    //     {1,0,0,0,0,1,0,1},
+    //     {1,0,2,0,0,0,0,1},
+    //     {1,1,1,1,1,1,1,1}
+    //     };
     i=0;
     j=0;
-        while (i < 8)
+        while (i < img->final_c)
         {
             j=0;
-            while (j < 8)
+            while (j < img->longest_row)
             {
-                if(map[i][j]==2)
+                
+                        // printf("in player ax1:%f\n\n",point.x);
+                        // printf("in player ax1:%f\n\n",point.y);
+                if(img->map[i][j]==2)
                 {
                     c=0;
                     // img->player.x = point.x  + 64/2;
                     // img->player.y = point.y  + 64/2;
+                        printf("in player x:%d\n\n",i);
+                        printf("in player y:%d\n\n",j);
+                        printf("in player pointx1:%f\n",point.x);
+                        printf("in player pointy1:%f\n\n",point.y);
+                         printf("in player x1:%f\n",img->player.x);
+                        printf("in player y1:%f\n\n",img->player.y);
 
-                    while (c < 10)
+                    while (c < img->scale/2)
                     {
                         // printf("in player x:%d\n\n",c);
                         drawline((int[]){img->player.x ,img->player.y + c ,img->player.x+ 10 ,img->player.y + c} ,img,(int[]){0x735674});
+                        // drawline((int[]){point.x ,point.y + c ,point.x+ 10 ,point.y + c} ,img,(int[]){0x735674});
 
                         c++;
                     }
                 }
-                point.x+=64;
+                point.x+=img->scale;
                 j++;
             }
             point.x=0;
-            point.y+=64;
+            point.y+=img->scale;
             i++;
         }
 }
@@ -766,6 +776,13 @@ void tile(t_data *img)
                             + img->scale-2 ,point.y + c} , img, (int[]){0x000});
                     c++;
                 }
+                // if(img->map[i][j]== 2)
+                // {
+                //       printf("in player x:%d\n\n",i);
+                //         printf("in player y:%d\n\n",j);
+                //       printf("in player xint tile:%f\n\n",point.x);
+                //         printf("in player yint tile:%f\n\n",point.y);
+                // }
                 if ( img->map[i][j] == 2)
                 {
                     // img->player.x = point.x  + 64/2;
@@ -775,6 +792,8 @@ void tile(t_data *img)
                     while (c < 10)
                     {
                         // printf("in player x:%d\n\n",c);
+                        // drawline((int[]){point.x ,point.y + c ,point.x
+                        //     + img->scale-2 ,point.y + c} , img, (int[]){0x75643});
                         // drawline((int[]){img->player.x ,img->player.y + c ,img->player.x+ 10 ,img->player.y + c} ,img,(int[]){0x75643});
 
                         c++;
@@ -805,7 +824,7 @@ void wall(t_data *img)
 
     while (i < img->final_c)
     {
-                    printf("from wall2: %d\n",img->final_c);
+                    // printf("from wall2: %d\n",img->final_c);
         j=0;
         while (j < img->longest_row)
         {
@@ -842,38 +861,53 @@ void    call(t_data *canva)
             &canva->line_bytes, &canva->endian);
     canva->win_ptr = mlx_new_window(canva->mlx_ptr, canva->width, canva->height,
                 "cub3d");
-    canva->player.x = canva->scale *2  + canva->scale/2;
-    canva->player.y = canva->scale * 6 + canva->scale/2;
-                    printf("from wall1: \n");
-
+    canva->player.x = (canva->scale *canva->cx)  + canva->scale/4;
+    canva->player.y = (canva->scale *canva->cy) + canva->scale/4;
+                         printf("in player x11:%f\n\n",canva->player.x);
+                        printf("in player y11:%f\n\n",canva->player.y);
     while (i < canva->height)
     {
 
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
         i++;
     }
-                    printf("from wall2: \n");
 
     wall(canva);
-                    printf("from wall2: \n");
     tile(canva);
-                    printf("from wall3: \n");
-
-    // ray(canva);
+    ray(canva);
     player(canva);
-                    printf("from wall4: \n");
 
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     run(canva);
-    // render(canva);
+    render(canva);
     
 }
 
-
+void player_location(t_data *img)
+{
+    int i;
+    int j;
+    
+    i = 0;
+    j = 0;
+    while (i < img->final_c)
+    {
+        while (j < img->longest_row)
+        {
+            if(img->map[i][j]==2)
+            {
+                img->cx = i;
+                img->cy = j;
+            }
+            j++;
+        }
+        i++;
+    }
+}
 int main(int argc, char *argv[])
 {
 
-    t_data *canva;
+    t_data canva;
 	int fd;
 	char *line;
 	char *nl_pos;
@@ -881,9 +915,8 @@ int main(int argc, char *argv[])
 	int count =0;
 	int line_count = 0;
 	int length;
+    canva.player_count = 0;
 
-
-	canva = ft_calloc(1, sizeof(t_data));
 	if(argc > 1)
 	{
 		fd = open(argv[1], O_RDWR);
@@ -901,26 +934,31 @@ int main(int argc, char *argv[])
 					}
 					else
 					{
+			            printf("%d-????count-------->\n",canva.player_count);
+
 						printf("ERROR!!!!!\n");
 						exit(0);
+                        // free(line);
+                        // line = NULL;
 					}
+                    printf("stuck\n");
 				}
 			}
 			else
 			{
 				length = ft_strlen(line);
-				if (length > canva->longest_row)
-					canva->longest_row = length;
+				if (length > canva.longest_row)
+					canva.longest_row = length;
 				line = get_next_line(fd);
 				line_count++;
 			}
 		}
 		close(fd);
 		fd = open(argv[1], O_RDWR);
-		canva->map = malloc(sizeof(int*) * line_count);
+		canva.map = malloc(sizeof(int*) * line_count);
 		fd = open(argv[1], O_RDWR);
 		line = get_next_line(fd);
-		canva->lengths = malloc(sizeof(int)*line_count);
+		canva.lengths = malloc(sizeof(int)*line_count);
 		while (line)
 		{
 			if (ft_strcmp(line, "\n") == 0)
@@ -933,32 +971,56 @@ int main(int argc, char *argv[])
 				nl_pos = ft_strchr(line, '\n');
 				if (nl_pos)
 					nl_pos[0] = 0;
-				canva->map[count] = get_numbers(line, canva, count);
+				canva.map[count] = get_numbers(line, &canva, count);
 				free(line);
 				line = get_next_line(fd);
 				count++;
 			}
 		}
 		close(fd);
-		if(!(canva->player_count))
+			printf("%d-????count-------->\n",canva.player_count);
+
+		if(!(canva.player_count))
 		{
+			printf("%d-????count-------->\n",canva.player_count);
+
 			printf("ERROR!!!!!\n");
 			exit(0);
 		}
-		canva->final_c = count;
-		validate_zeroes(canva->map, canva);
-		validate_spaces(canva->map, canva);
+		canva.final_c = count;
+		validate_zeroes(canva.map, canva);
+		validate_spaces(canva.map, canva);
                     printf("from wall: \n");
 
 	}
-    canva->height = 640;
-    canva->width = 960;
-    canva->scale = 10;
-    canva->player.da = 60.0f *PI/180.0F;
-    canva->player.dx = cos(canva->player.da)*5;
-    canva->player.dy = sin(canva->player.da)*5;
-    canva->mlx_ptr = mlx_init();
-    call( canva);
+    for (size_t i = 0; i < canva.final_c; i++)
+    {
+        for (size_t j = 0; j < canva.longest_row; j++)
+        {
+            if(canva.map[i][j]==2)
+            {
+                printf("%d",canva.map[i][j]);
+                canva.cx = j;
+                canva.cy = i;
+                printf("%d\n",canva.cx);
+                printf("%d\n",canva.cy);
+
+            }
+            else
+                printf(" ");
+
+        }
+            printf("::\n");        
+    }
+    
+    canva.height = 640;
+    canva.width = 960;
+    canva.scale = 32;
+    canva.player.da = 60.0f *PI/180.0F;
+    canva.player.dx = cos(canva.player.da)*5;
+    canva.player.dy = sin(canva.player.da)*5;
+    canva.mlx_ptr = mlx_init();
+    call( &canva);
     return (0);
 }
 

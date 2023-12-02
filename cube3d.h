@@ -59,7 +59,8 @@ typedef struct s_data
 	int *lengths;
 	int player_count;
 	coordinate_t player;
-	coordinate_t player_center;
+	int cx;
+	int cy;
 }	t_data;
 
 typedef struct s_line

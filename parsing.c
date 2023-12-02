@@ -48,7 +48,8 @@ int *get_numbers(char *line, t_data *canva, int row_num)
 		else if(!canva->player_count && ft_isplayer(line[i]))
 		{
 			(canva->player_count)++;
-			numbers[i]=line[i];
+			printf("%d-????count-------->\n",canva->player_count);
+			numbers[i]=2;
 		}
 		else if(line[i] == ' ')
 			numbers[i] = ' ';
@@ -65,14 +66,14 @@ int *get_numbers(char *line, t_data *canva, int row_num)
 	return numbers;
 }
 
-void validate_zeroes(int **map, t_data *canva)
+void validate_zeroes(int **map, t_data canva)
 {
 	int i = 0;
 	int j = 0;
-	while(i < canva->final_c)
+	while(i < canva.final_c)
 	{
 		j = 0;
-		while(j < canva->longest_row)
+		while(j < canva.longest_row)
 		{
 			if(map[i][j] == 0 || ft_isplayer(map[i][j]))
 			{
@@ -80,9 +81,9 @@ void validate_zeroes(int **map, t_data *canva)
 				int l = j;
 				while(k >= 0)
 				{
-					if( j < canva->lengths[k] && map[k][j] == 1)
+					if( j < canva.lengths[k] && map[k][j] == 1)
 						break;
-					else if (j > canva->lengths[k])
+					else if (j > canva.lengths[k])
 					{
 						printf("ERRORZ1!!!\n");
 						exit(0);
@@ -95,18 +96,18 @@ void validate_zeroes(int **map, t_data *canva)
 					exit(0);
 				}
 				k = i;
-				while(k < canva->final_c)
+				while(k < canva.final_c)
 				{
-					if( j < canva->lengths[k] && map[k][j] == 1)
+					if( j < canva.lengths[k] && map[k][j] == 1)
 						break;
-					else if (j > canva->lengths[k])
+					else if (j > canva.lengths[k])
 					{
 						printf("ERRORZ3!!!\n");
 						exit(0);
 					}
 					k++;
 				}
-				if(k == canva->final_c)
+				if(k == canva.final_c)
 				{
 					printf("ERRORZ4!!!\n");
 					exit(0);
@@ -114,7 +115,7 @@ void validate_zeroes(int **map, t_data *canva)
 
 				while(l >= 0)
 				{
-					if( l < canva->lengths[i] && map[i][l] == 1)
+					if( l < canva.lengths[i] && map[i][l] == 1)
 						break;
 					l--;
 				}
@@ -124,13 +125,13 @@ void validate_zeroes(int **map, t_data *canva)
 					exit(0);
 				}
 				l = j;
-				while(l < canva->lengths[i])
+				while(l < canva.lengths[i])
 				{
-					if( l < canva->lengths[i] && map[i][l] == 1)
+					if( l < canva.lengths[i] && map[i][l] == 1)
 						break;
 					l++;
 				}
-				if(l == canva->lengths[i])
+				if(l == canva.lengths[i])
 				{
 					printf("ERRORZ6!!!\n");
 					exit(0);
@@ -143,26 +144,26 @@ void validate_zeroes(int **map, t_data *canva)
 
 }
 
-void validate_spaces(int **map, t_data *canva)
+void validate_spaces(int **map, t_data canva)
 {
 	int i = 0;
 	int j;
 	int wrong;
-	while(i < canva->final_c)
+	while(i < canva.final_c)
 	{
 			j = 0;
-		while(j < canva->lengths[i])
+		while(j < canva.lengths[i])
 		{
 			wrong = 0;
 			if(map[i][j] == ' ')
 			{
-				if(i > 0 && j > canva->lengths[i - 1])
+				if(i > 0 && j > canva.lengths[i - 1])
 					if(!(map[i - 1][j] == 1 || map[i - 1][j] == ' '))
 						wrong++;
-				if(j + 1 < canva->lengths[i])
+				if(j + 1 < canva.lengths[i])
 					if(!(map[i][j + 1] == 1 || map[i][j + 1] == ' '))
 						wrong++;
-				if(i + 1 < canva->final_c && j > canva->lengths[i + 1])
+				if(i + 1 < canva.final_c && j > canva.lengths[i + 1])
 					if(!(map[i + 1][j] == 1 || map[i + 1][j] == ' '))
 						wrong++;
 				if(j > 0)
