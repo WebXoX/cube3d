@@ -6,17 +6,18 @@ int	create_trgb(int t, int r, int g, int b)
 }
 void ray(t_data *img)
 {
-    int map[]=           //the map array. Edit to change level but keep the outer walls
-    {
-    1,1,1,1,1,1,1,1,
-    1,0,1,0,0,0,0,1,
-    1,0,1,0,0,0,0,1,
-    1,0,1,0,0,0,0,1,
-    1,0,0,0,0,0,0,1,
-    1,0,0,0,0,1,0,1,
-    1,0,0,0,0,0,0,1,
-    1,1,1,1,1,1,1,1,
-    };
+
+    // for (size_t i = 0; i < img->final_c; i++)
+    // {
+    //     for (size_t j = 0; j < img->longest_row; j++)
+    //     {
+    //         printf("%d",img->map[i][j]);
+    //     }
+    //         printf("\n");
+        
+    // }
+    
+   
     int scale = img->scale;
 
     float px, py;
@@ -38,7 +39,7 @@ void ray(t_data *img)
         /* code */
     }
     printf("ray :: %f------------------------------------->\n",ra);
-    for (size_t i = 0; i < 120; i++)
+    for (size_t i = 0; i < 1; i++)
     {
         dof =0;
         float tan1 = -1/tan(ra);
@@ -67,9 +68,10 @@ void ray(t_data *img)
         while(dof<8)
         {
 
-            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*img->longest_row+mx;
-            printf("mx:%d\nmy:%d\nmp:%d\nmap:%d\n",mx,my,mp,img->map[mx][my]);
-            if(mp>0 && mp<img->longest_row*img->final_c && img->map[mx][my]==1)
+            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*(img->longest_row-1)+mx;
+            printf("mx:%d\nmy:%d\nmp:%dmap:%d \n",mx,my,mp,scale);
+            // printf("mx:%d\nmy:%d\nmp:%dmap:%d %d\n",mx,my,mp,scale,img->map[my][mx]);
+            if(mp>0 && mp<((img->longest_row-1)*(img->final_c-1)) && img->map[my-1][mx-1]==1)
 				dof=8; //hit
             else
 			{
@@ -103,14 +105,14 @@ void ray(t_data *img)
         }
         else if(ra==0 || ra==PI)
         {
-		rx=px; ry=py; dof=50;
+		rx=px; ry=py; dof=0;
         }
         while(dof<8)
         {
         printf("hoo dof %f: %f:\n",rx,ry);
 
-            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*8+mx;
-            if(mp>0 && mp<14*34 && img->map[mx][my]==1){ dof=8; }//hit
+            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*(img->longest_row-1)+mx;
+            if(mp>0 && mp<((img->longest_row-1)*(img->final_c-1)) && img->map[my][mx]==1){ dof=8; }//hit
             else
 			{
 				rx+=xo; ry+=yo; dof+=1;

@@ -609,7 +609,7 @@ int cast(t_data *canva)
     float x4 = canva->player.x + dir_x;
     float y4 = canva->player.y + dir_y;
 
-    printf("HEREEEEEE %f %f %f %f \n", x3, x4, y3, y4);
+    // printf("HEREEEEEE %f %f %f %f \n", x3, x4, y3, y4);
     // drawline((int[]){0,0,400,800},canva,(int[]){0x880808});
     // drawline((int[]){x3,y3,x4,y4},canva,(int[]){0x880808});
     float den = (((x1-x2) * (y3-y4)) - ((y1 - y2) * (x3 - x4)));
@@ -660,14 +660,14 @@ int move(t_data *img,float x, float y)
     }
     //wall and tile re draw
     tile(img);
-    // ray(img);
+    ray(img);
     wall(img);
     player(img);
     img->player.y -= y;
     img->player.x -= x;
     i=0;
 
-    printf("hi move \n");
+    // printf("hi move \n");
     // drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
 
     run(img);
@@ -754,7 +754,7 @@ void tile(t_data *img)
         j=0;
         while (j < img->longest_row)
         {
-                    printf("from tile \n");
+                    // printf("from tile \n");
 
             int c;
             if(img->map[i][j]==0 || img->map[i][j]== 2)
@@ -828,7 +828,7 @@ void wall(t_data *img)
         j=0;
         while (j < img->longest_row)
         {
-                    printf("from wall: \n");
+                    // printf("from wall: \n");
 
             int c;
             if(img->map[i][j]==1)
@@ -836,7 +836,7 @@ void wall(t_data *img)
                 c = 0;
                 while (c < img->scale - 2)
                 {
-                    printf("from wall: %d\n",c);
+                    // printf("from wall: %d\n",c);
                     drawline((int[]){point.x ,point.y + c ,point.x
                             + img->scale-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
                     c++;
@@ -863,8 +863,8 @@ void    call(t_data *canva)
                 "cub3d");
     canva->player.x = (canva->scale *canva->cx)  + canva->scale/4;
     canva->player.y = (canva->scale *canva->cy) + canva->scale/4;
-                         printf("in player x11:%f\n\n",canva->player.x);
-                        printf("in player y11:%f\n\n",canva->player.y);
+                        //  printf("in player x11:%f\n\n",canva->player.x);
+                        // printf("in player y11:%f\n\n",canva->player.y);
     while (i < canva->height)
     {
 
@@ -874,7 +874,7 @@ void    call(t_data *canva)
 
     wall(canva);
     tile(canva);
-    ray(canva);
+    // ray(canva);
     player(canva);
 
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
@@ -1015,7 +1015,7 @@ int main(int argc, char *argv[])
     
     canva.height = 640;
     canva.width = 960;
-    canva.scale = 32;
+    canva.scale = 16;
     canva.player.da = 60.0f *PI/180.0F;
     canva.player.dx = cos(canva.player.da)*5;
     canva.player.dy = sin(canva.player.da)*5;

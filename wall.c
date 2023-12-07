@@ -40,7 +40,7 @@ void wall(t_data *img)
                 c = 0;
                 while (c < ratio_y - 2)
                 {
-                    printf("from wall: %d\n",c);
+                    // printf("from wall: %d\n",c);
                     drawline((int[]){point.x ,point.y + c ,point.x
                             +ratio_x-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
                     c++;
