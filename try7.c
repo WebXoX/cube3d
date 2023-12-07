@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/30 15:01:27 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/07 15:34:26 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define DR 0.0174533
 #include "cube3d.h"
 int move(t_data *img,float x,float y);
+int moves(int keycode, t_data *vars);
 void drawline(int *vals, t_data *img, int *color_list);
 void ray(t_data *img);
 void wall(t_data *img);
@@ -23,59 +24,59 @@ void validate_zeroes(int **map, t_data canva);
 void validate_spaces(int **map, t_data canva);
 int *get_numbers(char *line, t_data *canva, int row_num);
 
-int moves(int keycode, t_data *vars)
-{
-    // printf("keycode :: %d\n",keycode);
-    //w
-    if (keycode == 13 || keycode == 119)
-    {
-        vars->player.x -= vars->player.dx;
-        vars->player.y -= vars->player.dy;
+// int moves(int keycode, t_data *vars)
+// {
+//     // printf("keycode :: %d\n",keycode);
+//     //w
+//     if (keycode == 13 || keycode == 119)
+//     {
+//         vars->player.x -= vars->player.dx;
+//         vars->player.y -= vars->player.dy;
 
-        move(vars,0,0);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-        return (1);
-    }//s
-    else if (keycode == 1|| keycode == 115)
-    {
-        vars->player.x += vars->player.dx;
-        vars->player.y += vars->player.dy;
+//         move(vars,0,0);
+//         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+//         return (1);
+//     }//s
+//     else if (keycode == 1|| keycode == 115)
+//     {
+//         vars->player.x += vars->player.dx;
+//         vars->player.y += vars->player.dy;
 
-        move(vars,0,0);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+//         move(vars,0,0);
+//         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 
-        return (1);
-    }//a
-    else if (keycode == 0|| keycode == 97)
-    {
-        vars->player.da -=0.1;
-        if (vars->player.da < 0)
-        {
-            vars->player.da += 2*PI;
-        }
-        vars->player.dx = cos(vars->player.da)*5;
-        vars->player.dy = sin(vars->player.da)*5;
-        move(vars,0,0);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-        return (1);
-    }//d
-    else if (keycode == 2|| keycode == 100)
-    {
-        vars->player.da +=0.1;
-        if (vars->player.da >2*PI)
-        {
-            vars->player.da -= 2*PI;
-        }
-        vars->player.dx = cos(vars->player.da)*5;
-        vars->player.dy = sin(vars->player.da)*5;
-        move(vars,0,0);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-        return (1);
-    }
-    if (keycode < 0)
-        exit(1);
-    return (0);
-}
+//         return (1);
+//     }//a
+//     else if (keycode == 0|| keycode == 97)
+//     {
+//         vars->player.da -=0.1;
+//         if (vars->player.da < 0)
+//         {
+//             vars->player.da += 2*PI;
+//         }
+//         vars->player.dx = cos(vars->player.da)*5;
+//         vars->player.dy = sin(vars->player.da)*5;
+//         move(vars,0,0);
+//         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+//         return (1);
+//     }//d
+//     else if (keycode == 2|| keycode == 100)
+//     {
+//         vars->player.da +=0.1;
+//         if (vars->player.da >2*PI)
+//         {
+//             vars->player.da -= 2*PI;
+//         }
+//         vars->player.dx = cos(vars->player.da)*5;
+//         vars->player.dy = sin(vars->player.da)*5;
+//         move(vars,0,0);
+//         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+//         return (1);
+//     }
+//     if (keycode < 0)
+//         exit(1);
+//     return (0);
+// }
 float dist(float ax, float ay, float bx, float by, float amgle)
 {
     return (sqrt((bx-ax)*(bx-ax) - (by-ay)*(by-ay)));
@@ -536,8 +537,9 @@ void    run(t_data *canva)
 {
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
-        // mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
-    mlx_key_hook(canva->win_ptr, moves, &(*canva));
+        mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
+        mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
+    // mlx_key_hook(canva->win_ptr, moves, &(*canva));
     mlx_loop(canva->mlx_ptr);
 }
 
@@ -668,7 +670,7 @@ int move(t_data *img,float x, float y)
     i=0;
 
     // printf("hi move \n");
-    // drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
+    drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
 
     run(img);
     return (0);
@@ -1016,7 +1018,7 @@ int main(int argc, char *argv[])
     canva.height = 640;
     canva.width = 960;
     canva.scale = 16;
-    canva.player.da = 60.0f *PI/180.0F;
+    canva.player.da = 90.0f *PI/180.0F;
     canva.player.dx = cos(canva.player.da)*5;
     canva.player.dy = sin(canva.player.da)*5;
     canva.mlx_ptr = mlx_init();
