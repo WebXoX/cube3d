@@ -26,7 +26,6 @@ void ray(t_data *img)
     int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
     // ra = img->player.da-DR*30;
     ra = img->player.da + PI;
-    printf("ray :: %f------------------------------------->\n",ra);
 
     if (ra<0)
     {
@@ -38,7 +37,6 @@ void ray(t_data *img)
         ra -=2*PI;
         /* code */
     }
-    printf("ray :: %f------------------------------------->\n",ra);
     for (size_t i = 0; i < 1; i++)
     {
         dof =0;
@@ -63,16 +61,20 @@ void ray(t_data *img)
         if(ra==0 || ra==PI)
         {
             //when angle is 180
-            rx=px; ry=py; dof=8;
+            rx=px; ry=py; dof=img->final_c;
         }
-        while(dof<8)
-        {
+    printf("ray1 :: %d------------------------------------->\n",dof);
 
-            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*(img->longest_row-1)+mx;
-            printf("mx:%d\nmy:%d\nmp:%dmap:%d \n",mx,my,mp,scale);
+        while(dof<img->final_c)
+        {
+            printf("ray1 :: %d------------------------------------->\n",dof);
+
+            mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*(img->final_c)+mx;
+            printf("mx:%d\nmy:%d\nmp:%dmap:%d sacle %d\n",mx,my,img->longest_row,img->final_c,scale);
             // printf("mx:%d\nmy:%d\nmp:%dmap:%d %d\n",mx,my,mp,scale,img->map[my][mx]);
-            if(mp>0 && mp<((img->longest_row-1)*(img->final_c-1)) && img->map[my-1][mx-1]==1)
-				dof=8; //hit
+            if(mp>0 && mp<((img->longest_row)*(img->final_c)) &&(mx < img->longest_row && mx >0 && my < img->final_c && my >0
+            && img->map[my][mx]==1))
+				dof=img->final_c; //hit
             else
 			{
 				rx+=xo; ry+=yo; dof+=1;
@@ -107,12 +109,12 @@ void ray(t_data *img)
         {
 		rx=px; ry=py; dof=0;
         }
-        while(dof<8)
+        while(dof<img->final_c)
         {
         printf("hoo dof %f: %f:\n",rx,ry);
 
             mx=(int)(rx)/scale; my=(int)(ry)/scale; mp=my*(img->longest_row-1)+mx;
-            if(mp>0 && mp<((img->longest_row-1)*(img->final_c-1)) && img->map[my][mx]==1){ dof=8; }//hit
+            if(mp>0 && mp<((img->longest_row-1)*(img->final_c-1)) && img->map[my][mx]==1){ dof=img->longest_row; }//hit
             else
 			{
 				rx+=xo; ry+=yo; dof+=1;

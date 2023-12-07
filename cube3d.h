@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/11/30 14:40:07 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/07 11:06:54 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ typedef struct s_data
 	int		scale;
 	int		fov;
 	int		mapw;
+	int		move_w;
+	int		move_s;
+	int		move_a;
+	int		move_d;
 	float	lookx;
 	float	looky;
 	int longest_row;
