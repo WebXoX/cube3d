@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   try7.c                                             :+:      :+:    :+:   */
+/*   try7 copy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/11/30 15:01:27 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/07 11:52:12 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,9 @@ void    run(t_data *canva)
 {
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
-        // mlx_hook(canva->win_ptr, 2, 1L << 1, moves, &(*canva));
-    mlx_key_hook(canva->win_ptr, moves, &(*canva));
+        mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
+        mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
+    // mlx_key_hook(canva->win_ptr, moves, &(*canva));
     mlx_loop(canva->mlx_ptr);
 }
 
