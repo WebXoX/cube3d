@@ -22,22 +22,28 @@ SRC = 	move_events.c try7.c RAy3.c parsing.c
 # SRC = 	try6.c
 
 OBJ_DIR = obj
+OS := $(shell uname)
+ifeq ($(OS), Darwin)
+LFLAGS = -L libft -lft -L./mlx -lmlx -L$(INCLIB) -framework OpenGL -framework AppKit
+MLX_PATH_L	= ./mlx/
+MLX_NAME_L	= libmlx.dylib
+MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
+    # Run MacOS commands
+else
+LFLAGS = -L libft -lft -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
+MLX_PATH_L	= ./minilibx-linux/
+MLX_NAME_L	= libmlx.a
+MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
+    # Run Linux commands
+endif
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
 # CFLAGS = -fsanitize=address -g3
-# LFLAGS = -L libft -lft -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm -fsanitize=address
-LFLAGS = -L libft -lft -L./mlx -lmlx -L$(INCLIB) -framework OpenGL -framework AppKit
 
 CC = cc
 
-MLX_PATH_L	= ./mlx/
-MLX_NAME_L	= libmlx.dylib
-MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
 
-# MLX_PATH_L	= ./minilibx-linux/
-# MLX_NAME_L	= libmlx.a
-# MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
 
 all: $(MLX_L) $(NAME)   $(OBJ)
 
