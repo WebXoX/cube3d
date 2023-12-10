@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   try7.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/12/07 15:34:26 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:33:20 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void ray(t_data *img);
 void wall(t_data *img);
 void tile(t_data *img);
 void player(t_data *img);
-void validate_zeroes(int **map, t_data canva);
-void validate_spaces(int **map, t_data canva);
+void validate_zeroes(int **map, t_data *canva);
+void validate_spaces(int **map, t_data *canva);
 int *get_numbers(char *line, t_data *canva, int row_num);
+void error_free(t_data *canva, int fd, char *msg);
+char *validate_textures(t_data *canva, int fd);
 
 // int moves(int keycode, t_data *vars)
 // {
@@ -515,10 +517,10 @@ int FixAng(int a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
 //             /* code */
 //             j++;
 //         }
-        
+
 //     	// drawline((int []){(i*8)+531,0,(i*8)+531,lh},img,(int[]){0xFF0000});
 //      ra +=0.009;
-        
+
 //     if (ra<0)
 //     {
 //         ra +=2*PI;
@@ -700,7 +702,7 @@ void player(t_data *img)
             j=0;
             while (j < img->longest_row)
             {
-                
+
                         // printf("in player ax1:%f\n\n",point.x);
                         // printf("in player ax1:%f\n\n",point.y);
                 if(img->map[i][j]==2)
@@ -817,11 +819,11 @@ void wall(t_data *img)
     int i;
     int j;
     coordinate_t point;
-    
+
     j   =   0;
     i   =   0;
 
-    
+
     i=0;
 
     while (i < img->final_c)
@@ -882,14 +884,14 @@ void    call(t_data *canva)
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     run(canva);
     render(canva);
-    
+
 }
 
 void player_location(t_data *img)
 {
     int i;
     int j;
-    
+
     i = 0;
     j = 0;
     while (i < img->final_c)
@@ -906,6 +908,18 @@ void player_location(t_data *img)
         i++;
     }
 }
+
+void make_zero(t_data *canva)
+{
+    int i = 0;
+    canva->longest_row = 0;
+    ft_bzero(canva->tex, 4);
+    while(i < 6)
+        canva->flag[i++] = 0;
+    canva->player_count = 0;
+    canva->first_lines = 0;
+}
+
 int main(int argc, char *argv[])
 {
 
@@ -915,6 +929,8 @@ int main(int argc, char *argv[])
 	char *nl_pos;
 	int *numbers;
 	int count =0;
+    int i = 0;
+    int k = 0;
 	int line_count = 0;
 	int length;
     canva.player_count = 0;
@@ -922,7 +938,9 @@ int main(int argc, char *argv[])
 	if(argc > 1)
 	{
 		fd = open(argv[1], O_RDWR);
-		line = get_next_line(fd);
+         make_zero(&canva);
+		line = validate_textures(&canva, fd);
+        // printf("%s", line);
 		while(line)
 		{
 			if(ft_strcmp(line, "\n") == 0)
@@ -955,15 +973,22 @@ int main(int argc, char *argv[])
 				line_count++;
 			}
 		}
+        // printf(" %d\n", canva.longest_row);
 		close(fd);
 		fd = open(argv[1], O_RDWR);
 		canva.map = malloc(sizeof(int*) * line_count);
 		fd = open(argv[1], O_RDWR);
 		line = get_next_line(fd);
 		canva.lengths = malloc(sizeof(int)*line_count);
+        printf("%d\n", canva.first_lines);
 		while (line)
 		{
-			if (ft_strcmp(line, "\n") == 0)
+            if(i++ < canva.first_lines)
+			{
+				free(line);
+				line = get_next_line(fd);
+			}
+			else if (ft_strcmp(line, "\n") == 0)
 				{
 					free(line);
 					line = get_next_line(fd);
@@ -974,6 +999,7 @@ int main(int argc, char *argv[])
 				if (nl_pos)
 					nl_pos[0] = 0;
 				canva.map[count] = get_numbers(line, &canva, count);
+
 				free(line);
 				line = get_next_line(fd);
 				count++;
@@ -986,12 +1012,11 @@ int main(int argc, char *argv[])
 		{
 			printf("%d-????count-------->\n",canva.player_count);
 
-			printf("ERROR!!!!!\n");
-			exit(0);
+			error_free(&canva, -1, "Error! no player present!\n");
 		}
 		canva.final_c = count;
-		validate_zeroes(canva.map, canva);
-		validate_spaces(canva.map, canva);
+		validate_zeroes(canva.map, &canva);
+		validate_spaces(canva.map, &canva);
                     printf("from wall: \n");
 
 	}
@@ -1012,9 +1037,9 @@ int main(int argc, char *argv[])
                 printf(" ");
 
         }
-            printf("::\n");        
+            printf("::\n");
     }
-    
+
     canva.height = 640;
     canva.width = 960;
     canva.scale = 16;

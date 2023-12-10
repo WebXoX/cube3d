@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/07 11:06:54 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/10 12:46:05 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,11 @@ typedef struct s_data
 	int *lengths;
 	int player_count;
 	coordinate_t player;
+	char *tex[4];
+	int floor[3];
+	int flag[6];
+	int ceil[3];
+	int first_lines;
 	int cx;
 	int cy;
 }	t_data;
