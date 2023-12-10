@@ -67,5 +67,6 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strstr(char *str, char *to_find);
 void	ft_lstadd_back(t_list **lst, t_list *newq);
 void	*ft_memmove(void *dst, const void *src, size_t len);
+char	*ft_strcpy(char *dest, char *src);
 
 #endif
