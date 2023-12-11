@@ -20,7 +20,7 @@ void ray(t_data *img)
 
         for (int x = 0; x < img->width; x++)
         {
-            double cameraX = 2 * x / (double)img->width - 1;
+            double cameraX = 2 * x / (double)img->width - 1 -0.001;
             double rayDirX = dirX + planeX * cameraX;
             double rayDirY = dirY + planeY * cameraX;
 
@@ -95,12 +95,12 @@ void ray(t_data *img)
             int color;
             switch (side)
             {
-            case 1:
-                color = 0xFF0000; // Red
-                break;
-            default:
-                color = 0xFFFF00; // Yellow
-                break;
+                case 1:
+                    color = 0xFF0000; // Red
+                    break;
+                default:
+                    color = 0xFFFF00; // Yellow
+                    break;
             }
 
             if (side == 1)

@@ -52,6 +52,7 @@ float horizontal_inter(t_data *img)
 			img->horizontal_points.x+=img->horizontal_points.dx;
 			 img->horizontal_points.y+=img->horizontal_points.dy; img->dof+=1;
 		}
+		printf("infinit1");
 	}
 	printf("\nhorizontalend\n");
 

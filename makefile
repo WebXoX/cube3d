@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/12/11 15:40:30 by jperinch         ###   ########.fr        #
+#    Updated: 2023/12/11 15:48:55 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,8 +18,8 @@ INC=/usr/include
 INCLIB=$(INC)/../lib
 
 # SRC = 	try5.c wall.c tile.c ray.c
-SRC = 	 move_events2.c try7.c newray.c parsing.c drawline.c  #lovdev version for ray casting
-# SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c
+# SRC = 	 move_events2.c try7.c newray.c parsing.c drawline.c  #lovdev version for ray casting
+SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c
 # SRC = ray4.c 
 # SRC = 	try6.c
 

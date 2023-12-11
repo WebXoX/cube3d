@@ -2,7 +2,7 @@
 
 void ray_vertical(t_data *img, float tan2)
 {
-	printf("vertical");
+	printf("\nvertical\n");
 	if (img->ra>PI/2 && img->ra <3*PI/2)
 	{
 		img->vertical_points.x = (((int)img->player.x/img->scale)*img->scale)-0.0001;
@@ -34,9 +34,9 @@ float vertical_inter(t_data *img)
 	tan2 = -tan(img->ra);
 
 	ray_vertical(img,tan2);
-	printf("verticalout");
+	printf("verticalout\n");
 	img->dof =0;
-    while(img->dof<img->final_c)
+    while(img->dof<img->longest_row)
 	{
         mx=(int)(img->vertical_points.x)/img->scale;
 		 my=(int)(img->vertical_points.y)/img->scale;
@@ -46,8 +46,12 @@ float vertical_inter(t_data *img)
 		{
 			img->vertical_points.x+=img->vertical_points.dx; img->vertical_points.y+=img->vertical_points.dy; img->dof+=1;
 		}//check next horizontal
+		printf("infinit2\n");
+
 	}
-	printf("verticalend");
+		printf("in");
+
+	printf("\nverticalend");
 
 	return( sqrt(pow(img->vertical_points.x - img->player.x, 2) + pow(img->vertical_points.y - img->player.y, 2)));
 }
