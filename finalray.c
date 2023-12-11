@@ -15,6 +15,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	printf("\nhi\n");
 	int color;
 	float finald;
+	printf("")
 	if(d1 > d2)
 	{
 		drawline((int []){img->player.x,img->player.y,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){0xFF0000});

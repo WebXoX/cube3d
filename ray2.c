@@ -57,8 +57,8 @@ void ray(t_data *img)
             printf("mx:%d\nmy:%d\nmp:%dmap:%d sacle %d\n",mx,my,img->longest_row,img->final_c,scale);
             // printf("mx:%d\nmy:%d\nmp:%dmap:%d %d\n",mx,my,mp,scale,img->map[my][mx]);
             if(mp>0 && mp<((img->longest_row)*(img->final_c)) &&(mx < img->longest_row && mx >0 && my < img->final_c && my >0
-            && img->map[my][mx]==1))
-				dof=img->final_c; //hit
+            && img->map[my][mx] == 1))
+				dof = img->final_c; //hit
             else
 			{
 				rx+=xo; ry+=yo; dof+=1;
@@ -93,7 +93,7 @@ void ray(t_data *img)
         {
 		rx=px; ry=py; dof=0;
         }
-        while(dof<img->final_c)
+        while(dof<img->longest_row)
         {
         printf("hoo dof %f: %f:\n",rx,ry);
 
@@ -112,14 +112,14 @@ void ray(t_data *img)
     {
     	drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
         finald = d2;
-        color =create_trgb(0,255,0,0);
+        color = create_trgb(0,255,0,0);
 
     }
     else
     {
 		drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
         finald = d1;
-        color =create_trgb(0,20,0,0);
+        color = create_trgb(0,0,0,0);
     }
         float ca  = img->player.da - ra;
         if (ca<0)

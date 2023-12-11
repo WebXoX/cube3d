@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/12/11 14:25:10 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/11 15:41:18 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -826,8 +826,7 @@ void    call(t_data *canva)
                 "cub3d");
     canva->player.x = (canva->scale *canva->cx)  + canva->scale/4;
     canva->player.y = (canva->scale *canva->cy) + canva->scale/4;
-                        //  printf("in player x11:%f\n\n",canva->player.x);
-                        // printf("in player y11:%f\n\n",canva->player.y);
+
     while (i < canva->height)
     {
 
@@ -1002,14 +1001,17 @@ int main(int argc, char *argv[])
     canva.height = 640;
     canva.width = 960;
     canva.scale = 16;
-    // canva.player.da = 90.0f *PI/180.0F;
+    //this for normal
+    // canva.player.da = 90.0f ;
     // canva.player.dx = cos(canva.player.da)*5;
     // canva.player.dy = sin(canva.player.da)*5;
 
-    canva.player.dx = -1;
-    canva.player.dy = 0;
-    canva.camaera.x = 0;
-    canva.camaera.y = 1;
+    //this for lovdev vector method
+        canva.player.dx = -1;
+        canva.player.dy = 0;
+        canva.camaera.x = 0;
+        canva.camaera.y = 1;
+    //end
     canva.mlx_ptr = mlx_init();
     call( &canva);
     return (0);
