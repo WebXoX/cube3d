@@ -876,7 +876,8 @@ void    call(t_data *canva)
 
     wall(canva);
     tile(canva);
-    // ray(canva);
+    ray(canva);
+    printf("hithere");
     player(canva);
 
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});

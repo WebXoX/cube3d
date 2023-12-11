@@ -6,131 +6,113 @@ int	create_trgb(int t, int r, int g, int b)
 }
 void ray(t_data *img)
 {
-    int scale = img->scale;
-    float px, py;
-    px = img->player.x + scale/4;//-  img->player.dx*2;
-    py = img->player.y + scale/4;//- img->player.dy*2;
-	float xs, ys;
-    int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
-    // ra = img->player.da-DR*30;
-    ra = img->player.da *PI;
+    coordinate_t pos;    // player poss
+    coordinate_t dir;    // player direction
+    coordinate_t plane;  // camera plane
+    coordinate_t sideDis;  // ray location
+    coordinate_t deltaDis;  // ray location
+    float walldis;
+    float Fov;   // ration between length of direction and camera plane 
+    double cameraX;
+    double rayX;
+    double rayY;
+    int mapX;  // ray location
+    int mapY;  // ray location
 
-    if (ra<0)
-    {
-        ra +=2*PI;
-        /* code */
-    }
-    if (ra> 2*PI)
-    {
-        ra -=2*PI;
-        /* code */
-    }
-    for (size_t i = 0; i < 120; i++)
-    {
-        dof =0;
-        float tan1 = 1/tan(ra);
-        //horizontal detection
-        if (ra > PI)
-        {
-            //left  angles
-            ry = py- (((int)py/scale)*scale)-0.0001;
-            rx=ry/tan1;
-            yo = -scale;
-            xo=yo*tan1;
-        }
-        if(ra < PI)
-        {
-            // right side angles
-            ry = py- (((int)py/scale)*scale)-0.0001;
-            rx=ry/tan1;
-            yo= scale;
-            xo=yo*tan1;
-        }
-        if(ra==0 || ra==PI)
-        {
-            //when angle is 180
-            rx=px; ry=py; dof=img->final_c;
-        }
-    printf("ray1 :: %d------------------------------------->\n",dof);
-
-	float x1 = rx;
-	float y1 = ry;
-	float d1 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
-
-        dof =0;
-        printf("hoo\n");
-        float tan2 = tan(ra);
-        //vertical detection
-
-        if (ra>PI/2 && ra <3*PI/2)
-        {
-            // left side
-            rx = px - (((int)px/scale)*scale)+scale;
-            ry=rx*tan2;
-            xo = -scale;
-            yo=xo*tan1;
-        }
-       else  if(ra<PI/2 || ra >3*PI/2)
-        {
-            //right side
-            rx = px - (((int)px/scale)*scale)+scale;
-            ry = rx*tan2;
-            xo = scale;
-            yo = xo*tan1;
-        }
-        else if(ra==0 || ra==PI)
-        {
-		rx=px; ry=py; dof=0;
-        }
+   Fov = 2*atan(0.66/1.0);
+   pos.x= img->cx;
+   pos.y= img->cy;
+   mapX = (int) pos.x;
+   mapY = (int) pos.y;
+   dir.x= -1;
+   dir.y= 0;
+   plane.x= 0;
+   plane.y= 0.66;
+   for (size_t i = 0; i < img->width; i++)
+   {
+    cameraX = 2 * i / (double)(img->width) - 1; //x-coordinate in camera space
+    rayX = dir.x + plane.x * cameraX;
+    rayY = dir.y+ plane.y * cameraX;
         
-        float finald;
-	float d2 = sqrt(pow(rx - px, 2) + pow(ry - py, 2));
-	int color;
-	if(d1 > d2)
-    {
-    	drawline((int []){px,py,rx,ry},img,(int[]){0xFF0000});
-        finald = d2;
-        color =create_trgb(0,255,0,0);
-    }
-    else
-    {
-		drawline((int []){px,py,x1,y1},img,(int[]){0xFF0000});
-        finald = d1;
-        color =create_trgb(0,20,0,0);
-    }
-        float ca  = img->player.da - ra;
-        if (ca<0)
-        {
-            ca +=2*PI;
-        }
-        if (ca> 2*PI)
-        {
-            ca -=2*PI;
-        }
-        finald = finald* cos(ca);
-	float lh = (scale *640)/finald;
-    if(lh >640)
-        lh=640;
-	float lo = 640/2 -lh/2;
-    	// drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
-        int j=0;
+    //   printf("1. camera x: %f\n", cameraX);
+      printf("1. ray1 x: %f y: %f\n", dir.x + plane.x * cameraX , dir.y + plane.y * cameraX);
+      printf("1. plane x: %f y: %f\n",plane.x,plane.y);
+      printf("1. dir x: %f y: %f\n",dir.x,dir.y);
+      printf("1. ray x: %f y: %f\n",rayX,rayY);
+      printf("1. delta x: %f y: %f\n",deltaDis.x,deltaDis.y);
+    deltaDis.x = (rayX == 0) ? 1e30 : abs(1 / rayX);
+    deltaDis.y = (rayY == 0) ? 1e30 : abs(1 / rayY);
+      //what direction to step in x or y-direction (either +1 or -1)
+      printf("delta x: %f y: %f\n",deltaDis.x,deltaDis.y);
+      int stepX;
+      int stepY;
 
-        while (j < 8)
+      int hit = 0; //was there a wall hit?
+      int side; //was a NS or a EW wall hit?
+      if(rayX < 0)
+      {
+        stepX = -1;
+        sideDis.x = (pos.x - mapX) * deltaDis.x;
+      }
+      else
+      {
+        stepX = 1;
+        sideDis.x = (mapX + 1.0 - pos.x) * deltaDis.x;
+      }
+      if(rayY < 0)
+      {
+        stepY = 1;
+        sideDis.y = (pos.y - mapY) * deltaDis.y;
+      }
+      else
+      {
+        stepY = 1;
+        sideDis.y = (mapY + 1.0 - pos.y) * deltaDis.y;
+      }
+      while(hit == 0)
+      {
+        // printf("hitting\n");
+        //jump to next map square, either in x-direction, or in y-direction
+        if(sideDis.x < sideDis.y)
         {
-    	    drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
-            j++;
+          sideDis.x+= deltaDis.x;
+          mapX += stepX;
+          side = 0;
         }
-        
-    	// drawline((int []){(i*8)+531,0,(i*8)+531,lh},img,(int[]){0xFF0000});
-     ra += DR/2;
-        
-    if (ra<0)
-    {
-        ra +=2*PI;
-    }
-    if (ra> 2*PI)
-    {
-        ra -=2*PI;
-    }
-    }
+        else
+        {
+          sideDis.y += deltaDis.y;
+          mapY += stepY;
+          side = 1;
+        }
+        //Check if ray has hit a wall
+        printf("mapx%d mapy%d\n",mapX,mapY);
+        printf("mapx %f mapy %f\n", sideDis.x, sideDis.y);
+        if(img->map[mapY][mapX] == 1)
+         hit = 1;
+      }
+    if(side == 0) walldis = (sideDis.x - deltaDis.x);
+      else          walldis= (sideDis.y- deltaDis.y);
+
+      //Calculate height of line to draw on screen
+        printf("side %f  \n", sideDis.x - deltaDis.x);
+        printf("side %f  \n", sideDis.y - deltaDis.y);
+
+      int lineHeight = (int)(img->height / walldis);
+        printf("ling %f line %d\n", walldis,lineHeight);
+
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStart = -lineHeight / 2 + img->height/ 2;
+        printf("wall %d\n", drawStart);
+
+      if(drawStart < 0) drawStart = 0;
+      int drawEnd = lineHeight / 2 + img->height / 2;
+      if(drawEnd >= img->height) drawEnd = img->height - 1;
+    printf("hi %d hi2 %d\n",drawStart, drawEnd);
+    // drawline((int []){i, drawStart,i, drawEnd},img,(int[]){create_trgb(0,255,0,0)});
+
+    //   drawline({x, drawStart, drawEnd}, color);   
+   }
+    printf("adf a\n");
+
 }

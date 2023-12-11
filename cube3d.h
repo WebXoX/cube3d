@@ -26,8 +26,8 @@
 #define DR 0.0174533
 typedef struct point3d
 {
-    float x;
-    float y;
+    double x;
+    double y;
     float z;
     float dx;
     float dy;
