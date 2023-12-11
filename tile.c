@@ -1,46 +1,36 @@
 #include "cube3d.h"
-void drawline(int *vals, t_data *img, int *color_list);
-
+void re_tile(t_data *img,coordinate_t point, int c)
+{
+    while (++c < img->scale - 2)
+    {
+        drawline((int[]){point.x ,point.y + c ,point.x
+                + img->scale-2 ,point.y + c} , img, (int[]){0x000});
+    }
+}
 void tile(t_data *img)
 {
     int i;
     int j;
     coordinate_t point;
-    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
+    
+    i = -1;
+    while (++i <img->final_c)
     {
-    {1,1,1,1,1,1,1,1},
-    {1,0,1,0,0,0,0,1},
-    {1,0,1,0,0,0,0,1},
-    {1,0,1,0,0,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,0,0,0,1,0,1},
-    {1,0,2,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1}
-    };
-    i=0;
-    int ratio_y = img->height/64;
-    int ratio_x = img->width/64;
-    while (i < 8)
-    {
-        j=0;
-        while (j < 8)
+        j = -1;
+        while (++j < img->longest_row)
         {
             int c;
-            if(map[i][j]==0 || map[i][j]== 2)
+            if(img->map[i][j]==0 || img->map[i][j]== 2)
             {
-                c = 0;
-                while (c < ratio_y - 2)
-                {
-                    drawline((int[]){point.x ,point.y + c ,point.x
-                            + ratio_x-2 ,point.y + c} , img, (int[]){0x000});
-                    c++;
-                }
+                c = -1;
+                while (++c < img->scale + 2)
+                    drawline((int[]){point.x -1 ,point.y-1 + c ,point.x
+                            + img->scale + 1 ,point.y -1 + c} , img, (int[]){0x045680});
+                re_tile(img, point, -1);
             }
-            point.x+=ratio_x;
-            j++;
+            point.x+=img->scale;
         }
         point.x=0;
-        point.y+=ratio_y;
-        i++;
+        point.y+=img->scale;
     }
 }

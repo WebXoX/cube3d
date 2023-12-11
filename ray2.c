@@ -1,29 +1,13 @@
 #include "cube3d.h"
-void drawline(int *vals, t_data *img, int *color_list);
-int	create_trgb(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
+
 void ray(t_data *img)
 {
-
-    // for (size_t i = 0; i < img->final_c; i++)
-    // {
-    //     for (size_t j = 0; j < img->longest_row; j++)
-    //     {
-    //         printf("%d",img->map[i][j]);
-    //     }
-    //         printf("\n");
-        
-    // }
-    
-   
     int scale = img->scale;
 
     float px, py;
     px = img->player.x + scale/4;//-  img->player.dx*2;
     py = img->player.y + scale/4;//- img->player.dy*2;
-    int r,mx,my,mp,dof,side; float vx,vy,rx,ry,ra,xo,yo,disV,disH;
+    int mx,my,mp,dof,side; float rx,ry,ra,xo,yo,disV,disH;
     // ra = img->player.da-DR*30;
     ra = img->player.da *PI;
 

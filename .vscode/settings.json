@@ -8,6 +8,16 @@
         "chrono": "c",
         "unordered_map": "c",
         "mlx.h": "c",
-        "cube3d.h": "c"
+        "cube3d.h": "c",
+        "__cxx_version": "c",
+        "__hash_table": "c",
+        "__locale": "c",
+        "__string": "c",
+        "iterator": "c",
+        "string": "c",
+        "string_view": "c",
+        "tuple": "c",
+        "typeinfo": "c",
+        "vector": "c"
     }
 }

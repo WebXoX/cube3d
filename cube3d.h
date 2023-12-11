@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/10 12:46:05 by fathmanazme      ###   ########.fr       */
+/*   Updated: 2023/12/11 14:11:05 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 	int		maph;
 	int		scale;
 	int		fov;
+	/*movement push keys boolean values*/
 	int		mapw;
 	int		move_w;
 	int		move_s;
@@ -56,13 +57,23 @@ typedef struct s_data
 	int		move_d;
 	float	lookx;
 	float	looky;
+	/*end*/
+	/*player stuff*/
+	coordinate_t player;
+	coordinate_t camaera;
+	coordinate_t horizontal_points; //rx
+	coordinate_t vertical_points;	//rx
+	int				dof; 
+	int				side;
+	float			ra;
+	/*end of player stuff*/
+
 	int longest_row;
 	int count;
 	int line_count;
 	int final_c;
 	int *lengths;
 	int player_count;
-	coordinate_t player;
 	char *tex[4];
 	int floor[3];
 	int flag[6];
@@ -79,5 +90,31 @@ typedef struct s_line
 	double	error;
 	double	e2;
 }	t_line;
+
+int		move(t_data *img,float x,float y);
+int		ray_starter(t_data *img, int loop);
+void ray_range(float *ra);
+float horizontal_inter(t_data *img);
+int	create_trgb(int t, int r, int g, int b);
+float vertical_inter(t_data *img);
+int move(t_data *img,float x,float y);
+int	move_w(t_data *vars);
+int	move_s(t_data *vars);
+int	move_a(t_data *vars);
+int	move_d(t_data *vars);
+
+int		moves(int keycode, t_data *vars);
+int		*get_numbers(char *line, t_data *canva, int row_num);
+float	radiansfd(float angle);
+void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void	drawline(int *vals, t_data *img, int *color_list);
+void	ray(t_data *img);
+void	wall(t_data *img);
+void	tile(t_data *img);
+void	player(t_data *img);
+void	validate_zeroes(int **map, t_data *canva);
+void	validate_spaces(int **map, t_data *canva);
+void	error_free(t_data *canva, int fd, char *msg);
+char	*validate_textures(t_data *canva, int fd);
 
 #endif

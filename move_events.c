@@ -1,9 +1,6 @@
 #include "cube3d.h"
-int move(t_data *img,float x,float y);
-int	move_w(t_data *vars);
-int	move_s(t_data *vars);
-int	move_a(t_data *vars);
-int	move_d(t_data *vars);
+
+
 
 int setmove(int* key)
 {
@@ -21,8 +18,13 @@ int	move_w(t_data *vars)
 	{
     printf("keycode :: d");
 
-		vars->player.x -= vars->player.dx;
-		vars->player.y -= vars->player.dy;
+		vars->player.x -= vars->player.dx*5;
+		vars->player.y -= vars->player.dy*5;
+		// if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
+		// 	vars->cx  += vars->player.dx*2 ;
+        // if(vars->map[(int)(vars->cy  + vars->player.dy *2)][(int)vars->cx ] == 0) 
+		// 	vars->cy  += vars->player.dy*2 ;
+        
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -33,8 +35,10 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		vars->player.x += vars->player.dx;
-		vars->player.y += vars->player.dy;
+		vars->player.x += vars->player.dx*5;
+		vars->player.y += vars->player.dy*5;
+		// if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx )] == 0) vars->cx -= vars->player.dx ;
+        // if(vars->map[(int)(vars->cy  - vars->player.dy )][(int)vars->cx ] == 0) vars->cy -= vars->player.dy ;
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -48,8 +52,14 @@ int	move_a(t_data *vars)
 		vars->player.da -=0.1;
 		if (vars->player.da < 0)
 			vars->player.da += 2*PI;
-		vars->player.dx = cos(vars->player.da)*5;
-		vars->player.dy = sin(vars->player.da)*5;
+		vars->player.dx = cos(vars->player.da);
+		vars->player.dy = sin(vars->player.da);
+		// double oldDirX = vars->player.dx;
+		// vars->player.dx = vars->player.dx * cos(1) - vars->player.dy * sin(1);
+		// vars->player.dy = oldDirX * sin(1) + vars->player.dy * cos(1);
+		// double oldPlaneX = vars->camaera.x;
+		// vars->camaera.x = vars->camaera.x * cos(1) - vars->camaera.y * sin(1);
+		// vars->camaera.y = oldPlaneX * sin(1) + vars->camaera.y * cos(1);
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -62,8 +72,14 @@ int	move_d(t_data *vars)
 		vars->player.da +=0.1;
 		if (vars->player.da >2*PI)
 			vars->player.da -= 2*PI;
-		vars->player.dx = cos(vars->player.da)*5;
-		vars->player.dy = sin(vars->player.da)*5;
+		vars->player.dx = cos(vars->player.da);
+		vars->player.dy = sin(vars->player.da);
+		// double oldDirX = vars->player.dx;
+		// vars->player.dx = vars->player.dx * cos(-1) - vars->player.dy * sin(-1);
+		// vars->player.dy = oldDirX * sin(-1) + vars->player.dy * cos(-1);
+		// double oldPlaneX = vars->camaera.x;
+		// vars->camaera.x = vars->camaera.x * cos(-1) - vars->camaera.y * sin(-1);
+		// vars->camaera.y = oldPlaneX * sin(-1) + vars->camaera.y * cos(-1);
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -92,7 +108,7 @@ int moves(int keycode, t_data *vars)
     {
 		move_d(vars);
     }
-    if (keycode < 0)
+    if (keycode == 53)
         exit(1);
     return (0);
 }

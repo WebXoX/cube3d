@@ -3,28 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   try7.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/12/10 17:33:20 by fathmanazme      ###   ########.fr       */
+/*   Updated: 2023/12/11 14:25:10 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #define PI 3.1415926535
 #define DR 0.0174533
 #include "cube3d.h"
-int move(t_data *img,float x,float y);
-int moves(int keycode, t_data *vars);
-void drawline(int *vals, t_data *img, int *color_list);
-void ray(t_data *img);
-void wall(t_data *img);
-void tile(t_data *img);
-void player(t_data *img);
-void validate_zeroes(int **map, t_data *canva);
-void validate_spaces(int **map, t_data *canva);
-int *get_numbers(char *line, t_data *canva, int row_num);
-void error_free(t_data *canva, int fd, char *msg);
-char *validate_textures(t_data *canva, int fd);
 
 // int moves(int keycode, t_data *vars)
 // {
@@ -545,59 +533,49 @@ void    run(t_data *canva)
     mlx_loop(canva->mlx_ptr);
 }
 
-void    my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-    char    *dst;
 
-    if ((data->width > x && data->height > y) && (0 <= x && 0 <= y))
-    {
-        dst = data->addr + (y * data->line_bytes + x * (data->bpp / 8));
-        *(unsigned int *)dst = color;
-    }
-}
-
-void    step(int *p2, int *p1, double *error, double dp)
-{
-    *error = *error + dp;
-    if (*p1 < *p2)
-        *p1 = *p1 + 1;
-    else
-        *p1 = *p1 - 1;
-}
+// void    step(int *p2, int *p1, double *error, double dp)
+// {
+//     *error = *error + dp;
+//     if (*p1 < *p2)
+//         *p1 = *p1 + 1;
+//     else
+//         *p1 = *p1 - 1;
+// }
 
 
-void    drawline(int *vals, t_data *img, int *color_list)
-{
-    int i;
-    int color;
-    t_line line;
+// void    drawline(int *vals, t_data *img, int *color_list)
+// {
+//     int i;
+//     int color;
+//     t_line line;
 
-    color = color_list[0];
-    line.dx = abs(vals[2] - vals[0]);
-    line.dy = -abs(vals[3] - vals[1]);
-    line.error = line.dx + line.dy;
-    i = 0;
-    while (1)
-    {
-        my_mlx_pixel_put(img, vals[0], vals[1], color);
-        if (vals[1] == vals[3] && vals[2] == vals[0])
-            break ;
-        line.e2 = 2 * line.error;
-        if (line.e2 <= line.dx)
-        {
-            if (vals[3] == vals[1])
-                break ;
-            step(&vals[3], &vals[1], &(line.error), line.dx);
-        }
-        if (line.e2 >= line.dy)
-        {
-            if (vals[0] == vals[2])
-                break ;
-            step(&vals[2], &vals[0], &(line.error), line.dy);
-        }
-        i++;
-    }
-}
+//     color = color_list[0];
+//     line.dx = abs(vals[2] - vals[0]);
+//     line.dy = -abs(vals[3] - vals[1]);
+//     line.error = line.dx + line.dy;
+//     i = 0;
+//     while (1)
+//     {
+//         my_mlx_pixel_put(img, vals[0], vals[1], color);
+//         if (vals[1] == vals[3] && vals[2] == vals[0])
+//             break ;
+//         line.e2 = 2 * line.error;
+//         if (line.e2 <= line.dx)
+//         {
+//             if (vals[3] == vals[1])
+//                 break ;
+//             step(&vals[3], &vals[1], &(line.error), line.dx);
+//         }
+//         if (line.e2 >= line.dy)
+//         {
+//             if (vals[0] == vals[2])
+//                 break ;
+//             step(&vals[2], &vals[0], &(line.error), line.dy);
+//         }
+//         i++;
+//     }
+// }
 
 int cast(t_data *canva)
 {
@@ -627,25 +605,6 @@ int cast(t_data *canva)
         return 0;
 }
 
-void render(t_data *img)
-{
-    int i   =   0;
-    int j   =   0;
-    int map[8][8]=           //the map array. Edit to change level but keep the outer walls
-    {
-    {1,1,1,1,1,1,1,1},
-    {1,0,1,0,0,0,0,1},
-    {1,0,1,0,0,0,0,1},
-    {1,0,1,0,0,0,0,1},
-    {1,0,0,0,0,0,0,1},
-    {1,0,0,0,0,1,0,1},
-    {1,0,2,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1}
-    };
-    // drawline((int[]){img->player.x,img->player.y,img->player.x -img->player.dx*5,img->player.y-img->player.dy *5},img,(int[]){0xFFFFFFF});
-    // ray(img);
-    run(&(*img));
-}
 
 
 int move(t_data *img,float x, float y)
@@ -876,15 +835,14 @@ void    call(t_data *canva)
         i++;
     }
 
-    wall(canva);
-    tile(canva);
+    // wall(canva);
+    // tile(canva);
     ray(canva);
     printf("hithere");
-    player(canva);
+    // player(canva);
 
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     run(canva);
-    render(canva);
 
 }
 
@@ -1025,17 +983,17 @@ int main(int argc, char *argv[])
     {
         for (size_t j = 0; j < canva.longest_row; j++)
         {
+                printf("%d",canva.map[i][j]);
             if(canva.map[i][j]==2)
             {
-                printf("%d",canva.map[i][j]);
                 canva.cx = j;
                 canva.cy = i;
-                printf("%d\n",canva.cx);
-                printf("%d\n",canva.cy);
+                // printf("%d\n",canva.cx);
+                // printf("%d\n",canva.cy);
 
             }
-            else
-                printf(" ");
+            // else
+            //     printf(" ");
 
         }
             printf("::\n");
@@ -1044,9 +1002,14 @@ int main(int argc, char *argv[])
     canva.height = 640;
     canva.width = 960;
     canva.scale = 16;
-    canva.player.da = 90.0f *PI/180.0F;
-    canva.player.dx = cos(canva.player.da)*5;
-    canva.player.dy = sin(canva.player.da)*5;
+    // canva.player.da = 90.0f *PI/180.0F;
+    // canva.player.dx = cos(canva.player.da)*5;
+    // canva.player.dy = sin(canva.player.da)*5;
+
+    canva.player.dx = -1;
+    canva.player.dy = 0;
+    canva.camaera.x = 0;
+    canva.camaera.y = 1;
     canva.mlx_ptr = mlx_init();
     call( &canva);
     return (0);

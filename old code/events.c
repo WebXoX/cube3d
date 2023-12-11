@@ -5,18 +5,21 @@ int moves(int keycode, t_data *vars)
     //w
     if (keycode == 13 || keycode == 119)
     {
-        vars->player.x -= vars->player.dx;
-        vars->player.y -= vars->player.dy;
-
+        // vars->player.x -= vars->player.dx;
+        // vars->player.y -= vars->player.dy;
+        if(vars->map[(int)(vars->cx + vars->player.dx )][(int)vars->cy ] == 0) vars->cx  += vars->player.dx ;
+        if(vars->map[(int)vars->cx ][(int)(vars->cy  + vars->player.dy )] == 0) vars->cy  += vars->player.dy ;
         move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
         return (1);
     }//s
     else if (keycode == 1|| keycode == 115)
     {
-        vars->player.x += vars->player.dx;
-        vars->player.y += vars->player.dy;
-
+        // vars->player.x += vars->player.dx;
+        // vars->player.y += vars->player.dy;
+        if(vars->map[(int)(vars->cx - vars->player.dx )][(int)vars->cy ] == 0) vars->cx -= vars->player.dx ;
+        if(vars->map[(int)vars->cx ][(int)(vars->cy  - vars->player.dy )] == 0) vars->cy -= vars->player.dy ;
+        
         move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 
