@@ -2,7 +2,6 @@
 
 void ray_horizontal_direction(t_data *img, float tan1)
 {
-	printf("\nhorizontal\n");
     if (img->ra > PI)
 	{
 		//left  angles
@@ -38,7 +37,6 @@ float horizontal_inter(t_data *img)
 	// tan1 = -1/tan(radiansfd(img->ra));
 	tan1 = -1/tan(img->ra);
 	ray_horizontal_direction(img,tan1);
-	printf("\nhorizontalout\n");
 
 	while(img->dof<img->final_c)
 	{
@@ -52,9 +50,7 @@ float horizontal_inter(t_data *img)
 			img->horizontal_points.x+=img->horizontal_points.dx;
 			 img->horizontal_points.y+=img->horizontal_points.dy; img->dof+=1;
 		}
-		printf("infinit1");
 	}
-	printf("\nhorizontalend\n");
 
 	return (sqrt(pow(img->horizontal_points.x - img->player.x, 2) + pow(img->horizontal_points.y - img->player.y, 2)));
 }

@@ -12,12 +12,9 @@ int setmove(int* key)
 }
 int	move_w(t_data *vars)
 {
-    printf("keycode :: d");
 
 	while (vars->move_w == 1)
 	{
-    printf("keycode :: d");
-
 		vars->player.x -= vars->player.dx*5;
 		vars->player.y -= vars->player.dy*5;
 		// if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
@@ -88,12 +85,10 @@ int	move_d(t_data *vars)
 
 int moves(int keycode, t_data *vars)
 {
-    printf("keycode :: %d\n",keycode);
+    // printf("keycode :: %d\n",keycode);
 
 	if ((keycode == 13 || keycode == 119) && setmove(&vars->move_w))
     {
-    printf("w \n");
-
 		move_w(vars);
 	}
 	else if ((keycode == 1|| keycode == 115) && setmove(&vars->move_s))
@@ -108,7 +103,12 @@ int moves(int keycode, t_data *vars)
     {
 		move_d(vars);
     }
-    if (keycode == 53)
-        exit(1);
+    if (keycode == 53 || keycode == 65307)
+    {
+		mlx_clear_window(vars->mlx_ptr,vars->win_ptr);
+		mlx_destroy_image(vars->mlx_ptr,vars->img);
+		mlx_destroy_window(vars->mlx_ptr,vars->win_ptr);
+		exit(0);
+	}
     return (0);
 }

@@ -12,21 +12,21 @@ void ray_range(float *ra)
 }
 int compare(float d1, float d2, int i , t_data *img)
 {
-	// printf("\nhi\n");
+
 	int color;
 	float finald;
-	printf("from ray");
+
 	if(d1 > d2)
 	{
-		drawline((int []){img->player.x,img->player.y,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){0xFF0000});
+		drawline((int []){img->player.x,img->player.y,img->vertical_points.x,img->vertical_points.y},img,(int[]){0xFF0000});
 		finald = d2;
 		color =create_trgb(0,255,0,0);
 	}
 	else
 	{
-		drawline((int []){img->player.x,img->player.y,img->vertical_points.x,img->vertical_points.y},img,(int[]){0xFF0000});
+		drawline((int []){img->player.x,img->player.y,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){0xFF0000});
 		finald = d1;
-		color =create_trgb(0,20,0,0);
+		color =create_trgb(0,0,0,0);
 	}
 	float ca  = img->player.da - img->ra;
 	if (ca<0)
@@ -51,7 +51,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	}
 	img->ra += DR/2;
 	ray_range(&img->ra);
-	printf("\nhiend");
+	// printf("\nhiend");
 	return 1;
 }
 
@@ -61,10 +61,14 @@ int ray_starter(t_data *img, int loop)
 	int i;
 
 	i = -1;
+    img->ra = img->player.da +PI;
+
 	while (++i < loop)
 	{
         //horizontal detection
 		compare(horizontal_inter(img),vertical_inter(img),i,img);
+		// img->ra += DR/2;
+		// ray_range(&img->ra);
 		// project();
 	}
 	return 1;

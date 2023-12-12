@@ -19,7 +19,8 @@ INCLIB=$(INC)/../lib
 
 # SRC = 	try5.c wall.c tile.c ray.c
 # SRC = 	 move_events2.c try7.c newray.c parsing.c drawline.c  #lovdev version for ray casting
-SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c
+# SRC = 	 move_events.c try7.c ray2.c parsing.c drawline.c  # normal version
+SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c #compiled version
 # SRC = ray4.c 
 # SRC = 	try6.c
 

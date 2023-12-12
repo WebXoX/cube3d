@@ -26,7 +26,7 @@ int move(t_data *img,float x, float y)
     }
     //wall and tile re draw
     tile(img);
-    ray_starter(img,66);
+    ray_starter(img,120);
     wall(img);
     player(img);
     img->player.y -= y;
@@ -66,7 +66,7 @@ void    call(t_data *canva)
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
     wall(canva);
     tile(canva);
-    // ray(canva);
+    ray_starter(canva,120);
     // player(canva);
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     run(canva);
@@ -199,7 +199,6 @@ int main(int argc, char *argv[])
     // canva.player.dy = 0;
     // canva.camaera.x = 0;
     // canva.camaera.y = 1;
-    canva.ra = canva.player.da +PI;
     canva.mlx_ptr = mlx_init();
     call( &canva);
     return (0);
