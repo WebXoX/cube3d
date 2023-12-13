@@ -24,10 +24,14 @@ int	move_w(t_data *vars)
 		// int ipyadd = (ipy+yo)/vars->scale;
 		// int ipysub = (ipy-yo)/vars->scale;
 		
-		if(vars->map[(int)(vars->player.y -vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale]==0)
+		if(vars->map[(int)(vars->player.y -vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale]!=1)
 		{
 			vars->player.y -= vars->player.dy*5;
 			vars->player.x -= vars->player.dx*5;
+		}
+		else
+		{
+			printf("mapw %d\n",(vars->map[(int)(vars->player.y -vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale ]));
 		}
 		// if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale ]==0)
 			move(vars,0,0);
@@ -46,10 +50,15 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		if(vars->map[(int)(vars->player.y +vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x +vars->player.dx *5.2)/vars->scale ]==0)
+		if(vars->map[(int)(vars->player.y +vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x +vars->player.dx *5.2)/vars->scale ]!=1)
 		{
+
 			vars->player.y += vars->player.dy*5;
 			vars->player.x += vars->player.dx*5;
+		}
+		else
+		{
+			printf("maps %d\n",(vars->map[(int)(vars->player.y +vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x +vars->player.dx *5.2)/vars->scale ]));
 		}
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
@@ -98,8 +107,8 @@ int	move_d(t_data *vars)
 		// vars->player.dx = cos((vars->player.da));
 		// vars->player.dy = sin((vars->player.da));
 
-		vars->player.dx = cos(radiansfd(vars->player.da))*5;
-		vars->player.dy = sin(radiansfd(vars->player.da))*5;
+		vars->player.dx = cos(radiansfd(vars->player.da));
+		vars->player.dy = sin(radiansfd(vars->player.da));
 		// double oldDirX = vars->player.dx;
 		// vars->player.dx = vars->player.dx * cos(-1) - vars->player.dy * sin(-1);
 		// vars->player.dy = oldDirX * sin(-1) + vars->player.dy * cos(-1);

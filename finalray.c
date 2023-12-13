@@ -72,7 +72,7 @@ int ray_starter(t_data *img, int loop)
     // img->ra = img->player.da +PI;
     img->ra = FixAng(img->player.da -30);
 
-	while (++i < loop)
+	while (++i < 640/4)
 	{
         //horizontal detection
 		compare(horizontal_inter(img),vertical_inter(img),i,img);
