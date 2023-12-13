@@ -15,11 +15,11 @@ int	move_w(t_data *vars)
 
 	while (vars->move_w == 1)
 	{
-		int xo=0; if(vars->player.dx<0){ xo=-vars->longest_row;} else{ xo=vars->longest_row;}
-		int yo=0; if(vars->player.dy<0){ yo=-vars->final_c;} else{ yo=vars->final_c;} 
+		int xo=0; if(vars->player.dx*5<0){ xo=-vars->longest_row;} else{ xo=vars->longest_row;}
+		int yo=0; if(vars->player.dy*5<0){ yo=-vars->final_c;} else{ yo=vars->final_c;} 
 		int ipx = vars->player.x/vars->scale;
 		int ipy = vars->player.y/vars->scale;
-		int ipxadd = (ipx +xo);
+		int ipxadd = (ipx +xo)/vars->scale;
 		int ipxsub = (ipx-xo)/vars->scale;
 		int ipyadd = (ipy+yo)/vars->scale;
 		int ipysub = (ipy-yo)/vars->scale;

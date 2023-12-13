@@ -34,14 +34,14 @@ int compare(float d1, float d2, int i , t_data *img)
 	float ca  = radiansfd(FixAng(img->player.da - img->ra));
 	
 	// float ca  = (img->player.da - img->ra);
-	// if (ca<0)
-	// {
-	// 	ca +=2*PI;
-	// }
-	// if (ca> 2*PI)
-	// {
-	// 	ca -=2*PI;
-	// }
+	if (ca<0)
+	{
+		ca +=2*PI;
+	}
+	if (ca> 2*PI)
+	{
+		ca -=2*PI;
+	}
 
 	finald = finald* cos(ca) ;
 	float lh = (img->scale *640)/finald;
