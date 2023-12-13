@@ -34,16 +34,16 @@ int compare(float d1, float d2, int i , t_data *img)
 	float ca  = radiansfd(FixAng(img->player.da - img->ra));
 	
 	// float ca  = (img->player.da - img->ra);
-	if (ca<0)
-	{
-		ca +=2*PI;
-	}
-	if (ca> 2*PI)
-	{
-		ca -=2*PI;
-	}
+	// if (ca<0)
+	// {
+	// 	ca +=2*PI;
+	// }
+	// if (ca> 2*PI)
+	// {
+	// 	ca -=2*PI;
+	// }
 
-	finald = finald* cos(ca);
+	finald = finald* cos(ca) ;
 	float lh = (img->scale *640)/finald;
 	if(lh >640)
 		lh=640;
@@ -56,7 +56,7 @@ int compare(float d1, float d2, int i , t_data *img)
 		j++;
 	}
 	// img->ra += DR/2;
-	img->ra=FixAng(img->ra-0.5); 
+	img->ra=FixAng(img->ra+0.5); 
 	// ray_range(&img->ra);
 	// img->ra = FixAng(img->ra);
 	// printf("\nhiend");
@@ -70,7 +70,7 @@ int ray_starter(t_data *img, int loop)
 
 	i = -1;
     // img->ra = img->player.da +PI;
-    img->ra = FixAng(img->player.da +45);
+    img->ra = FixAng(img->player.da -30);
 
 	while (++i < 120)
 	{

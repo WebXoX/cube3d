@@ -29,8 +29,8 @@ int move(t_data *img,float x, float y)
     ray_starter(img,90);
     wall(img);
     player(img);
-    img->player.y -= y;
-    img->player.x -= x;
+    // img->player.y -= y;
+    // img->player.x -= x;
     i=0;
 
     // printf("hi move \n");
