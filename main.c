@@ -25,7 +25,7 @@ int move(t_data *img,float x, float y)
     }
     //wall and tile re draw
     tile(img);
-    ray_starter(img,90);
+    ray_starter(img,120);
     wall(img);
     player(img);
     // img->player.y -= y;
@@ -63,9 +63,9 @@ void    call(t_data *canva)
     canva->player.y = (canva->scale *canva->cy) + canva->scale/4;
     while (++i < canva->height)
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
+    ray_starter(canva,120);
     wall(canva);
     tile(canva);
-    // ray_starter(canva,60);
     player(canva);
     drawline((int[]){canva->player.x ,canva->player.y ,canva->player.x -canva->player.dx*20,canva->player.y - canva->player.dy *20},canva,(int[]){0x735674});
     run(canva);

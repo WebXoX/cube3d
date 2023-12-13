@@ -24,17 +24,20 @@ int	move_w(t_data *vars)
 		// int ipyadd = (ipy+yo)/vars->scale;
 		// int ipysub = (ipy-yo)/vars->scale;
 		
-		if(vars->map[(int)(vars->player.y -vars->player.dy *5)/vars->scale ][(int)vars->player.x/vars->scale]==0)
+		if(vars->map[(int)(vars->player.y -vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale]==0)
+		{
 			vars->player.y -= vars->player.dy*5;
-		if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x -vars->player.dx *5)/vars->scale ]==0)
 			vars->player.x -= vars->player.dx*5;
+		}
+		// if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale ]==0)
+			move(vars,0,0);
+			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+
 		// if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
 		// 	vars->cx  += vars->player.dx*2 ;
         // if(vars->map[(int)(vars->cy  + vars->player.dy *2)][(int)vars->cx ] == 0) 
 		// 	vars->cy  += vars->player.dy*2 ;
         
-		move(vars,0,0);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
 	return(1);
 }
@@ -43,14 +46,16 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		if(vars->map[(int)(vars->player.y +vars->player.dy *5)/vars->scale ][(int)vars->player.x/vars->scale]==0)
+		if(vars->map[(int)(vars->player.y +vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x +vars->player.dx *5.2)/vars->scale ]==0)
+		{
 			vars->player.y += vars->player.dy*5;
-		if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x +vars->player.dx *5)/vars->scale ]==0)
 			vars->player.x += vars->player.dx*5;
-		// if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx )] == 0) vars->cx -= vars->player.dx ;
-        // if(vars->map[(int)(vars->cy  - vars->player.dy )][(int)vars->cx ] == 0) vars->cy -= vars->player.dy ;
+		}
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+		// if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x +vars->player.dx *5.2)/vars->scale ]==0)
+		// if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx )] == 0) vars->cx -= vars->player.dx ;
+        // if(vars->map[(int)(vars->cy  - vars->player.dy )][(int)vars->cx ] == 0) vars->cy -= vars->player.dy ;
 	}
 	return(1);
 }
