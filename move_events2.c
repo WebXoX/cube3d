@@ -20,13 +20,13 @@ int	move_w(t_data *vars)
 
 		if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
 		{
-			vars->player.x -= vars->player.dx*5;
-			vars->cx  += vars->player.dx*2 ;
+			vars->player.x -= vars->player.dx*1;
+			vars->cx  += vars->player.dx*1 ;
 		}
         if(vars->map[(int)(vars->cy  + vars->player.dy *2)][(int)vars->cx ] == 0) 
 		{
-			vars->player.y -= vars->player.dy*5;
-			vars->cy  += vars->player.dy*2 ;
+			vars->player.y -= vars->player.dy*1;
+			vars->cy  += vars->player.dy*1 ;
 		}    
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
@@ -63,11 +63,11 @@ int	move_a(t_data *vars)
 		// vars->player.dx = cos(vars->player.da);
 		// vars->player.dy = sin(vars->player.da);
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(1) - vars->player.dy * sin(1);
-		vars->player.dy = oldDirX * sin(1) + vars->player.dy * cos(1);
+		vars->player.dx = vars->player.dx * cos(4 * (PI / 180)) - vars->player.dy * sin(4 * (PI / 180));
+		vars->player.dy = oldDirX * sin(4 * (PI / 180)) + vars->player.dy * cos(4 * (PI / 180));
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(1) - vars->camaera.y * sin(1);
-		vars->camaera.y = oldPlaneX * sin(1) + vars->camaera.y * cos(1);
+		vars->camaera.x = vars->camaera.x * cos(4 * (PI / 180)) - vars->camaera.y * sin(4 * (PI / 180));
+		vars->camaera.y = oldPlaneX * sin(4 * (PI / 180)) + vars->camaera.y * cos(4 * (PI / 180));
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -83,11 +83,11 @@ int	move_d(t_data *vars)
 		// vars->player.dx = cos(vars->player.da);
 		// vars->player.dy = sin(vars->player.da);
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(-1) - vars->player.dy * sin(-1);
-		vars->player.dy = oldDirX * sin(-1) + vars->player.dy * cos(-1);
+		vars->player.dx = vars->player.dx * cos(-4 * (PI / 180)) - vars->player.dy * sin(-4 * (PI / 180));
+		vars->player.dy = oldDirX * sin(-4 * (PI / 180)) + vars->player.dy * cos(-4 * (PI / 180));
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(-1) - vars->camaera.y * sin(-1);
-		vars->camaera.y = oldPlaneX * sin(-1) + vars->camaera.y * cos(-1);
+		vars->camaera.x = vars->camaera.x * cos(-4 * (PI / 180)) - vars->camaera.y * sin(-4 * (PI / 180));
+		vars->camaera.y = oldPlaneX * sin(-4 * (PI / 180)) + vars->camaera.y * cos(-4 * (PI / 180));
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
