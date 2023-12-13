@@ -20,7 +20,6 @@ int move(t_data *img,float x, float y)
     point.y=0;
     while (i < img->height)
     {
-
         drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
         i++;
     }

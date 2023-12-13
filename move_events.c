@@ -15,18 +15,19 @@ int	move_w(t_data *vars)
 
 	while (vars->move_w == 1)
 	{
-		int xo=0; if(vars->player.dx*5<0){ xo=-vars->longest_row;} else{ xo=vars->longest_row;}
-		int yo=0; if(vars->player.dy*5<0){ yo=-vars->final_c;} else{ yo=vars->final_c;} 
-		int ipx = vars->player.x/vars->scale;
-		int ipy = vars->player.y/vars->scale;
-		int ipxadd = (ipx +xo)/vars->scale;
-		int ipxsub = (ipx-xo)/vars->scale;
-		int ipyadd = (ipy+yo)/vars->scale;
-		int ipysub = (ipy-yo)/vars->scale;
-		if(vars->map[ipy][ipxsub]==0)
-			vars->player.x -= vars->player.dx*5;
-		if(vars->map[ipysub ][ipx]==0)
+		// int xo=0; if(vars->player.dx*5<0){ xo=-vars->longest_row;} else{ xo=vars->longest_row;}
+		// int yo=0; if(vars->player.dy*5<0){ yo=-vars->final_c;} else{ yo=vars->final_c;} 
+		// int ipx = vars->player.x/vars->scale;
+		// int ipy = vars->player.y/vars->scale;
+		// int ipxadd = (ipx +xo)/vars->scale;
+		// int ipxsub = (ipx-xo)/vars->scale;
+		// int ipyadd = (ipy+yo)/vars->scale;
+		// int ipysub = (ipy-yo)/vars->scale;
+		
+		if(vars->map[(int)(vars->player.y -vars->player.dy *5)/vars->scale ][(int)vars->player.x/vars->scale]==0)
 			vars->player.y -= vars->player.dy*5;
+		if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x -vars->player.dx *5)/vars->scale ]==0)
+			vars->player.x -= vars->player.dx*5;
 		// if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
 		// 	vars->cx  += vars->player.dx*2 ;
         // if(vars->map[(int)(vars->cy  + vars->player.dy *2)][(int)vars->cx ] == 0) 
@@ -42,18 +43,10 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		int xo=0; if(vars->player.dx<0){ xo=-vars->longest_row;} else{ xo=vars->longest_row;}
-		int yo=0; if(vars->player.dy<0){ yo=-vars->final_c  ;} else{ yo=vars->final_c;} 
-		int ipx = vars->player.x/vars->scale;
-		int ipxadd = (vars->player.x+xo)/vars->scale;
-		int ipxsub = (vars->player.x-xo)/vars->scale;
-		int ipyadd = (vars->player.y+yo)/vars->scale;
-		int ipysub = (vars->player.y-yo)/vars->scale;
-		int ipy = vars->player.y/vars->scale;
-	if(vars->map[ipy][ipxadd ]==0)
-			vars->player.x += vars->player.dx*5;
-		if(vars->map[ipyadd][ipx]==0)
+		if(vars->map[(int)(vars->player.y +vars->player.dy *5)/vars->scale ][(int)vars->player.x/vars->scale]==0)
 			vars->player.y += vars->player.dy*5;
+		if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x +vars->player.dx *5)/vars->scale ]==0)
+			vars->player.x += vars->player.dx*5;
 		// if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx )] == 0) vars->cx -= vars->player.dx ;
         // if(vars->map[(int)(vars->cy  - vars->player.dy )][(int)vars->cx ] == 0) vars->cy -= vars->player.dy ;
 		move(vars,0,0);
