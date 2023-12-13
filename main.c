@@ -26,7 +26,7 @@ int move(t_data *img,float x, float y)
     }
     //wall and tile re draw
     tile(img);
-    ray_starter(img,120);
+    ray_starter(img,90);
     wall(img);
     player(img);
     img->player.y -= y;
@@ -34,7 +34,7 @@ int move(t_data *img,float x, float y)
     i=0;
 
     // printf("hi move \n");
-    drawline((int[]){img->player.x,img->player.y+5,img->player.x -(img->player.dx*2),img->player.y+5-(img->player.dy *2)},img,(int[]){0x735674});
+    drawline((int[]){img->player.x ,img->player.y ,img->player.x -img->player.dx*20,img->player.y - img->player.dy *20},img,(int[]){0x735674});
 
     run(img);
     return (0);
@@ -66,9 +66,9 @@ void    call(t_data *canva)
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
     wall(canva);
     tile(canva);
-    ray_starter(canva,120);
-    // player(canva);
-    drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
+    // ray_starter(canva,60);
+    player(canva);
+    drawline((int[]){canva->player.x ,canva->player.y ,canva->player.x -canva->player.dx*20,canva->player.y - canva->player.dy *20},canva,(int[]){0x735674});
     run(canva);
 }
 int main(int argc, char *argv[])
@@ -191,9 +191,10 @@ int main(int argc, char *argv[])
     canva.height = 640;
     canva.width = 960;
     canva.scale = 16;
-    canva.player.da = 90.0f * PI/180.0f;
-    canva.player.dx = cos(canva.player.da)*5;
-    canva.player.dy = sin(canva.player.da)*5;
+    // canva.player.da = 90.0f * PI/180.0f;
+    canva.player.da = 0 ;
+    canva.player.dx = cos(radiansfd(canva.player.da));
+    canva.player.dy = sin(radiansfd(canva.player.da));
 
     // canva.player.dx = -1;
     // canva.player.dy = 0;

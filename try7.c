@@ -356,7 +356,7 @@ float dist(float ax, float ay, float bx, float by, float amgle)
 //         }
 //     }
 // }
-int FixAng(int a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
+// int FixAng(int a){ if(a>359){ a-=360;} if(a<0){ a+=360;} return a;}
 // void ray(t_data *img)
 // {
 //     int map[]=           //the map array. Edit to change level but keep the outer walls

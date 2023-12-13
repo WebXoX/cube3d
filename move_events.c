@@ -46,11 +46,17 @@ int	move_a(t_data *vars)
 {
 	while (vars->move_a == 1)
 	{
-		vars->player.da -=0.1;
-		if (vars->player.da < 0)
-			vars->player.da += 2*PI;
-		vars->player.dx = cos(vars->player.da);
-		vars->player.dy = sin(vars->player.da);
+		// vars->player.da -=0.1;
+		// if (vars->player.da < 0)
+		// 	vars->player.da += 2*PI;
+		// vars->player.dx = cos(vars->player.da);
+		// vars->player.dy = sin(vars->player.da);
+
+		vars->player.da -=1;
+			FixAng(vars->player.da);
+			
+		vars->player.dx = cos(radiansfd(vars->player.da));
+		vars->player.dy = sin(radiansfd(vars->player.da));
 		// double oldDirX = vars->player.dx;
 		// vars->player.dx = vars->player.dx * cos(1) - vars->player.dy * sin(1);
 		// vars->player.dy = oldDirX * sin(1) + vars->player.dy * cos(1);
@@ -66,11 +72,16 @@ int	move_d(t_data *vars)
 {
 	while (vars->move_d == 1)
 	{
-		vars->player.da +=0.1;
-		if (vars->player.da >2*PI)
-			vars->player.da -= 2*PI;
-		vars->player.dx = cos(vars->player.da);
-		vars->player.dy = sin(vars->player.da);
+		vars->player.da +=1;
+			FixAng(vars->player.da);
+		// vars->player.da +=0.1;
+		// if (vars->player.da >2*PI)
+			// vars->player.da -= 2*PI;
+		// vars->player.dx = cos((vars->player.da));
+		// vars->player.dy = sin((vars->player.da));
+
+		vars->player.dx = cos(radiansfd(vars->player.da));
+		vars->player.dy = sin(radiansfd(vars->player.da));
 		// double oldDirX = vars->player.dx;
 		// vars->player.dx = vars->player.dx * cos(-1) - vars->player.dy * sin(-1);
 		// vars->player.dy = oldDirX * sin(-1) + vars->player.dy * cos(-1);

@@ -91,6 +91,8 @@ typedef struct s_line
 	double	e2;
 }	t_line;
 
+
+float FixAng(float a);
 int		move(t_data *img,float x,float y);
 int		ray_starter(t_data *img, int loop);
 void ray_range(float *ra);
