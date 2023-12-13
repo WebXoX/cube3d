@@ -3,6 +3,9 @@ float radiansfd(float angle)
 {
 	return (angle * PI / 180.0f);
 }
+
+float FixAng(float a){ if(a>360.0f){ a-=360.0f;} if(a<0.0f){ a+=360.0f;} return a;}
+
 void ray_range(float *ra)
 {
 	if (*ra<0)
@@ -28,7 +31,9 @@ int compare(float d1, float d2, int i , t_data *img)
 		finald = d1;
 		color =create_trgb(0,0,0,0);
 	}
-	float ca  = img->player.da - img->ra;
+	float ca  = radiansfd(FixAng(img->player.da - img->ra));
+	
+	// float ca  = (img->player.da - img->ra);
 	if (ca<0)
 	{
 		ca +=2*PI;
@@ -37,6 +42,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	{
 		ca -=2*PI;
 	}
+
 	finald = finald* cos(ca);
 	float lh = (img->scale *640)/finald;
 	if(lh >640)
@@ -49,8 +55,10 @@ int compare(float d1, float d2, int i , t_data *img)
 		drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
 		j++;
 	}
-	img->ra += DR/2;
-	ray_range(&img->ra);
+	// img->ra += DR/2;
+	img->ra=FixAng(img->ra-0.5); 
+	// ray_range(&img->ra);
+	// img->ra = FixAng(img->ra);
 	// printf("\nhiend");
 	return 1;
 }
@@ -61,9 +69,10 @@ int ray_starter(t_data *img, int loop)
 	int i;
 
 	i = -1;
-    img->ra = img->player.da +PI;
+    // img->ra = img->player.da +PI;
+    img->ra = FixAng(img->player.da +45);
 
-	while (++i < loop)
+	while (++i < 120)
 	{
         //horizontal detection
 		compare(horizontal_inter(img),vertical_inter(img),i,img);
