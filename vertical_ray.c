@@ -27,21 +27,21 @@ void ray_vertical(t_data *img, float tan2)
 {
 	if (cos(radiansfd(img->ra))> 0.001)
 	{
-		img->vertical_points.x = (((int)img->player.x/img->scale)*img->scale)-0.0001;
-		img->vertical_points.y=(img->player.x-img->vertical_points.x)*tan2+img->player.y;
+		img->vertical_points.x = (((int)(img->player.x+10/2)/img->scale)*img->scale)-0.0001;
+		img->vertical_points.y=((img->player.x+10/2)-img->vertical_points.x)*tan2+(img->player.y+ img->scale/4);
 		img->vertical_points.dx = -img->scale;
 		img->vertical_points.dy=-img->vertical_points.dx*tan2;
 	}
 	else  if(cos(radiansfd(img->ra))<-0.001)
 	{
-		img->vertical_points.x = (((int)img->player.x/img->scale)*img->scale)+img->scale;
-		img->vertical_points.y=(img->player.x-img->vertical_points.x)*tan2+img->player.y;
+		img->vertical_points.x = (((int)(img->player.x+10/2)/img->scale)*img->scale)+img->scale;
+		img->vertical_points.y=((img->player.x+10/2)-img->vertical_points.x)*tan2+(img->player.y+ img->scale/4);
 		img->vertical_points.dx= img->scale;
 		img->vertical_points.dy=-img->vertical_points.dx*tan2;
 	}
 	else
 	{
-		img->vertical_points.x=img->player.x; img->vertical_points.y=img->player.y; img->dof=img->longest_row-1;
+		img->vertical_points.x=(img->player.x+10/2); img->vertical_points.y=(img->player.y+ img->scale/4); img->dof=img->longest_row-1;
 	}
 }
 
@@ -72,5 +72,5 @@ float vertical_inter(t_data *img)
 
 	}
 	// return(cos(radiansfd(img->ra))*(img->vertical_points.x - img->player.x)-sin(radiansfd(img->ra))*(img->vertical_points.y - img->player.y));
-	return( sqrt(pow(img->vertical_points.x - img->player.x, 2) + pow(img->vertical_points.y - img->player.y, 2)));
+	return( sqrt(pow(img->vertical_points.x - (img->player.x+10/2), 2) + pow(img->vertical_points.y - (img->player.y+ img->scale/4), 2)));
 }

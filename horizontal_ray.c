@@ -29,23 +29,23 @@ void ray_horizontal_direction(t_data *img, float tan1)
     if (sin(radiansfd(img->ra))> 0.001)
 	{
 		//left  angles
-		img->horizontal_points.y = (((int)img->player.y/img->scale)*img->scale)-0.0001;
-		img->horizontal_points.x=(img->player.y-img->horizontal_points.y)*tan1+img->player.x;
+		img->horizontal_points.y = (((int)(img->player.y+ img->scale/4)/img->scale)*img->scale)-0.0001;
+		img->horizontal_points.x=((img->player.y+ img->scale/4)-img->horizontal_points.y)*tan1+img->player.x+10/2;
 		img->horizontal_points.dy = -img->scale;
 		img->horizontal_points.dx=-img->horizontal_points.dy*tan1;
 	}
 	else if(sin(radiansfd(img->ra))<-0.001)
 	{
 		// right side angles
-		img->horizontal_points.y = (((int)img->player.y/img->scale)*img->scale)+img->scale;
-		img->horizontal_points.x=(img->player.y-img->horizontal_points.y)*tan1+img->player.x;
+		img->horizontal_points.y = (((int)(img->player.y+ img->scale/4)/img->scale)*img->scale)+img->scale;
+		img->horizontal_points.x=((img->player.y+ img->scale/4)-img->horizontal_points.y)*tan1+img->player.x +10/2;
 		img->horizontal_points.dy= img->scale;
 		img->horizontal_points.dx=-img->horizontal_points.dy*tan1;
 	}
 	else
 	{
 		//when angle is 180
-		img->horizontal_points.x=img->player.x; img->horizontal_points.y=img->player.y; img->dof=img->final_c-1;
+		img->horizontal_points.x=(img->player.x + 10/2); img->horizontal_points.y=(img->player.y+ img->scale/4); img->dof=img->final_c-1;
 	}
 }
 
@@ -74,10 +74,11 @@ float horizontal_inter(t_data *img)
 		else
 		{
 			img->horizontal_points.x+=img->horizontal_points.dx;
-			 img->horizontal_points.y+=img->horizontal_points.dy; img->dof+=1;
+			 img->horizontal_points.y+=img->horizontal_points.dy; 
+			 img->dof+=1;
 		}
 	}
 
 	// return (cos(radiansfd(img->ra))*(img->horizontal_points.x - img->player.x)-sin(radiansfd(img->ra))*(img->horizontal_points.y - img->player.y));
-	return (sqrt(pow(img->horizontal_points.x - img->player.x, 2) + pow(img->horizontal_points.y - img->player.y, 2)));
+	return (sqrt(pow(img->horizontal_points.x - (img->player.x+ 10/2), 2) + pow(img->horizontal_points.y - (img->player.y+ img->scale/4), 2)));
 }

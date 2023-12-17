@@ -6,6 +6,9 @@ void wall(t_data *img)
     int j;
     coordinate_t point;
 
+    point.x = 0 ;
+    point.y = 0 ;
+
     i   =   -1;
     while (++i < img->final_c)
     {
@@ -18,7 +21,7 @@ void wall(t_data *img)
                 c = -1;
                 while (++c < img->scale - 2)
                     drawline((int[]){point.x ,point.y + c ,point.x
-                            + img->scale-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
+                            + img->scale-2 ,point.y + c} , img, (int[]){create_trgb(0,200,200,200)});
             }
             point.x+=img->scale;
         }

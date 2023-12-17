@@ -2,6 +2,8 @@
 
 void    run(t_data *canva)
 {
+    mlx_clear_window((canva)->mlx_ptr, (canva)->win_ptr);
+    
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
         mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
@@ -24,16 +26,16 @@ int move(t_data *img,float x, float y)
         i++;
     }
     //wall and tile re draw
-    tile(img);
-    ray_starter(img,120);
-    wall(img);
-    player(img);
+    // tile(img);
+    ray_starter(img,100);
+    // wall(img);
+    // player(img);
     // img->player.y -= y;
     // img->player.x -= x;
     i=0;
 
     // printf("hi move \n");
-    drawline((int[]){img->player.x ,img->player.y ,img->player.x -img->player.dx*20,img->player.y - img->player.dy *20},img,(int[]){0x735674});
+    // drawline((int[]){img->player.x ,img->player.y ,img->player.x -img->player.dx*20,img->player.y - img->player.dy *20},img,(int[]){0x735674});
 
     run(img);
     return (0);
@@ -64,10 +66,10 @@ void    call(t_data *canva)
     while (++i < canva->height)
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
     ray_starter(canva,120);
-    wall(canva);
-    tile(canva);
-    player(canva);
-    drawline((int[]){canva->player.x ,canva->player.y ,canva->player.x -canva->player.dx*20,canva->player.y - canva->player.dy *20},canva,(int[]){0x735674});
+    // wall(canva);
+    // tile(canva);
+    // player(canva);
+    // drawline((int[]){canva->player.x +10/2,canva->player.y + canva->scale/4,canva->player.x+10/2 -canva->player.dx*10,canva->player.y+ canva->scale/4 - canva->player.dy *10},canva,(int[]){0x735674});
     run(canva);
 }
 int main(int argc, char *argv[])
@@ -187,11 +189,11 @@ int main(int argc, char *argv[])
             printf("::\n");
     }
 
-    canva.height = 640;
-    canva.width = 960;
+    canva.height = 320;
+    canva.width = 660;
     canva.scale = 16;
     // canva.player.da = 90.0f * PI/180.0f;
-    canva.player.da = 0 ;
+    canva.player.da = 90 ;
     canva.player.dx = cos(radiansfd(canva.player.da));
     canva.player.dy = sin(radiansfd(canva.player.da));
 

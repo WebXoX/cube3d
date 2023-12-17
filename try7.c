@@ -23,7 +23,7 @@
 //         vars->player.x -= vars->player.dx;
 //         vars->player.y -= vars->player.dy;
 
-//         move(vars,0,0);
+        // move(vars,0,0);
 //         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 //         return (1);
 //     }//s
@@ -622,10 +622,10 @@ int move(t_data *img,float x, float y)
         i++;
     }
     //wall and tile re draw
-    tile(img);
+    // tile(img);
     ray(img);
-    wall(img);
-    player(img);
+    // wall(img);
+    // player(img);
     img->player.y -= y;
     img->player.x -= x;
     i=0;
