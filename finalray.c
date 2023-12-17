@@ -77,7 +77,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	// 	drawline((int []){img->player.x +10/2 ,img->player.y + img->scale/4,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){0xFF0000});
 	// player(img);
 	// img->ra += DR/2;
-	img->ra=FixAng(img->ra + 0.9); 
+	img->ra=FixAng(img->ra + 0.5); 
 	// ray_range(&img->ra);
 	// img->ra = FixAng(img->ra);
 	// printf("\nhiend");
@@ -92,7 +92,7 @@ int ray_starter(t_data *img, int loop)
 	i = -1;
     // img->ra = img->player.da +PI;
     img->ra = FixAng(img->player.da -30);
-	while (++i < 120)
+	while (++i < loop)
 	{
         //horizontal detection
 		compare(horizontal_inter(img),vertical_inter(img),i,img);
