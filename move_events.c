@@ -15,30 +15,30 @@ int collisionNS(t_data *C, int i)
 	printf("da ::%f\n",C->player.da);
 	if ((C->player.da >= 0 && C->player.da <= 90) )//|| (C->player.da > 320 && C->player.da <= 360 ))
 	{
-		if( i == 0 && C->map[(int)(C->player.y -C->player.dy *5.2)/C->scale ][(int)(C->player.x -C->player.dx *5.2)/C->scale]!=1)
+		if( i == 0 && C->map[(int)(C->player.y -C->player.dy *16)/C->scale ][(int)(C->player.x -C->player.dx *16)/C->scale]!=1)
 			return 1;
 		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 5.3) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.3) / C->scale ] != 1)
 			return 1;
 	}
 	if (C->player.da > 90 && C->player.da <= 180)
 	{
-		if( i == 0 && C->map[(int)(C->player.y - C->player.dy * 5.2)/C->scale ][(int)(C->player.x + 10 -C->player.dx *5.2)/C->scale]!=1)
+		if( i == 0 && C->map[(int)(C->player.y - C->player.dy *16)/C->scale ][(int)(C->player.x + 10 -C->player.dx *16)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 5.2) / C->scale ][(int)( C->player.x + C->player.dx * 5.2) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 10) / C->scale ][(int)( C->player.x + C->player.dx * 10) / C->scale ] != 1)
 			return 1;
 	}
 	if (C->player.da > 180 && C->player.da <= 270)
 	{
-		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy * 5.2)/C->scale ][(int)(C->player.x + 10 -C->player.dx *5.2)/C->scale]!=1)
+		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy *16)/C->scale ][(int)(C->player.x + 10 -C->player.dx *16)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.2) / C->scale ][(int)( C->player.x + C->player.dx * 5.2) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy *16) / C->scale ][(int)( C->player.x + C->player.dx *16) / C->scale ] != 1)
 			return 1;
 	}
 	if (C->player.da > 270 && C->player.da <= 360)
 	{
-		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy * 5.2)/C->scale ][(int)(C->player.x - C->player.dx *5.2)/C->scale]!=1)
+		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy *16)/C->scale ][(int)(C->player.x - C->player.dx *16)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.2) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.2) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy *16) / C->scale ][(int)( C->player.x + 10 + C->player.dx *16) / C->scale ] != 1)
 			return 1;
 	}
 	
@@ -51,8 +51,8 @@ int	move_w(t_data *vars)
 	{
 		if(collisionNS(vars,0) == 1)
 		{
-			vars->player.y -= vars->player.dy*4;
-			vars->player.x -= vars->player.dx*4;
+			vars->player.y -= vars->player.dy*15;
+			vars->player.x -= vars->player.dx*15;
 			move(vars,0,0);
 			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		}
@@ -75,8 +75,8 @@ int	move_s(t_data *vars)
 		if (collisionNS(vars,1) == 1)
 		{
 
-			vars->player.y += vars->player.dy*4;
-			vars->player.x += vars->player.dx*4;
+			vars->player.y += vars->player.dy*15;
+			vars->player.x += vars->player.dx*15;
 			move(vars,0,0);
 			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		}
@@ -104,7 +104,7 @@ int	move_a(t_data *vars)
 		// vars->player.dx = cos(vars->player.da);
 		// vars->player.dy = sin(vars->player.da);
 
-		vars->player.da -=5;
+		vars->player.da -=10;
 		vars->player.da =FixAng(vars->player.da);
 			
 		vars->player.dx = cos(radiansfd(vars->player.da));
@@ -124,7 +124,7 @@ int	move_d(t_data *vars)
 {
 	while (vars->move_d == 1)
 	{
-		vars->player.da += 5;
+		vars->player.da += 10;
 		vars->player.da = FixAng(vars->player.da);
 		// vars->player.da +=0.1;
 		// if (vars->player.da >2*PI)

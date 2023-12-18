@@ -63,11 +63,13 @@ float vertical_inter(t_data *img)
 	{
         mx=(int)(img->vertical_points.x)/img->scale;
 		 my=(int)(img->vertical_points.y)/img->scale;
-        if((mx < img->longest_row && mx >0 && my < img->final_c && my >0
+        if((mx < img->longest_row && mx >= 0 && my < img->final_c && my >= 0
         && img->map[my][mx]==1)){ img->dof=img->longest_row; }//hit
         else
 		{
-			img->vertical_points.x+=img->vertical_points.dx; img->vertical_points.y+=img->vertical_points.dy; img->dof+=1;
+			img->vertical_points.x+=img->vertical_points.dx;
+			img->vertical_points.y+=img->vertical_points.dy;
+			 img->dof+=1;
 		}//check next horizontal
 
 	}

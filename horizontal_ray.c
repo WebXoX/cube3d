@@ -60,15 +60,15 @@ float horizontal_inter(t_data *img)
 	img->ra = FixAng(img->ra);
 	// tan1 = -1/tan(radiansfd(img->ra));
 	// tan1 = -1/tan((img->ra));
-	img->dof = 0;
 	tan1 = -1/tan(radiansfd(img->ra));
+	img->dof = 0;
 	ray_horizontal_direction(img,tan1);
 
 	while(img->dof<img->final_c)
 	{
 		mx=(int)(img->horizontal_points.x)/img->scale;
 		my=(int)(img->horizontal_points.y)/img->scale;
-		if((mx < img->longest_row && mx >0 && my < img->final_c && my >0
+		if((mx < img->longest_row && mx >=0 && my < img->final_c && my >=0
 		&& img->map[my][mx]==1))
 			img->dof=img->final_c; //hit
 		else

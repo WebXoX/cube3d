@@ -19,7 +19,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	int color;
 	float finald;
 
-	if(d1 > d2)
+	if((d1 == 0 && (d2 > 0)) ||(d1 != 0 && (d2 != 0)) &&( d1 > d2 ))
 	{
 		// drawline((int []){img->player.x +10/2,img->player.y + img->scale/4,img->vertical_points.x,img->vertical_points.y},img,(int[]){0xFF0000});
 		finald = d2;
@@ -34,6 +34,7 @@ int compare(float d1, float d2, int i , t_data *img)
 		color =create_trgb(0,0,0,0);
 		// printf("%f ra\n",img->ra);
 	}
+	printf("finald ::------------->%f dd1 %f d 2 %f\n",finald,d1,d2);
 	// float ca  = radiansfd(FixAng( img->player.da -img->ra ));
 	float ca  = radiansfd(FixAng( img->ra - img->player.da));
 	
@@ -53,6 +54,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	int lh = (img->scale * img->height) / finald;
 	if(lh >img->height)
 	{
+		printf("lh %d\n %f",lh,img->ra);
 		lh=img->height;
 	}
 	int lo = img->height/2 - (lh/2);
@@ -76,9 +78,9 @@ int compare(float d1, float d2, int i , t_data *img)
 	
 	
 	if(d1 > d2)
-		drawline((int []){img->player.x +10/2,img->player.y + img->scale/4,img->vertical_points.x,img->vertical_points.y},img,(int[]){0xFF0000});
+		drawline((int []){img->player.x +10/2,img->player.y + img->scale/4,img->vertical_points.x,img->vertical_points.y},img,(int[]){create_trgb(0,250,0,220)});
 	else
-		drawline((int []){img->player.x +10/2 ,img->player.y + img->scale/4,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){0xFF0000});
+		drawline((int []){img->player.x +10/2 ,img->player.y + img->scale/4,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){create_trgb(0,250,0,220)});
 	// player(img);
 	// img->ra += DR/2;
 	img->ra=FixAng(img->ra + 0.5); 
@@ -95,12 +97,13 @@ int ray_starter(t_data *img, int loop)
 
 	i = -1;
     // img->ra = img->player.da +PI;
-    img->ra = FixAng(img->player.da -30);
+    img->ra = FixAng(img->player.da -35);
 	while (++i < loop)
 	{
-        //horizontal detection
+        // horizontal detection
 		compare(horizontal_inter(img),vertical_inter(img),i,img);
-		// printf("loop rayy%f\n",);
+		// compare(horizontal_inter(img),10,i,img);
+		printf("loop rayy%f\n",img->ra);
 		// img->ra += DR/2;
 		// ray_range(&img->ra);
 		// project();
