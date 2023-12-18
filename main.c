@@ -2,7 +2,7 @@
 
 void    run(t_data *canva)
 {
-    mlx_clear_window((canva)->mlx_ptr, (canva)->win_ptr);
+    // mlx_clear_window((canva)->mlx_ptr, (canva)->win_ptr);
     
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
         0);
@@ -15,28 +15,18 @@ void    run(t_data *canva)
 int move(t_data *img,float x, float y)
 {
     int i =0;
-    // int ratio_y = img->height/4;
-    // int ratio_x = img->width/6;
-    coordinate_t point;
-    point.x=0;
-    point.y=0;
+
     while (i < img->height)
     {
         drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
         i++;
     }
-    //wall and tile re draw
-    // tile(img);
+    
     ray_starter(img,140);
     // wall(img);
     // player(img);
-    // img->player.y -= y;
-    // img->player.x -= x;
+
     i=0;
-
-    // printf("hi move \n");
-    // drawline((int[]){img->player.x ,img->player.y ,img->player.x -img->player.dx*20,img->player.y - img->player.dy *20},img,(int[]){0x735674});
-
     run(img);
     return (0);
 }

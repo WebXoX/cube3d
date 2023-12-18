@@ -12,32 +12,33 @@ int setmove(int* key)
 }
 int collisionNS(t_data *C, int i)
 {
+	printf("da ::%f\n",C->player.da);
 	if ((C->player.da >= 0 && C->player.da <= 90) )//|| (C->player.da > 320 && C->player.da <= 360 ))
 	{
 		if( i == 0 && C->map[(int)(C->player.y -C->player.dy *5.2)/C->scale ][(int)(C->player.x -C->player.dx *5.2)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 5.1) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.1) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 5.3) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.3) / C->scale ] != 1)
 			return 1;
 	}
 	if (C->player.da > 90 && C->player.da <= 180)
 	{
 		if( i == 0 && C->map[(int)(C->player.y - C->player.dy * 5.2)/C->scale ][(int)(C->player.x + 10 -C->player.dx *5.2)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.1) / C->scale ][(int)( C->player.x + C->player.dx * 5.1) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 5.2) / C->scale ][(int)( C->player.x + C->player.dx * 5.2) / C->scale ] != 1)
 			return 1;
 	}
 	if (C->player.da > 180 && C->player.da <= 270)
 	{
 		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy * 5.2)/C->scale ][(int)(C->player.x + 10 -C->player.dx *5.2)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.1) / C->scale ][(int)( C->player.x + C->player.dx * 5.1) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.2) / C->scale ][(int)( C->player.x + C->player.dx * 5.2) / C->scale ] != 1)
 			return 1;
 	}
 	if (C->player.da > 270 && C->player.da <= 360)
 	{
 		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy * 5.2)/C->scale ][(int)(C->player.x - C->player.dx *5.2)/C->scale]!=1)
 			return 1;
-		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.1) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.1) / C->scale ] != 1)
+		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy * 5.2) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.2) / C->scale ] != 1)
 			return 1;
 	}
 	
@@ -48,36 +49,20 @@ int	move_w(t_data *vars)
 
 	while (vars->move_w == 1)
 	{
-		// int xo=0; if(vars->player.dx*5<0){ xo=-vars->longest_row;} else{ xo=vars->longest_row;}
-		// int yo=0; if(vars->player.dy*5<0){ yo=-vars->final_c;} else{ yo=vars->final_c;} 
-		// int ipx = vars->player.x/vars->scale;
-		// int ipy = vars->player.y/vars->scale;
-		// int ipxadd = (ipx +xo)/vars->scale;
-		// int ipxsub = (ipx-xo)/vars->scale;
-		// int ipyadd = (ipy+yo)/vars->scale;
-		// int ipysub = (ipy-yo)/vars->scale;
-		
-		// if(vars->map[(int)(vars->player.y -vars->player.dy *5.2)/vars->scale ][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale]!=1)
 		if(collisionNS(vars,0) == 1)
 		{
-			vars->player.y -= vars->player.dy*2;
-			vars->player.x -= vars->player.dx*2;
+			vars->player.y -= vars->player.dy*4;
+			vars->player.x -= vars->player.dx*4;
 			move(vars,0,0);
-			// mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		}
 		else
 		{
+			printf("hitt\n");
 			printf("mapw %d\n",(vars->map[(int)(vars->player.y -vars->player.dy *5.3)/vars->scale ][(int)(vars->player.x -vars->player.dx *5.3)/vars->scale ]));
 			vars->move_w = 0;
 			break;
 		}
-		// if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x -vars->player.dx *5.2)/vars->scale ]==0)
-
-		// if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
-		// 	vars->cx  += vars->player.dx*2 ;
-        // if(vars->map[(int)(vars->cy  + vars->player.dy *2)][(int)vars->cx ] == 0) 
-		// 	vars->cy  += vars->player.dy*2 ;
-        
 	}
 	return(1);
 }
@@ -90,13 +75,14 @@ int	move_s(t_data *vars)
 		if (collisionNS(vars,1) == 1)
 		{
 
-			vars->player.y += vars->player.dy*2;
-			vars->player.x += vars->player.dx*2;
+			vars->player.y += vars->player.dy*4;
+			vars->player.x += vars->player.dx*4;
 			move(vars,0,0);
-			// mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		}
 		else
 		{
+			printf("hitt\n");
 			printf("maps %d\n",(vars->map[(int)(vars->player.y +vars->player.dy *5.5)/vars->scale ][(int)(vars->player.x +vars->player.dx *5.5)/vars->scale ]));
 			vars->move_s = 0;
 			break;
@@ -118,7 +104,7 @@ int	move_a(t_data *vars)
 		// vars->player.dx = cos(vars->player.da);
 		// vars->player.dy = sin(vars->player.da);
 
-		vars->player.da -=10;
+		vars->player.da -=5;
 		vars->player.da =FixAng(vars->player.da);
 			
 		vars->player.dx = cos(radiansfd(vars->player.da));
@@ -138,7 +124,7 @@ int	move_d(t_data *vars)
 {
 	while (vars->move_d == 1)
 	{
-		vars->player.da += 10;
+		vars->player.da += 5;
 		vars->player.da = FixAng(vars->player.da);
 		// vars->player.da +=0.1;
 		// if (vars->player.da >2*PI)
