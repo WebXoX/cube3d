@@ -1,10 +1,12 @@
 #include "cube3d.h"
 #include <math.h>
-#define screenWidth 1540
-#define screenHeight 1080
-#define mapWidth 24
-#define mapHeight 24
 
+float radiansfd(float angle)
+{
+	return (angle * PI / 180.0f);
+}
+
+float FixAng(float a){ if(a>360.0f){ a-=360.0f;} if(a<0.0f){ a+=360.0f;} return a;}
 void draw_pixel(int x, int y, int color, void *mlx, void *win)
 {
     mlx_pixel_put(mlx, win, x, y, color);
@@ -20,7 +22,7 @@ void ray(t_data *img)
 
         for (int x = 0; x < img->width; x++)
         {
-            double cameraX = 2 * x / (double)img->width - 1 -0.001;
+            double cameraX = 2 * x / (double)img->width - 1;
             double rayDirX = dirX + planeX * cameraX;
             double rayDirY = dirY + planeY * cameraX;
 
@@ -29,10 +31,13 @@ void ray(t_data *img)
 
             double sideDistX;
             double sideDistY;
-            double deltaDistX = (rayDirX == 0) ? 1e30: abs(1 / rayDirX);
-            double deltaDistY = (rayDirY == 0) ? 1e30 : abs(1 / rayDirY);
+            // double deltaDistX = (rayDirX == 0) ? 1e30: fabs(1 / rayDirX);
+            // double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
+            double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
+            double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 
             double perpWallDist;
+            //  perpWallDist = 0;
 
             int stepX;
             int stepY;
@@ -43,46 +48,71 @@ void ray(t_data *img)
             if (rayDirX < 0)
             {
                 stepX = -1;
-                sideDistX = (posX - mapX) * deltaDistX;
+                sideDistX = (float)((posX - mapX) * deltaDistX);
             }
             else
             {
                 stepX = 1;
-                sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+                sideDistX = (float)((mapX + 1.0 - posX) * deltaDistX);
             }
             if (rayDirY < 0)
             {
                 stepY = -1;
-                sideDistY = (posY - mapY) * deltaDistY;
+                sideDistY = (float)((posY - mapY) * deltaDistY);
             }
             else
             {
                 stepY = 1;
-                sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+                sideDistY =(float) ((mapY + 1.0 - posY) * deltaDistY);
             }
 
             while (hit == 0)
             {
                 if (sideDistX < sideDistY)
                 {
-                    sideDistX += deltaDistX;
+                    sideDistX +=(float) deltaDistX;
                     mapX += stepX;
                     side = 0;
                 }
                 else
                 {
-                    sideDistY += deltaDistY;
+                    sideDistY += (float)deltaDistY;
                     mapY += stepY;
                     side = 1;
                 }
-                if (img->map[mapY][mapX] > 0)
-                    hit = 1;
+                if (mapX < img->longest_row && mapX >= 0 && mapY < img->final_c && mapY >= 0
+        && img->map[mapY][mapX] == 1)
+            {       
+
+            hit = 1;
+                perpWallDist = 0;
+
+            }
             }
 
+            printf("\nmap %d\n",mapX);
+            printf("\nmap %d\n",mapY);
+            printf("\npos %f\n",posX);
+            printf("\npos %f\n",posY);
+            printf("\nray %f\n",rayDirX);
+            printf("ray %f\n",rayDirY);
+            printf("step %d\n",stepX);
+            printf("step %d\n",stepY);
+            printf("step %f\n",sideDistX);
+            printf("step %f\n",sideDistY);
+            printf("step %f\n",deltaDistX);
+            printf("step %f\n",deltaDistY);
+            printf("step %f\n",sideDistX - deltaDistX);
+            printf("step %f\n",sideDistY - deltaDistY);
+            //  if(side == 0) 
+            //  perpWallDist = (sideDistX - deltaDistX);
+            //  else         
+            //   perpWallDist = (sideDistY - deltaDistY);
             if (side == 0)
-                perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+                perpWallDist = (mapX - posX + (1 - stepX) / 2.0) / rayDirX +0.01;
             else
-                perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+                perpWallDist = (mapY - posY + (1 - stepY) / 2.0) / rayDirY +0.01;
+            printf("wall %f\n",perpWallDist);
 
             int lineHeight = (int)(img->height / perpWallDist);
             int drawStart = -lineHeight / 2 + img->height / 2;

@@ -52,14 +52,21 @@ int compare(float d1, float d2, int i , t_data *img)
 	// finald = finald* cos(ca) ;
 	// finald = finald / cos(ca);
 	int lh = (img->scale * img->height) / finald;
+	int tystep;
+	tystep = 64/(float)lh;
+	int tyof;
+	tyof = 0;;
 	if(lh >img->height)
 	{
 		printf("lh %d\n %f",lh,img->ra);
+		tyof =  (lh -img->height)/2 - (lh/2);
 		lh=img->height;
 	}
-	int lo = img->height/2 - (lh/2);
+	int lo = (img->height)/2 - (lh/2);
 	// drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
 	int j=0;
+	float ty = tyof*tystep;
+	float tx = 0;
 	while (j < 8)
 	{
 		// if((img->ra >90 && img->ra < 180) || (img->ra >180 && img->ra < 270) || (img->ra >270 && img->ra < 360))
@@ -83,7 +90,7 @@ int compare(float d1, float d2, int i , t_data *img)
 		drawline((int []){img->player.x +10/2 ,img->player.y + img->scale/4,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){create_trgb(0,250,0,220)});
 	// player(img);
 	// img->ra += DR/2;
-	img->ra=FixAng(img->ra + 0.5); 
+	// img->ra=FixAng(img->ra + 0.2); 
 	// ray_range(&img->ra);
 	// img->ra = FixAng(img->ra);
 	// printf("\nhiend");
@@ -97,9 +104,10 @@ int ray_starter(t_data *img, int loop)
 
 	i = -1;
     // img->ra = img->player.da +PI;
-    img->ra = FixAng(img->player.da -35);
-	while (++i < loop)
+	float ray= FixAng(img->player.da -30);
+	while (++i < img->width)
 	{
+		img->ra =ray+ i*60/img->width ;
         // horizontal detection
 		compare(horizontal_inter(img),vertical_inter(img),i,img);
 		// compare(horizontal_inter(img),10,i,img);

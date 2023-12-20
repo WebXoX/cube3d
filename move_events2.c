@@ -18,12 +18,12 @@ int	move_w(t_data *vars)
 	{
     printf("keycode :: d");
 
-		if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*2 )] == 0) 
+		if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*1.5 )] == 0) 
 		{
-			vars->player.x -= vars->player.dx*1;
+			vars->player.x -= vars->player.dx*0.5;
 			vars->cx  += vars->player.dx*1 ;
 		}
-        if(vars->map[(int)(vars->cy  + vars->player.dy *2)][(int)vars->cx ] == 0) 
+        if(vars->map[(int)(vars->cy  + vars->player.dy *1.5)][(int)vars->cx ] == 0) 
 		{
 			vars->player.y -= vars->player.dy*1;
 			vars->cy  += vars->player.dy*1 ;
@@ -38,13 +38,13 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx )] == 0){
-			vars->player.x += vars->player.dx*5;
+		if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx *1.5)] == 0){
+			vars->player.x += vars->player.dx*1;
 			 vars->cx -= vars->player.dx ;
 			
 			}
-        if(vars->map[(int)(vars->cy  - vars->player.dy )][(int)vars->cx ] == 0) {
-			vars->player.y += vars->player.dy*5;
+        if(vars->map[(int)(vars->cy  - vars->player.dy *1.5)][(int)vars->cx ] == 0) {
+			vars->player.y += vars->player.dy*1;
 			vars->cy -= vars->player.dy ;
 			}
 		move(vars,0,0);
@@ -63,11 +63,11 @@ int	move_a(t_data *vars)
 		// vars->player.dx = cos(vars->player.da);
 		// vars->player.dy = sin(vars->player.da);
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(4 * (PI / 180)) - vars->player.dy * sin(4 * (PI / 180));
-		vars->player.dy = oldDirX * sin(4 * (PI / 180)) + vars->player.dy * cos(4 * (PI / 180));
+		vars->player.dx = vars->player.dx * cos(0.5 *radiansfd(90)) - vars->player.dy * sin(0.5 *radiansfd(90));
+		vars->player.dy = oldDirX * sin(0.5 *radiansfd(90)) + vars->player.dy * cos(0.5 *radiansfd(90));
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(4 * (PI / 180)) - vars->camaera.y * sin(4 * (PI / 180));
-		vars->camaera.y = oldPlaneX * sin(4 * (PI / 180)) + vars->camaera.y * cos(4 * (PI / 180));
+		vars->camaera.x = vars->camaera.x * cos(0.5 *radiansfd(90)) - vars->camaera.y * sin(0.5 *radiansfd(90));
+		vars->camaera.y = oldPlaneX * sin(0.5 *radiansfd(90)) + vars->camaera.y * cos(0.5 *radiansfd(90));
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -83,11 +83,11 @@ int	move_d(t_data *vars)
 		// vars->player.dx = cos(vars->player.da);
 		// vars->player.dy = sin(vars->player.da);
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(-4 * (PI / 180)) - vars->player.dy * sin(-4 * (PI / 180));
-		vars->player.dy = oldDirX * sin(-4 * (PI / 180)) + vars->player.dy * cos(-4 * (PI / 180));
+		vars->player.dx = vars->player.dx * cos(-0.5 *radiansfd(90)) - vars->player.dy * sin(-0.5 *radiansfd(90));
+		vars->player.dy = oldDirX * sin(-0.5 *radiansfd(90)) + vars->player.dy * cos(-0.5 *radiansfd(90));
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(-4 * (PI / 180)) - vars->camaera.y * sin(-4 * (PI / 180));
-		vars->camaera.y = oldPlaneX * sin(-4 * (PI / 180)) + vars->camaera.y * cos(-4 * (PI / 180));
+		vars->camaera.x = vars->camaera.x * cos(-0.5 *radiansfd(90)) - vars->camaera.y * sin(-0.5 *radiansfd(90));
+		vars->camaera.y = oldPlaneX * sin(-0.5 *radiansfd(90)) + vars->camaera.y * cos(-0.5 *radiansfd(90));
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
