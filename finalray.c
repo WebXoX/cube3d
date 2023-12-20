@@ -37,7 +37,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	printf("finald ::------------->%f dd1 %f d 2 %f\n",finald,d1,d2);
 	// float ca  = radiansfd(FixAng( img->player.da -img->ra ));
 	float ca  = radiansfd(FixAng( img->ra - img->player.da));
-	
+
 	// float ca  = (img->player.da - img->ra);
 	// if (ca<0)
 	// {
@@ -55,7 +55,7 @@ int compare(float d1, float d2, int i , t_data *img)
 	int tystep;
 	tystep = 64/(float)lh;
 	int tyof;
-	tyof = 0;;
+	tyof = 0;
 	if(lh >img->height)
 	{
 		printf("lh %d\n %f",lh,img->ra);
@@ -81,16 +81,16 @@ int compare(float d1, float d2, int i , t_data *img)
 		// }
 		j++;
 	}
-		
-	
-	
+
+
+
 	if(d1 > d2)
 		drawline((int []){img->player.x +10/2,img->player.y + img->scale/4,img->vertical_points.x,img->vertical_points.y},img,(int[]){create_trgb(0,250,0,220)});
 	else
 		drawline((int []){img->player.x +10/2 ,img->player.y + img->scale/4,img->horizontal_points.x,img->horizontal_points.y},img,(int[]){create_trgb(0,250,0,220)});
 	// player(img);
 	// img->ra += DR/2;
-	// img->ra=FixAng(img->ra + 0.2); 
+	// img->ra=FixAng(img->ra + 0.2);
 	// ray_range(&img->ra);
 	// img->ra = FixAng(img->ra);
 	// printf("\nhiend");

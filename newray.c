@@ -41,7 +41,7 @@ void ray(t_data *img)
              mapX = (int)posX;
              mapY = (int) posY;
 
-            
+
             double deltaDistX =  fabs(1 / rayDirX);
             double deltaDistY =  fabs(1 / rayDirY);
             // deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
@@ -94,7 +94,7 @@ void ray(t_data *img)
                     side = 1;
                 }
                 if (mapX < img->longest_row && mapX >= 0 && mapY < img->final_c && mapY >= 0 && img->map[mapY][mapX] == 1)
-                {       
+                {
                     hit = 1;
                     perpWallDist = 0;
                 }
@@ -149,17 +149,22 @@ void ray(t_data *img)
         //  j++;
         // }
                 // mlx_pixel_put(img->mlx_ptr, img->win_ptr, color, k, img->texture.addr[((k%64) * img->texture.img_wid + (color))]);
-        float lo = drawStart;
-        float dy =  (lineHeight )/(64.0) ;
+       		float lo = drawStart;
+        float dy =  (64.0)/(lineHeight ) ;
+		// double texPos = (drawStart - img->height / 2 + lineHeight / 2) * dy;
         // float ty_off = 0;
-        // printf("HEEREEE lh %d dy *64 %f\n", lineHeight, dy*64.0);
+        // printf("HEEREEE lh %f\n", texPos);
             int k = 0;
             lo = drawStart;
-            while(k < 64)
+			double texPos = (drawStart - img->height / 2 + lineHeight / 2) * dy;
+            while(lo < drawEnd)
             {
-                    drawline((int []){((x)),lo,x,lo + dy},img,(int[]){img->texture.addr[(((k)%64) * img->texture.img_hei/4 + (color))]});
-                    lo += dy;
-                k++;
+					int texy = (int)texPos;
+					texPos+=dy;
+                    drawline((int []){((x)),lo,x,lo+1},img,(int[]){img->texture.addr[(texy * img->texture.img_hei/4 + (color))]});
+					// my_mlx_pixel_put(img, x, lo+1, img->texture.addr[(texy * img->texture.img_hei/4 + (color))]);
+                    lo += 1;
+                // k++;
             }
             j++;
         }
