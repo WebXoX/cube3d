@@ -18,15 +18,23 @@ int	move_w(t_data *vars)
 	{
     printf("keycode :: d");
 
-		if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*1.5 )] == 0) 
+		printf("cy%f tootal:",(vars->cx));
+		// if(vars->map[(int)vars->cy ][(int)(vars->cx + vars->player.dx*0.2 )] == 0) 
+		    if (vars->cx + vars->player.dx*0.2  < vars->longest_row && vars->cx + vars->player.dx*0.2  >= 0 && vars->cy < vars->final_c && vars->cy >= 0
+        && vars->map[(int)vars->cy][(int)(vars->cx + vars->player.dx*0.2) ] == 0)
 		{
-			vars->player.x -= vars->player.dx*0.5;
-			vars->cx  += vars->player.dx*1 ;
+			vars->player.x -= vars->player.dx*0.1;
+			vars->cx  += vars->player.dx*0.5 ;
 		}
-        if(vars->map[(int)(vars->cy  + vars->player.dy *1.5)][(int)vars->cx ] == 0) 
+        // if(vars->map[(int)(vars->cy  + vars->player.dy *0.2)][(int)vars->cx ] == 0) 
+		// printf("cy%f tootal:",(vars->player.dy *0.2));
+		    if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
+			&& (int)(vars->cy  + vars->player.dy *0.2) < vars->final_c 
+			&& (int)(vars->cy  + vars->player.dy *0.2) >= 0
+        		&& vars->map[(int)(vars->cy  + vars->player.dy *0.2)][(int)(vars->cx) ] == 0)
 		{
-			vars->player.y -= vars->player.dy*1;
-			vars->cy  += vars->player.dy*1 ;
+			vars->player.y -= vars->player.dy*0.1;
+			vars->cy  += vars->player.dy*0.1;
 		}    
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);

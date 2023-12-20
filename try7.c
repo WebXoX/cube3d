@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/12/11 15:41:18 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/20 09:31:26 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -987,8 +987,9 @@ int main(int argc, char *argv[])
             {
                 canva.cx = j;
                 canva.cy = i;
-                // printf("%d\n",canva.cx);
-                // printf("%d\n",canva.cy);
+                // printf("\n%f\n",canva.cx);
+                // printf("%f\n",canva.cy);
+                // exit(1);
 
             }
             // else
@@ -1010,7 +1011,7 @@ int main(int argc, char *argv[])
         canva.player.dx = -1;
         canva.player.dy = 0;
         canva.camaera.x = 0;
-        canva.camaera.y = 1;
+        canva.camaera.y = 0.66;
     //end
     canva.mlx_ptr = mlx_init();
     call( &canva);

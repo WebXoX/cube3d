@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/11 14:11:05 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/20 09:12:03 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ typedef struct s_data
 	int flag[6];
 	int ceil[3];
 	int first_lines;
-	int cx;
-	int cy;
+	double cx;
+	double cy;
 }	t_data;
 
 typedef struct s_line

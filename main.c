@@ -171,6 +171,8 @@ int main(int argc, char *argv[])
                 // printf("%d\n",canva.cx);
                 // printf("%d\n",canva.cy);
 
+                printf("\n%f\n",canva.cx);
+                printf("%f\n",canva.cy);
             }
             // else
             //     printf(" ");
