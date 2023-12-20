@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/20 09:12:03 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/20 09:48:39 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@
 # include "mlx/mlx.h"
 #define PI 3.1415926535
 #define DR 0.0174533
+
+typedef struct	s_tex {
+	void	*img;
+	int	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int img_wid;
+	int img_hei;
+}				t_tex;
+
 typedef struct point3d
 {
     double x;
@@ -79,6 +90,7 @@ typedef struct s_data
 	int flag[6];
 	int ceil[3];
 	int first_lines;
+	t_tex texture;
 	double cx;
 	double cy;
 }	t_data;

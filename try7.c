@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/12/20 09:31:26 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:55:07 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1012,6 +1012,12 @@ int main(int argc, char *argv[])
         canva.player.dy = 0;
         canva.camaera.x = 0;
         canva.camaera.y = 0.66;
+
+    canva.mlx_ptr = mlx_init();
+     canva.texture.img = mlx_xpm_file_to_image(canva.mlx_ptr, "RED-BRICK.xpm", &canva.texture.img_wid, &canva.texture.img_hei);
+	canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
+
+    // canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
     //end
     canva.mlx_ptr = mlx_init();
     call( &canva);
