@@ -20,26 +20,37 @@ void ray(t_data *img)
     double dirX =img->player.dx, dirY = img->player.dy;
     double planeX = img->camaera.x, planeY =  img->camaera.y;
 
-
+            double cameraX = 0;
+            double rayDirX = 0;
+            double rayDirY = 0;
+            int mapX = 0;
+            int mapY = 0;
+            double sideDistX = 0;
+            double sideDistY = 0;
+            double deltaDistX = 0;
+            double deltaDistY = 0;
         for (int x = 0; x < img->width; x++)
         {
-            double cameraX = 2 * x / (double)img->width - 1 ;
+             cameraX = 2 * x / (double)img->width - 1 ;
             // cameraX = fmod(cameraX + 2 * PI, 2 * PI);
 
-            double rayDirX = dirX + planeX * cameraX;
-            double rayDirY = dirY + planeY * cameraX;
+             rayDirX = dirX + planeX * cameraX;
+             rayDirY = dirY + planeY * cameraX;
+            // double rayAngle = atan2l(dirY,dirX) - 0.001;
+            // cameraX = rayAngle - (double)(img->camaera.x);
+             mapX = (int)posX;
+             mapY = (int) posY;
 
-            int mapX = (int)posX;
-            int mapY = (int) posY;
+            
+            double deltaDistX =  fabs(1 / rayDirX);
+            double deltaDistY =  fabs(1 / rayDirY);
+            // deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
+            // deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 
-            double sideDistX;
-            double sideDistY;
-            // double deltaDistX = (rayDirX == 0) ? 1e30: fabs(1 / rayDirX);
-            // double deltaDistY = (rayDirY == 0) ? 1e30 : fabs(1 / rayDirY);
-            double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-            double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
+            // double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
+            // double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 
-            double perpWallDist;
+            double perpWallDist = 0;
 
             int stepX;
             int stepY;
@@ -92,23 +103,26 @@ void ray(t_data *img)
 // if(side == 0) perpWallDist = (sideDistX - deltaDistX);
 //       else          perpWallDist = (sideDistY - deltaDistY);
         double wallX, wallY;
+        wallX = 0 ;
+        wallY = 0 ;
             if (side == 0)
             {
-                perpWallDist = (sideDistX - deltaDistX);
-                // perpWallDist = fabs(mapX - posX + (1 - stepX) / 2) / rayDirX;
+                perpWallDist = (sideDistX - deltaDistX);//* cos(cameraX);
+                // perpWallDist = fabs(mapX - posX + (1 - stepX) / 2) / rayDirX* cos(cameraX);
                 wallX = posY + perpWallDist * rayDirY;
             }
             else
             {
-                // perpWallDist = fabs(mapY - posY + (1 - stepY) / 2) / rayDirY;
-                 perpWallDist = (sideDistY - deltaDistY);
+                // perpWallDist = fabs(mapY - posY + (1 - stepY) / 2) / rayDirY* cos(cameraX);
+                 perpWallDist = (sideDistY - deltaDistY);//* cos(cameraX);
                 wallX = posX + perpWallDist * rayDirX;
             }
             wallX -= floor((wallX));
-            int lineHeight = (int)(img->height / perpWallDist);
-            // int lineHeight = (int)(img->height / (perpWallDist * cos(cameraX)));
+            int lineHeight = 0;
+             lineHeight = (int)(img->height / perpWallDist);
+            // int lineHeight = (int)(img->height / (perpWallDist )* cos(cameraX));
 
-            int drawStart = -lineHeight / 2 + img->height / 2;
+            int drawStart =  img->height / 2 -lineHeight / 2;
             if (drawStart < 0)
                 drawStart = 0;
             int drawEnd = lineHeight / 2 + img->height / 2;
@@ -119,12 +133,12 @@ void ray(t_data *img)
                     color = floor( wallX*64); // Red
             else
                     color = floor( wallX*64); // Red
-            printf("mapx %d\n",color );
+            // printf("mapx %d\n",color );
 
             // if (side == 1)
             //     color /= 2;
 
-            printf("sidex %f, sidey %f`\n",wallX,wallX);
+            // printf("sidex %f, sidey %f`\n",wallX,wallX);
 
         // drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
         int j=0;
@@ -138,7 +152,7 @@ void ray(t_data *img)
         float lo = drawStart;
         float dy =  (lineHeight )/(64.0) ;
         // float ty_off = 0;
-        printf("HEEREEE lh %d dy *64 %f\n", lineHeight, dy*64.0);
+        // printf("HEEREEE lh %d dy *64 %f\n", lineHeight, dy*64.0);
             int k = 0;
             lo = drawStart;
             while(k < 64)

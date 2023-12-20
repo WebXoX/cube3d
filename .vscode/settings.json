@@ -18,6 +18,7 @@
         "string_view": "c",
         "tuple": "c",
         "typeinfo": "c",
-        "vector": "c"
+        "vector": "c",
+        "complex": "c"
     }
 }
