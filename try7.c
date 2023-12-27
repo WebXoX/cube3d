@@ -615,19 +615,21 @@ int move(t_data *img,float x, float y)
     coordinate_t point;
     point.x=0;
     point.y=0;
-    while (i < img->height)
+    while (i < img->height/2)
     {
 
         drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
+        drawline((int[]){0,i + img->height/2 +1,img->width ,i+ img->height/2+1} ,img, (int[]){0x000});
+
         i++;
     }
     //wall and tile re draw
-    // tile(img);
+    tile(img);
     ray(img);
-    // wall(img);
-    // player(img);
-    img->player.y -= y;
-    img->player.x -= x;
+    wall(img);
+    player(img);
+    // img->player.y -= y;
+    // img->player.x -= x;
     i=0;
 
     // printf("hi move \n");
@@ -787,11 +789,9 @@ void wall(t_data *img)
 
     while (i < img->final_c)
     {
-                    // printf("from wall2: %d\n",img->final_c);
         j=0;
         while (j < img->longest_row)
         {
-                    // printf("from wall: \n");
 
             int c;
             if(img->map[i][j]==1)
@@ -799,7 +799,6 @@ void wall(t_data *img)
                 c = 0;
                 while (c < img->scale - 2)
                 {
-                    // printf("from wall: %d\n",c);
                     drawline((int[]){point.x ,point.y + c ,point.x
                             + img->scale-2 ,point.y + c} , img, (int[]){0xFFFFFFF});
                     c++;
@@ -827,19 +826,18 @@ void    call(t_data *canva)
     canva->player.x = (canva->scale *canva->cx)  + canva->scale/4;
     canva->player.y = (canva->scale *canva->cy) + canva->scale/4;
 
-    while (i < canva->height)
+    while (i < canva->height/2)
     {
 
         drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
+        drawline((int[]){0,i + canva->height/2 +1,canva->width ,i+ canva->height/2+1} ,canva, (int[]){0x000});
         i++;
     }
 
-    // wall(canva);
-    // tile(canva);
+    wall(canva);
+    tile(canva);
     ray(canva);
-    printf("hithere");
-    // player(canva);
-
+    player(canva);
     drawline((int[]){canva->player.x ,canva->player.y+5 ,canva->player.x -canva->player.dx*2,canva->player.y - canva->player.dy *2},canva,(int[]){0x735674});
     run(canva);
 
@@ -1012,13 +1010,12 @@ int main(int argc, char *argv[])
         canva.player.dy = 0;
         canva.camaera.x = 0;
         canva.camaera.y = 0.66;
+    //end
 
     canva.mlx_ptr = mlx_init();
      canva.texture.img = mlx_xpm_file_to_image(canva.mlx_ptr, "RED-BRICK.xpm", &canva.texture.img_wid, &canva.texture.img_hei);
 	canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
 
-    // canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
-    //end
     canva.mlx_ptr = mlx_init();
     call( &canva);
     return (0);

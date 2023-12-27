@@ -11,14 +11,14 @@
 # **************************************************************************** #
 
 
-NAME = cube3d
+NAME = cub3D
 
 INC=/usr/include
 
 INCLIB=$(INC)/../lib
 
-# SRC = 	try5.c wall.c tile.c ray.c
-SRC = 	 move_events2.c try7.c newray.c parsing.c drawline.c  #lovdev version for ray casting
+# SRC = 	try5.c wall.c tile.c ray.c 
+SRC = 	 move_events2.c main.c player.c tile.c wall.c newray.c parsing.c drawline.c  #lovdev version for ray casting
 # SRC = 	 move_events.c try7.c ray2.c parsing.c drawline.c  # normal version
 # SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c #compiled version
 # SRC = ray4.c 
@@ -72,6 +72,7 @@ clean:
 
 fclean:
 	rm -rf $(OBJ_DIR)
+	rm $(NAME)
 	@make clean -sC $(MLX_PATH_L)
 	rm -rf $(MLX_NAME_L)
 	@make fclean -sC libft

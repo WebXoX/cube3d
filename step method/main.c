@@ -2,9 +2,13 @@
 
 void    run(t_data *canva)
 {
-    mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,0);
-    mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
-    mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
+    // mlx_clear_window((canva)->mlx_ptr, (canva)->win_ptr);
+    
+    mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,
+        0);
+        mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
+        mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
+    // mlx_key_hook(canva->win_ptr, moves, &(*canva));
     mlx_loop(canva->mlx_ptr);
 }
 
@@ -12,20 +16,18 @@ int move(t_data *img,float x, float y)
 {
     int i =0;
 
-    while (i < img->height/2)
+    while (i < img->height)
     {
         drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
         drawline((int[]){0,i + img->height/2 +1,img->width ,i+ img->height/2+1} ,img, (int[]){0x000});
         i++;
     }
     
-    // ray_starter(img,140);
-    // // wall(img);
-    // // player(img);
-  tile(img);
-    ray(img);
-    wall(img);
-    player(img);
+    ray_starter(img,140);
+    // wall(img);
+    // player(img);
+
+    i=0;
     run(img);
     return (0);
 }
@@ -58,10 +60,11 @@ void    call(t_data *canva)
         drawline((int[]){0,i + canva->height/2 +1,canva->width ,i+ canva->height/2+1} ,canva, (int[]){0x000});
 
     }
-    wall(canva);
-    tile(canva);
-    ray(canva);
-    player(canva);
+    ray_starter(canva,140);
+    // wall(canva);
+    // tile(canva);
+    // player(canva);
+    // drawline((int[]){canva->player.x +10/2,canva->player.y + canva->scale/4,canva->player.x+10/2 -canva->player.dx*10,canva->player.y+ canva->scale/4 - canva->player.dy *10},canva,(int[]){0x735674});
     run(canva);
 }
 int main(int argc, char *argv[])
@@ -78,11 +81,6 @@ int main(int argc, char *argv[])
 	int line_count = 0;
 	int length;
     canva.player_count = 0;
-    
-    canva.player.dx = 0;
-    canva.player.dy = 0;
-    canva.camaera.x = 0;
-    canva.camaera.y = 0;
 
 	if(argc > 1)
 	{
@@ -192,19 +190,14 @@ int main(int argc, char *argv[])
     canva.width = 1060;
     canva.scale = 16;
     // canva.player.da = 90.0f * PI/180.0f;
-    // canva.player.da = 90 ;
-    // canva.player.dx = cos(radiansfd(canva.player.da));
-    // canva.player.dy = sin(radiansfd(canva.player.da));
+    canva.player.da = 90 ;
+    canva.player.dx = cos(radiansfd(canva.player.da));
+    canva.player.dy = sin(radiansfd(canva.player.da));
 
     // canva.player.dx = -1;
     // canva.player.dy = 0;
     // canva.camaera.x = 0;
-    // canva.camaera.y = 0.66;
-    canva.mlx_ptr = mlx_init();
-    canva.mlx_ptr = mlx_init();
-    canva.texture.img = mlx_xpm_file_to_image(canva.mlx_ptr, "RED-BRICK.xpm", &canva.texture.img_wid, &canva.texture.img_hei);
-	canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
-
+    // canva.camaera.y = 1;
     canva.mlx_ptr = mlx_init();
     call( &canva);
     return (0);

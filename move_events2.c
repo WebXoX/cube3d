@@ -15,14 +15,11 @@ int	move_w(t_data *vars)
 
 	while (vars->move_w == 1)
 	{
-		// printf("wall %d tootal:----------->\n",(vars->map[(int)(vars->cy+ vars->player.dy*0.3)][(int)(vars->cx + vars->player.dx*0.3)]));
-		// printf("cy %f %f tootal:----------->\n",(vars->cy+ vars->player.dy*0.3), (vars->cx + vars->player.dx*0.3));
-
 		if (vars->cx + vars->player.dx*0.9  < vars->longest_row && vars->cx + vars->player.dx*0.9  >= 0 && vars->cy < vars->final_c && vars->cy >= 0
         && vars->map[(int)vars->cy][(int)(vars->cx + vars->player.dx*0.9) ] != 1)
 		{
-		printf("CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx*0.3);
-			vars->player.x -= vars->player.dx*0.8;
+		// printf("CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx*0.3);
+			vars->player.x += vars->player.dx*14;
 			vars->cx  += vars->player.dx*0.8 ;
 		}
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
@@ -30,7 +27,7 @@ int	move_w(t_data *vars)
 		&& (int)(vars->cy  + vars->player.dy *0.9) >= 0
 			&& vars->map[(int)(vars->cy  + vars->player.dy *0.9)][(int)(vars->cx) ] != 1)
 		{
-			vars->player.y -= vars->player.dy*0.8;
+			vars->player.y += vars->player.dy*14;
 			vars->cy  += vars->player.dy*0.8;
 		}    
 		move(vars,0,0);
@@ -43,20 +40,20 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		printf("\nwall %d tootal:----------->\n",(vars->map[(int)(vars->cy)][(int)(vars->cx + vars->player.dx*0.4)]));
-		printf("cy %f %f tootal:----------->\n",(vars->cy+ vars->player.dy*0.3), (vars->cx + vars->player.dx*0.3));
-		printf("1CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx *0.3);
-		printf("height %d  w%d tootal:----------->\n",vars->final_c , vars->longest_row);
+		// printf("\nwall %d tootal:----------->\n",(vars->map[(int)(vars->cy)][(int)(vars->cx + vars->player.dx*0.4)]));
+		// printf("cy %f %f tootal:----------->\n",(vars->cy+ vars->player.dy*0.3), (vars->cx + vars->player.dx*0.3));
+		// printf("1CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx *0.3);
+		// printf("height %d  w%d tootal:----------->\n",vars->final_c , vars->longest_row);
 
 		// if (vars->cx + vars->player.dx*0.4  < vars->longest_row && vars->cx + vars->player.dx*0.4  >= 0 //&& vars->cy < vars->final_c && vars->cy >= 0
 		if ((int)vars->cx   < vars->longest_row && (int)vars->cx   >= 0//&& vars->cy < vars->final_c && vars->cy >= 0
         && vars->map[(int)vars->cy][(int)(vars->cx - vars->player.dx*0.9) ] != 1)
 		{
-		printf("CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx *0.3);
+		// printf("CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx *0.3);
 
-			vars->player.x += vars->player.dx*0.8;
+			vars->player.x -= vars->player.dx*14;
 			vars->cx  -= vars->player.dx*0.8 ;
-		printf("2`CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx *0.8);
+		// printf("2`CX %f  %f tootal:----------->\n",vars->cx , vars->player.dx *0.8);
 
 		}
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
@@ -64,7 +61,7 @@ int	move_s(t_data *vars)
 		&& (int)(vars->cy  + vars->player.dy *0.9) >= 0
 			&& vars->map[(int)(vars->cy  - vars->player.dy *0.9)][(int)(vars->cx) ] != 1)
 		{
-			vars->player.y += vars->player.dy*0.8;
+			vars->player.y -= vars->player.dy*14;
 			vars->cy  -= vars->player.dy*0.8;
 		}    
 		move(vars,0,0);
@@ -172,15 +169,16 @@ int moves(int keycode, t_data *vars)
     {
 		move_d(vars);
     }
-	else if ((keycode == 124|| keycode == -97) && setmove(&vars->move_r))
+	else if ((keycode == 124|| keycode == 65363) && setmove(&vars->move_r))
     {
 		move_r(vars);
     }//d
-    else if ((keycode == 123|| keycode == -100)  && setmove(&vars->move_l))
+    else if ((keycode == 123|| keycode == 65361)  && setmove(&vars->move_l))
     {
 		move_l(vars);
     }
-    if (keycode == 53)
+	printf("cy%f, cy%f, px%f, py%f \n",vars->camaera.x, vars->camaera.y, vars->player.dx,vars->player.dy);
+    if (keycode == 53 || keycode == 65307)
         exit(1);
     return (0);
 }

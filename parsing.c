@@ -25,9 +25,31 @@ int	ft_isspace(char c)
 	return (0);
 }
 
-int ft_isplayer(char c)
+int ft_isplayer(char c, t_data *data)
 {
-	return (c=='N' || c== 'E' || c== 'W' || c == 'S');
+	if(c=='N')
+	{
+		data->camaera.x = -0.66;
+		data->player.dy = -1.0;
+	}
+	else if(c=='S')
+	{
+		data->player.dy += 1;
+		data->camaera.x += 0.66;
+	}
+	else if(c=='E')
+	{
+		data->player.dx=1;
+		data->camaera.y-= 0.66;
+	}
+	else if(c== 'W')
+	{
+		data->player.dx-=1;
+		data->camaera.y+= 0.66;
+	}
+	else
+		return 0;
+	return (1);
 }
 
 void	ft_free(char **mat)
@@ -65,7 +87,7 @@ int *get_numbers(char *line, t_data *canva, int row_num)
 
 		if ((line[i] == '0' || line[i] == '1'))
 			numbers[i]=line[i] - '0';
-		else if(!canva->player_count && ft_isplayer(line[i]))
+		else if(!canva->player_count && ft_isplayer(line[i],canva))
 		{
 			(canva->player_count)++;
 			printf("%d-????count-------.\n",canva->player_count);
@@ -96,7 +118,7 @@ void validate_zeroes(int **map, t_data *canva)
 		j = 0;
 		while(j < canva->longest_row)
 		{
-			if(map[i][j] == 0 || ft_isplayer(map[i][j]))
+			if(map[i][j] == 0 || ft_isplayer(map[i][j],canva))
 			{
 				int k = i;
 				int l = j;

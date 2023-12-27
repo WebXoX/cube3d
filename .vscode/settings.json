@@ -19,6 +19,7 @@
         "tuple": "c",
         "typeinfo": "c",
         "vector": "c",
-        "complex": "c"
+        "complex": "c",
+        "get_next_line.h": "c"
     }
 }
