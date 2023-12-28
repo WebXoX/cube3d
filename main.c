@@ -1,14 +1,16 @@
 #include "cube3d.h"
+int move(t_data *img);
 
 void    run(t_data *canva)
 {
+        // mlx_loop_hook(canva->mlx_ptr, &move, &canva);
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,0);
     mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
     mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
     mlx_loop(canva->mlx_ptr);
 }
 
-int move(t_data *img,float x, float y)
+int move(t_data *img)
 {
     int i =0;
 
@@ -20,16 +22,12 @@ int move(t_data *img,float x, float y)
             drawline((int[]){0,i ,img->width ,i} ,img, (int[]){create_trgb(0,img->floor[0], img->floor[1],img->floor[2])});
         i++;
     }
-
-    // ray_starter(img,140);
-    // // wall(img);
-    // // player(img);
-  tile(img);
+//   tile(img);
     ray(img);
-    wall(img);
-    player(img);
+    // wall(img);
+    // player(img);
     run(img);
-    return (0);
+    return (1);
 }
 void make_zero(t_data *canva)
 {
@@ -62,10 +60,10 @@ void    call(t_data *canva)
             drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){create_trgb(0,canva->floor[0], canva->floor[1],canva->floor[2])});
         i++;
     }
-    wall(canva);
-    tile(canva);
+    // wall(canva);
+    // tile(canva);
     ray(canva);
-    player(canva);
+    // player(canva);
     run(canva);
 }
 int main(int argc, char *argv[])

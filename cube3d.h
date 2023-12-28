@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/28 11:25:29 by fathmanazme      ###   ########.fr       */
+/*   Updated: 2023/12/28 14:58:03 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,40 +45,64 @@ typedef struct point3d
     float da;
 }   coordinate_t;
 
+
+typedef struct ray
+{
+	coordinate_t	pos;
+	coordinate_t	dir;
+	coordinate_t	raydir;
+	coordinate_t	cam;
+	coordinate_t	sidedis;
+	coordinate_t	deltadis;
+	int				x;
+	int				y;
+	int				stepx;
+	int				stepy;
+	int				side;
+	int				hit;
+	int				idx;
+}   ray_t;
+
+
+typedef struct moves
+{
+    int		w;
+	int		s;
+	int		a;
+	int		d;
+	int		l;
+	int		r;
+}   move_t;
+
 typedef struct s_data
 {
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		line_bytes;
-	int		endian;
-	int		width;
-	int		height;
-	void	*mlx_ptr;
-	void	*win_ptr;
-	int		**map;
-	int		maph;
-	int		scale;
-	int		fov;
+	void			*img;
+	char			*addr;
+	int				bpp;
+	int				line_bytes;
+	int				endian;
+	int				width;
+	int				height;
+	void			*mlx_ptr;
+	void			*win_ptr;
+	int				**map;
+	int				maph;		
+	int				scale;		
 	/*movement push keys boolean values*/
-	int		mapw;
-	int		move_w;
-	int		move_s;
-	int		move_a;
-	int		move_d;
-	int		move_l;
-	int		move_r;
-	float	lookx;
-	float	looky;
+	int				mapw;
+	move_t  		move;
+	float			lookx;
+	float			looky;
 	/*end*/
 	/*player stuff*/
-	coordinate_t player;
-	coordinate_t camaera;
-	coordinate_t horizontal_points; //rx
-	coordinate_t vertical_points;	//rx
-	int				dof;
-	int				side;
-	float			ra;
+	coordinate_t	player;
+	coordinate_t	camaera;
+	ray_t			ray;
+	// coordinate_t horizontal_points; //rx
+	// coordinate_t vertical_points;	//rx
+	// int				dof;
+	// int				side;
+	// float			ra;
 	int directionstart;
 	/*end of player stuff*/
 
@@ -109,13 +133,12 @@ typedef struct s_line
 
 
 float FixAng(float a);
-int		move(t_data *img,float x,float y);
 int		ray_starter(t_data *img, int loop);
 void ray_range(float *ra);
 float horizontal_inter(t_data *img);
 int	create_trgb(int t, int r, int g, int b);
 float vertical_inter(t_data *img);
-int move(t_data *img,float x,float y);
+int move(t_data *img);
 int	move_w(t_data *vars);
 int	move_s(t_data *vars);
 int	move_a(t_data *vars);
