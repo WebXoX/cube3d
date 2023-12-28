@@ -125,11 +125,11 @@ int	move_l(t_data *vars)
 	while (vars->move_l == 1)
 	{
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(0.1 *radiansfd(90)) - vars->player.dy * sin(0.1 *radiansfd(90));
-		vars->player.dy = oldDirX * sin(0.1 *radiansfd(90)) + vars->player.dy * cos(0.1 *radiansfd(90));
+		vars->player.dx = vars->player.dx * cos(-0.1 *radiansfd(90)) - vars->player.dy * sin(-0.1 *radiansfd(90));
+		vars->player.dy = oldDirX * sin(-0.1 *radiansfd(90)) + vars->player.dy * cos(-0.1 *radiansfd(90));
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(0.1 *radiansfd(90)) - vars->camaera.y * sin(0.1 *radiansfd(90));
-		vars->camaera.y = oldPlaneX * sin(0.1 *radiansfd(90)) + vars->camaera.y * cos(0.1 *radiansfd(90));
+		vars->camaera.x = vars->camaera.x * cos(-0.1 *radiansfd(90)) - vars->camaera.y * sin(-0.1 *radiansfd(90));
+		vars->camaera.y = oldPlaneX * sin(-0.1 *radiansfd(90)) + vars->camaera.y * cos(-0.1 *radiansfd(90));
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -140,11 +140,11 @@ int	move_r(t_data *vars)
 	while (vars->move_r == 1)
 	{
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(-0.1 *radiansfd(90)) - vars->player.dy * sin(-0.1 *radiansfd(90));
-		vars->player.dy = oldDirX * sin(-0.1 *radiansfd(90)) + vars->player.dy * cos(-0.1 *radiansfd(90));
+		vars->player.dx = vars->player.dx * cos(0.1 *radiansfd(90)) - vars->player.dy * sin(0.1 *radiansfd(90));
+		vars->player.dy = oldDirX * sin(0.1 *radiansfd(90)) + vars->player.dy * cos(0.1 *radiansfd(90));
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(-0.1 *radiansfd(90)) - vars->camaera.y * sin(-0.1 *radiansfd(90));
-		vars->camaera.y = oldPlaneX * sin(-0.1 *radiansfd(90)) + vars->camaera.y * cos(-0.1 *radiansfd(90));
+		vars->camaera.x = vars->camaera.x * cos(0.1 *radiansfd(90)) - vars->camaera.y * sin(0.1 *radiansfd(90));
+		vars->camaera.y = oldPlaneX * sin(0.1 *radiansfd(90)) + vars->camaera.y * cos(0.1 *radiansfd(90));
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}

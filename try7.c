@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 10:12:05 by jperinch          #+#    #+#             */
-/*   Updated: 2023/12/20 13:02:46 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/28 09:05:24 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1006,10 +1006,10 @@ int main(int argc, char *argv[])
     // canva.player.dy = sin(canva.player.da)*5;
 
     //this for lovdev vector method
-        canva.player.dx = -1;
-        canva.player.dy = 0;
-        canva.camaera.x = 0;
-        canva.camaera.y = 0.66;
+        canva.player.dx = 0;
+        canva.player.dy = -1;
+        canva.camaera.x = 0.66;;
+        canva.camaera.y = 0;
     //end
 
     canva.mlx_ptr = mlx_init();
