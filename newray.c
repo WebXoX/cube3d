@@ -1,9 +1,5 @@
 #include "cube3d.h"
 #include <math.h>
-#define screenWidth 1540
-#define screenHeight 1080
-#define mapWidth 24
-#define mapHeight 24
 float radiansfd(float angle)
 {
 	return (angle * PI / 180.0f);
@@ -32,23 +28,15 @@ void ray(t_data *img)
         for (int x = 0; x < img->width; x++)
         {
              cameraX = 2 * x / (double)img->width - 1 ;
-            // cameraX = fmod(cameraX + 2 * PI, 2 * PI);
 
              rayDirX = dirX + planeX * cameraX;
              rayDirY = dirY + planeY * cameraX;
-            // double rayAngle = atan2l(dirY,dirX) - 0.001;
-            // cameraX = rayAngle - (double)(img->camaera.x);
              mapX = (int)posX;
              mapY = (int) posY;
 
 
             double deltaDistX =  fabs(1 / rayDirX);
             double deltaDistY =  fabs(1 / rayDirY);
-            // deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-            // deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
-
-            // double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-            // double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
 
             double perpWallDist = 0;
 
@@ -99,28 +87,22 @@ void ray(t_data *img)
                     perpWallDist = 0;
                 }
             }
-
-// if(side == 0) perpWallDist = (sideDistX - deltaDistX);
-//       else          perpWallDist = (sideDistY - deltaDistY);
         double wallX, wallY;
         wallX = 0 ;
         wallY = 0 ;
             if (side == 0)
             {
                 perpWallDist = (sideDistX - deltaDistX);//* cos(cameraX);
-                // perpWallDist = fabs(mapX - posX + (1 - stepX) / 2) / rayDirX* cos(cameraX);
                 wallX = posY + perpWallDist * rayDirY;
             }
             else
             {
-                // perpWallDist = fabs(mapY - posY + (1 - stepY) / 2) / rayDirY* cos(cameraX);
                  perpWallDist = (sideDistY - deltaDistY);//* cos(cameraX);
                 wallX = posX + perpWallDist * rayDirX;
             }
             wallX -= floor((wallX));
             int lineHeight = 0;
              lineHeight = (int)(img->height / perpWallDist);
-            // int lineHeight = (int)(img->height / (perpWallDist )* cos(cameraX));
 
             int drawStart =  img->height / 2 -lineHeight / 2;
             if (drawStart < 0)
@@ -133,27 +115,9 @@ void ray(t_data *img)
                     color = floor( wallX*64); // Red
             else
                     color = floor( wallX*64); // Red
-            // printf("mapx %d\n",color );
-
-            // if (side == 1)
-            //     color /= 2;
-
-            // printf("sidex %f, sidey %f`\n",wallX,wallX);
-
-        // drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
         int j=0;
-        // while (j < 8)
-        // {
-        //      // my_mlx_pixel_put(img,x,y,color);
-        //      drawline((int []){((i*8) + j),lo,(i*8)+j,lh+lo},img,(int[]){color});
-        //  j++;
-        // }
-                // mlx_pixel_put(img->mlx_ptr, img->win_ptr, color, k, img->texture.addr[((k%64) * img->texture.img_wid + (color))]);
        		float lo = drawStart;
         float dy =  (64.0)/(lineHeight ) ;
-		// double texPos = (drawStart - img->height / 2 + lineHeight / 2) * dy;
-        // float ty_off = 0;
-        // printf("HEEREEE lh %f\n", texPos);
             int k = 0;
             lo = drawStart;
 			double texPos = (drawStart - img->height / 2 + lineHeight / 2) * dy;
@@ -161,13 +125,10 @@ void ray(t_data *img)
             {
 					int texy = (int)texPos;
 					texPos+=dy;
-                    drawline((int []){((x)),lo,x,lo+1},img,(int[]){img->texture.addr[(texy * img->texture.img_hei/4 + (color))]});
-					// my_mlx_pixel_put(img, x, lo+1, img->texture.addr[(texy * img->texture.img_hei/4 + (color))]);
+                    // drawline((int []){((x)),lo,x,lo+1},img,(int[]){img->texture.addr[(texy * img->texture.img_hei/4 + (color))]});
+					my_mlx_pixel_put(img, x, lo+1, img->texture.addr[(texy * img->texture.img_hei/4 + (color))]);
                     lo += 1;
-                // k++;
             }
             j++;
         }
-            // drawline((int[]){x, drawStart, x, drawEnd},img,(int[]){color} );
-
 }
