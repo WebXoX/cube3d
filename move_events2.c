@@ -75,21 +75,22 @@ int	move_a(t_data *vars)
 	while (vars->move_a == 1)
 	{
         
-		double rayAngle = atan2l(vars->player.dy,vars->player.dx) + PI/2;
+		double rayAngle = (atan2l(vars->player.dy,vars->player.dx) -  vars->directionstart*( PI/2));
+		// double rayAngle =4 * (PI / 180);
 
-		if (vars->cx +  cos(rayAngle)*0.6  < vars->longest_row && vars->cx +  cos(rayAngle)*0.6 >= 0 && vars->cy < vars->final_c && vars->cy >= 0
-        && vars->map[(int)vars->cy][(int)(vars->cx + cos(rayAngle)*0.6) ] != 1)
+		if (vars->cx +cos(rayAngle)*0.6  < vars->longest_row && vars->cx +cos(rayAngle)*0.6 >= 0 && vars->cy < vars->final_c && vars->cy >= 0
+        && vars->map[(int)vars->cy][(int)(vars->cx +cos(rayAngle)*0.6) ] != 1)
 		{
-			vars->player.x += vars->player.dx*0.8;
+			vars->player.x -= vars->player.dx*0.8;
 			vars->cx  += cos(rayAngle)*0.5 ;
 		}
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
-		&& (int)(vars->cy  + sin(rayAngle)*0.6) < vars->final_c 
-		&& (int)(vars->cy  +  sin(rayAngle)*0.6) >= 0
-			&& vars->map[(int)(vars->cy  +  sin(rayAngle)*0.6)][(int)(vars->cx) ] != 1)
+		&& (int)(vars->cy +sin(rayAngle)*0.6) < vars->final_c 
+		&& (int)(vars->cy + sin(rayAngle)*0.6) >= 0
+			&& vars->map[(int)(vars->cy + sin(rayAngle)*0.6)][(int)(vars->cx) ] != 1)
 		{
-			vars->player.y += vars->player.dy*0.5;
-			vars->cy  += sin(rayAngle)*0.5 ;
+			vars->player.y+= vars->player.dy*0.5;
+			vars->cy += sin(rayAngle)*0.5 ;
 		}   
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
@@ -100,20 +101,21 @@ int	move_d(t_data *vars)
 {
 	while (vars->move_d == 1)
 	{
-		double rayAngle = atan2l(vars->player.dy,vars->player.dx) - PI/2;
-		if (vars->cx + cos(rayAngle)*0.4  < vars->longest_row && vars->cx + cos(rayAngle)*0.4 >= 0 && vars->cy +  sin(rayAngle)*0.4< vars->final_c && vars->cy +  sin(rayAngle)*0.4 >= 0
-			&& vars->map[(int)(vars->cy)][(int)(vars->cx + cos(rayAngle)*0.4) ] != 1)
+		// double rayAngle = 4 * (PI / 180);
+		double rayAngle = (atan2l(vars->player.dy,vars->player.dx) - vars->directionstart*(PI/2));
+		if (vars->cx - cos(rayAngle)*0.4  < vars->longest_row && vars->cx - cos(rayAngle)*0.4 >= 0 && vars->cy -  sin(rayAngle)*0.4< vars->final_c && vars->cy -  sin(rayAngle)*0.4 >= 0
+			&& vars->map[(int)(vars->cy)][(int)(vars->cx - cos(rayAngle)*0.4) ] != 1)
 		{
-			vars->player.x += vars->player.dx*0.3;
-			vars->cx  += cos(rayAngle)*0.3 ;
+			vars->player.x -= vars->player.dx*0.3;
+			vars->cx  -= cos(rayAngle)*0.3 ;
 		}
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
-		&& (int)(vars->cy  + sin(rayAngle)*0.4) < vars->final_c 
-		&& (int)(vars->cy  + sin(rayAngle)*0.4) >= 0
-			&& vars->map[(int)(vars->cy +sin(rayAngle)*0.4) ][(int)(vars->cx) ] != 1)
+		&& (int)(vars->cy  - sin(rayAngle)*0.4) < vars->final_c 
+		&& (int)(vars->cy  - sin(rayAngle)*0.4) >= 0
+			&& vars->map[(int)(vars->cy -sin(rayAngle)*0.4) ][(int)(vars->cx) ] != 1)
 		{
-			vars->player.y += vars->player.dy*0.4;
-			vars->cy  += sin(rayAngle)*0.3;
+			vars->player.y -= vars->player.dy*0.4;
+			vars->cy  -= sin(rayAngle)*0.3;
 		}     
 		move(vars,0,0);
 		mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
@@ -124,12 +126,13 @@ int	move_l(t_data *vars)
 {
 	while (vars->move_l == 1)
 	{
+		double rayAngle = vars->directionstart;
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(-0.1 *radiansfd(90)) - vars->player.dy * sin(-0.1 *radiansfd(90));
-		vars->player.dy = oldDirX * sin(-0.1 *radiansfd(90)) + vars->player.dy * cos(-0.1 *radiansfd(90));
+		vars->player.dx = vars->player.dx * cos(-0.1 *rayAngle) - vars->player.dy * sin(-0.1 *rayAngle);
+		vars->player.dy = oldDirX * sin(-0.1 *rayAngle) + vars->player.dy * cos(-0.1 *rayAngle);
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(-0.1 *radiansfd(90)) - vars->camaera.y * sin(-0.1 *radiansfd(90));
-		vars->camaera.y = oldPlaneX * sin(-0.1 *radiansfd(90)) + vars->camaera.y * cos(-0.1 *radiansfd(90));
+		vars->camaera.x = vars->camaera.x * cos(-0.1 *rayAngle) - vars->camaera.y * sin(-0.1 *rayAngle);
+		vars->camaera.y = oldPlaneX * sin(-0.1 *rayAngle) + vars->camaera.y * cos(-0.1 *rayAngle);
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -139,12 +142,14 @@ int	move_r(t_data *vars)
 {
 	while (vars->move_r == 1)
 	{
+		double rayAngle =  vars->directionstart;
+
 		double oldDirX = vars->player.dx;
-		vars->player.dx = vars->player.dx * cos(0.1 *radiansfd(90)) - vars->player.dy * sin(0.1 *radiansfd(90));
-		vars->player.dy = oldDirX * sin(0.1 *radiansfd(90)) + vars->player.dy * cos(0.1 *radiansfd(90));
+		vars->player.dx = vars->player.dx * cos(0.1 *rayAngle) - vars->player.dy * sin(0.1 *rayAngle);
+		vars->player.dy = oldDirX * sin(0.1 *rayAngle) + vars->player.dy * cos(0.1 *rayAngle);
 		double oldPlaneX = vars->camaera.x;
-		vars->camaera.x = vars->camaera.x * cos(0.1 *radiansfd(90)) - vars->camaera.y * sin(0.1 *radiansfd(90));
-		vars->camaera.y = oldPlaneX * sin(0.1 *radiansfd(90)) + vars->camaera.y * cos(0.1 *radiansfd(90));
+		vars->camaera.x = vars->camaera.x * cos(0.1 *rayAngle) - vars->camaera.y * sin(0.1 *rayAngle);
+		vars->camaera.y = oldPlaneX * sin(0.1 *rayAngle) + vars->camaera.y * cos(0.1 *rayAngle);
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}

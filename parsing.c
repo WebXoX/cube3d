@@ -29,23 +29,30 @@ int ft_isplayer(char c, t_data *data)
 {
 	if(c=='N')
 	{
-		data->camaera.x = -0.66;
+		data->camaera.x = 0.66;
 		data->player.dy = -1.0;
+		data->directionstart = 1;
 	}
 	else if(c=='S')
 	{
 		data->player.dy += 1;
-		data->camaera.x += 0.66;
+		data->camaera.x -= 0.66;
+		data->directionstart = 1;
+
 	}
 	else if(c=='E')
 	{
 		data->player.dx=1;
 		data->camaera.y-= 0.66;
+		data->directionstart = -1;
+
 	}
 	else if(c== 'W')
 	{
 		data->player.dx-=1;
 		data->camaera.y+= 0.66;
+		data->directionstart = -1;
+
 	}
 	else
 		return 0;
