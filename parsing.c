@@ -255,6 +255,20 @@ char *join_all(char **rgb)
 	return new;
 }
 
+void validate_file(char *file, t_data *canva, int i)
+{
+	printf("%s\n", file);
+	canva->texture2[i].img = mlx_xpm_file_to_image(canva->mlx_ptr, file,
+		&canva->texture2[i].img_wid, &canva->texture2[i].img_hei);
+	if(canva->texture2[i].img <=0 || ft_strcmp(ft_strstr(file, "."), ".xpm") != 0)
+	{
+		printf("Invalid file!!\n");
+		exit(0);
+	}
+	canva->texture2[i].addr = (int *)mlx_get_data_addr(canva->texture2[i].img,
+		 &canva->texture2[i].bits_per_pixel, &canva->texture2[i].img_hei,
+		 	&canva->texture2[i].endian);
+}
 
 void check_valid(char *tex, t_data *canva)
 {
@@ -276,6 +290,8 @@ void check_valid(char *tex, t_data *canva)
 			{
 				canva->flag[i] = 1;
 				canva->tex[i] = ft_strdup(&tex[index]);
+				validate_file(canva->tex[i], canva, i);
+
 			}
 			else
 				{

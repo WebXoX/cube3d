@@ -12,13 +12,15 @@ int move(t_data *img,float x, float y)
 {
     int i =0;
 
-    while (i < img->height/2)
+      while (i < img->height)
     {
-        drawline((int[]){0,i ,img->width ,i} ,img, (int[]){0x045680});
-        drawline((int[]){0,i + img->height/2 +1,img->width ,i+ img->height/2+1} ,img, (int[]){0x000});
+        if(i < img->height/2)
+            drawline((int[]){0,i ,img->width ,i} ,img, (int[]){create_trgb(0,img->ceil[0], img->ceil[1],img->ceil[2])});
+        else
+            drawline((int[]){0,i ,img->width ,i} ,img, (int[]){create_trgb(0,img->floor[0], img->floor[1],img->floor[2])});
         i++;
     }
-    
+
     // ray_starter(img,140);
     // // wall(img);
     // // player(img);
@@ -43,7 +45,7 @@ void    call(t_data *canva)
 {
     int     status;
     int     i;
-	
+
 	i = -1;
     canva->img = mlx_new_image(canva->mlx_ptr, canva->width, canva->height);
     canva->addr = mlx_get_data_addr(canva->img, &canva->bpp,
@@ -52,11 +54,13 @@ void    call(t_data *canva)
                 "cub3d");
     canva->player.x = (canva->scale *canva->cx)  + canva->scale/4;
     canva->player.y = (canva->scale *canva->cy) + canva->scale/4;
-    while (++i < canva->height/2)
+    while (i < canva->height)
     {
-        drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){0x045680});
-        drawline((int[]){0,i + canva->height/2 +1,canva->width ,i+ canva->height/2+1} ,canva, (int[]){0x000});
-
+        if(i < canva->height/2)
+            drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){create_trgb(0,canva->ceil[0], canva->ceil[1],canva->ceil[2])});
+        else
+            drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){create_trgb(0,canva->floor[0], canva->floor[1],canva->floor[2])});
+        i++;
     }
     wall(canva);
     tile(canva);
@@ -78,7 +82,7 @@ int main(int argc, char *argv[])
 	int line_count = 0;
 	int length;
     canva.player_count = 0;
-    
+
     canva.player.dx = 0;
     canva.player.dy = 0;
     canva.camaera.x = 0;
@@ -88,6 +92,7 @@ int main(int argc, char *argv[])
 	{
 		fd = open(argv[1], O_RDWR);
          make_zero(&canva);
+    canva.mlx_ptr = mlx_init();
 		line = validate_textures(&canva, fd);
 		while(line)
 		{
@@ -200,12 +205,11 @@ int main(int argc, char *argv[])
     // canva.player.dy = 0;
     // canva.camaera.x = 0;
     // canva.camaera.y = 0.66;
-    canva.mlx_ptr = mlx_init();
-    canva.mlx_ptr = mlx_init();
-    canva.texture.img = mlx_xpm_file_to_image(canva.mlx_ptr, "RED-BRICK.xpm", &canva.texture.img_wid, &canva.texture.img_hei);
-	canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
+    // canva.mlx_ptr = mlx_init();
+    // canva.mlx_ptr = mlx_init();
+    // canva.texture.img = mlx_xpm_file_to_image(canva.mlx_ptr, "RED-BRICK.xpm", &canva.texture.img_wid, &canva.texture.img_hei);
+	// canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
 
-    canva.mlx_ptr = mlx_init();
     call( &canva);
     return (0);
 }
