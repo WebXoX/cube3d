@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/28 09:45:24 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/28 11:25:29 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ typedef struct s_data
 	coordinate_t camaera;
 	coordinate_t horizontal_points; //rx
 	coordinate_t vertical_points;	//rx
-	int				dof; 
+	int				dof;
 	int				side;
 	float			ra;
 	int directionstart;
@@ -94,6 +94,7 @@ typedef struct s_data
 	int ceil[3];
 	int first_lines;
 	t_tex texture;
+	t_tex texture2[6];
 	double cx;
 	double cy;
 }	t_data;

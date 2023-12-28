@@ -78,7 +78,7 @@ void ray(t_data *img)
                 stepY = 1;
                 sideDistY = (mapY + 1.0 - posY) * deltaDistY;
             }
-
+            int idx;
             while (hit == 0)
             {
                 if (sideDistX < sideDistY)
@@ -86,12 +86,20 @@ void ray(t_data *img)
                     sideDistX += deltaDistX;
                     mapX += stepX;
                     side = 0;
+                     if (mapY >=0 && mapX+1 >= 0 && mapX+1 <img->longest_row && mapY < img->final_c && img->map[mapY][mapX+1] != 1 && rayDirX < 0)
+                        idx = 3;
+                    else
+                        idx = 2;
                 }
                 else
                 {
                     sideDistY += deltaDistY;
                     mapY += stepY;
                     side = 1;
+                    if (mapX >=0 && mapY-1 >= 0 && mapX <img->longest_row && mapY-1 < img->final_c && img->map[mapY-1][mapX] != 1 && rayDirY > 0)
+                        idx = 1;
+                    else
+                        idx = 0;
                 }
                 if (mapX < img->longest_row && mapX >= 0 && mapY < img->final_c && mapY >= 0 && img->map[mapY][mapX] == 1)
                 {
@@ -129,10 +137,7 @@ void ray(t_data *img)
             if (drawEnd >= img->height)
                 drawEnd = img->height - 1;
             int color;
-            if(side == 1)
-                    color = floor( wallX*64); // Red
-            else
-                    color = floor( wallX*64); // Red
+            color = floor( wallX*64);
             // printf("mapx %d\n",color );
 
             // if (side == 1)
@@ -161,7 +166,7 @@ void ray(t_data *img)
             {
 					int texy = (int)texPos;
 					texPos+=dy;
-                    drawline((int []){((x)),lo,x,lo+1},img,(int[]){img->texture.addr[(texy * img->texture.img_hei/4 + (color))]});
+                    drawline((int []){((x)),lo,x,lo+1},img,(int[]){img->texture2[idx].addr[(texy * img->texture2[idx].img_hei/4 + (color))]});
 					// my_mlx_pixel_put(img, x, lo+1, img->texture.addr[(texy * img->texture.img_hei/4 + (color))]);
                     lo += 1;
                 // k++;
