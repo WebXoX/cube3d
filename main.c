@@ -33,11 +33,20 @@ void make_zero(t_data *canva)
 {
     int i = 0;
     canva->longest_row = 0;
+	 canva->cur_tex = 0;
+	  canva->cur_line = 0;
     ft_bzero(canva->tex, 4);
     while(i < 6)
+	{
         canva->flag[i++] = 0;
+		if(i < 4)
+			canva->texture2[i].img = 0;
+	}
+	canva->map =0;
     canva->player_count = 0;
+	canva->final_c = 0;
     canva->first_lines = 0;
+	canva->lengths=0;
 }
 void    call(t_data *canva)
 {
@@ -74,7 +83,6 @@ int main(int argc, char *argv[])
 	char *line;
 	char *nl_pos;
 	int *numbers;
-	int count =0;
     int i = 0;
     int k = 0;
 	int line_count = 0;
@@ -89,9 +97,11 @@ int main(int argc, char *argv[])
 	if(argc > 1)
 	{
 		fd = open(argv[1], O_RDWR);
+		canva.fd = fd;
          make_zero(&canva);
     canva.mlx_ptr = mlx_init();
 		line = validate_textures(&canva, fd);
+		canva.cur_tex = 0;
 		while(line)
 		{
 			if(ft_strcmp(line, "\n") == 0)
@@ -102,6 +112,7 @@ int main(int argc, char *argv[])
 					{
 						free(line);
 						line = get_next_line(fd);
+						canva.cur_line = &line;
 					}
 					else
 					{
@@ -117,21 +128,22 @@ int main(int argc, char *argv[])
 			}
 			else
 			{
-				length = ft_strlen(line);
+				length = ft_strlen(line) - 1;
 				if (length > canva.longest_row)
 					canva.longest_row = length;
+				free(line);
 				line = get_next_line(fd);
 				line_count++;
 			}
 		}
         // printf(" %d\n", canva.longest_row);
 		close(fd);
+		// fd = open(argv[1], O_RDWR);
+		canva.map = ft_calloc(sizeof(int*) , line_count);
 		fd = open(argv[1], O_RDWR);
-		canva.map = malloc(sizeof(int*) * line_count);
-		fd = open(argv[1], O_RDWR);
+		canva.fd = fd;
 		line = get_next_line(fd);
 		canva.lengths = malloc(sizeof(int)*line_count);
-        printf("%d\n", canva.first_lines);
 		while (line)
 		{
             if(i++ < canva.first_lines)
@@ -146,26 +158,20 @@ int main(int argc, char *argv[])
 				}
 			else if(line)
 			{
+				canva.cur_line = &line;
 				nl_pos = ft_strchr(line, '\n');
 				if (nl_pos)
 					nl_pos[0] = 0;
-				canva.map[count] = get_numbers(line, &canva, count);
-
+				canva.map[canva.final_c] = get_numbers(line, &canva, canva.final_c);
 				free(line);
 				line = get_next_line(fd);
-				count++;
+				canva.final_c++;
 			}
 		}
 		close(fd);
-			printf("%d-????count-------->\n",canva.player_count);
-
+		// canva.final_c = count;
 		if(!(canva.player_count))
-		{
-			printf("%d-????count-------->\n",canva.player_count);
-
-			error_free(&canva, -1, "Error! no player present!\n");
-		}
-		canva.final_c = count;
+			error_free(&canva, -1, "Error: no player present!\n");
 		validate_zeroes(canva.map, &canva);
 		validate_spaces(canva.map, &canva);
 	}
@@ -203,11 +209,6 @@ int main(int argc, char *argv[])
     // canva.player.dy = 0;
     // canva.camaera.x = 0;
     // canva.camaera.y = 0.66;
-    // canva.mlx_ptr = mlx_init();
-    // canva.mlx_ptr = mlx_init();
-    // canva.texture.img = mlx_xpm_file_to_image(canva.mlx_ptr, "RED-BRICK.xpm", &canva.texture.img_wid, &canva.texture.img_hei);
-	// canva.texture.addr = (int *)mlx_get_data_addr(canva.texture.img, &canva.texture.bits_per_pixel, &canva.texture.img_hei, &canva.texture.endian);
-
     call( &canva);
     return (0);
 }

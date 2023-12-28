@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/28 14:58:03 by jperinch         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:11:18 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ typedef struct s_data
 	void			*mlx_ptr;
 	void			*win_ptr;
 	int				**map;
-	int				maph;		
-	int				scale;		
+	int				maph;
+	int				scale;
 	/*movement push keys boolean values*/
 	int				mapw;
 	move_t  		move;
@@ -118,9 +118,12 @@ typedef struct s_data
 	int ceil[3];
 	int first_lines;
 	t_tex texture;
-	t_tex texture2[6];
+	t_tex texture2[4];
 	double cx;
 	double cy;
+	int fd;
+	char **cur_line;
+	char **cur_tex;
 }	t_data;
 
 typedef struct s_line
