@@ -98,11 +98,10 @@ int main(int argc, char *argv[])
 	{
          make_zero(&canva);
 		fd = open(argv[1], O_RDWR);
-		if(fd < 0)
+		if(fd < 0 || ft_strcmp(ft_strrchr(argv[1], '.'), ".cub") != 0)
 			error_free(&canva, -1, "Error: Invalid file\n");
 		canva.fd = fd;
          make_zero(&canva);
-        //  printf("HELLO %p\n",canva.texture2[0].img );
     canva.mlx_ptr = mlx_init();
 		line = validate_textures(&canva, fd);
 		canva.cur_tex = 0;

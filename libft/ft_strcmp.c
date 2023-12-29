@@ -6,7 +6,7 @@
 /*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 10:09:34 by afarheen          #+#    #+#             */
-/*   Updated: 2023/02/03 10:09:35 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:53:08 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ int	ft_strcmp(char *s1, char *s2)
 	int	i;
 
 	i = 0;
+	if(!s1 || !s2)
+		return 1;
 	while (s1[i] != '\0' || s2[i] != '\0')
 	{
 		if (s1[i] == s2[i])
