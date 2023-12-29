@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/28 20:11:18 by afarheen         ###   ########.fr       */
+/*   Updated: 2023/12/29 12:36:03 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,52 +78,51 @@ typedef struct s_data
 {
 	void			*img;
 	char			*addr;
+	void			*mlx_ptr;
+	void			*win_ptr;
 	int				bpp;
 	int				line_bytes;
 	int				endian;
 	int				width;
 	int				height;
-	void			*mlx_ptr;
-	void			*win_ptr;
 	int				**map;
 	int				maph;
 	int				scale;
 	/*movement push keys boolean values*/
-	int				mapw;
-	move_t  		move;
 	float			lookx;
 	float			looky;
+	move_t  		move;
 	/*end*/
 	/*player stuff*/
 	coordinate_t	player;
 	coordinate_t	camaera;
+	coordinate_t 	horizontal_points; //rx
+	coordinate_t 	vertical_points;	//rx
 	ray_t			ray;
-	// coordinate_t horizontal_points; //rx
-	// coordinate_t vertical_points;	//rx
-	// int				dof;
-	// int				side;
-	// float			ra;
-	int directionstart;
+	int				dof;
+	int				side;
+	int				directionstart;
+	float			ra;
 	/*end of player stuff*/
 
-	int longest_row;
-	int count;
-	int line_count;
-	int final_c;
-	int *lengths;
-	int player_count;
-	char *tex[4];
-	int floor[3];
-	int flag[6];
-	int ceil[3];
-	int first_lines;
-	t_tex texture;
-	t_tex texture2[4];
-	double cx;
-	double cy;
-	int fd;
-	char **cur_line;
-	char **cur_tex;
+	int				longest_row;
+	int				count;
+	int				line_count;
+	int				final_c;
+	int				*lengths;
+	int				player_count;
+	char			*tex[4];
+	int				floor[3];
+	int				flag[6];
+	int				ceil[3];
+	int				first_lines;
+	t_tex			texture;
+	t_tex			texture2[4];
+	double			cx;
+	double			cy;
+	int				fd;
+	char			**cur_line;
+	char			**cur_tex;
 }	t_data;
 
 typedef struct s_line
@@ -135,17 +134,17 @@ typedef struct s_line
 }	t_line;
 
 
-float FixAng(float a);
+float	FixAng(float a);
 int		ray_starter(t_data *img, int loop);
-void ray_range(float *ra);
-float horizontal_inter(t_data *img);
-int	create_trgb(int t, int r, int g, int b);
-float vertical_inter(t_data *img);
-int move(t_data *img);
-int	move_w(t_data *vars);
-int	move_s(t_data *vars);
-int	move_a(t_data *vars);
-int	move_d(t_data *vars);
+void	ray_range(float *ra);
+float	horizontal_inter(t_data *img);
+int		create_trgb(int t, int r, int g, int b);
+float	vertical_inter(t_data *img);
+int		move(t_data *img);
+int		move_w(t_data *vars);
+int		move_s(t_data *vars);
+int		move_a(t_data *vars);
+int		move_d(t_data *vars);
 
 int		moves(int keycode, t_data *vars);
 int		*get_numbers(char *line, t_data *canva, int row_num);

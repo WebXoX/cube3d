@@ -21,8 +21,9 @@ int move(t_data *img)
             drawline((int[]){0,i ,img->width ,i} ,img, (int[]){create_trgb(0,img->floor[0], img->floor[1],img->floor[2])});
         i++;
     }
-  tile(img);
     ray(img);
+    tile(img);
+	ray_starter(img,120);
     wall(img);
     player(img);
     run(img);
@@ -68,10 +69,10 @@ void    call(t_data *canva)
             drawline((int[]){0,i ,canva->width ,i} ,canva, (int[]){create_trgb(0,canva->floor[0], canva->floor[1],canva->floor[2])});
         i++;
     }
-    // wall(canva);
-    // tile(canva);
     ray(canva);
-    // player(canva);
+    wall(canva);
+    tile(canva);
+    player(canva);
     run(canva);
 }
 int main(int argc, char *argv[])
@@ -177,7 +178,6 @@ int main(int argc, char *argv[])
 			error_free(&canva, -1, "Error: no player present!\n");
 		validate_zeroes(canva.map, &canva);
 		validate_spaces(canva.map, &canva);
-	}
     for (size_t i = 0; i < canva.final_c; i++)
     {
         for (size_t j = 0; j < canva.longest_row; j++)
@@ -202,8 +202,8 @@ int main(int argc, char *argv[])
 
     canva.height = 1020;
     canva.width = 1060;
-    canva.scale = 16;
-    // canva.player.da = 90.0f * PI/180.0f;
+    canva.scale = 8;
+    canva.player.da = 90.0f * PI/180.0f;
     // canva.player.da = 90 ;
     // canva.player.dx = cos(radiansfd(canva.player.da));
     // canva.player.dy = sin(radiansfd(canva.player.da));
@@ -213,6 +213,7 @@ int main(int argc, char *argv[])
     // canva.camaera.x = 0;
     // canva.camaera.y = 0.66;
     call( &canva);
+	}
     return (0);
 }
 

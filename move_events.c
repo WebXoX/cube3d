@@ -12,7 +12,6 @@ int setmove(int* key)
 }
 int collisionNS(t_data *C, int i)
 {
-	printf("da ::%f\n",C->player.da);
 	if ((C->player.da >= 0 && C->player.da <= 90) )//|| (C->player.da > 320 && C->player.da <= 360 ))
 	{
 		if( i == 0 && C->map[(int)(C->player.y -C->player.dy *16)/C->scale ][(int)(C->player.x -C->player.dx *16)/C->scale]!=1)
@@ -41,7 +40,6 @@ int collisionNS(t_data *C, int i)
 		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy *16) / C->scale ][(int)( C->player.x + 10 + C->player.dx *16) / C->scale ] != 1)
 			return 1;
 	}
-	
 	return 0 ;
 }
 int	move_w(t_data *vars)
