@@ -169,51 +169,48 @@ void validate_zeroes(int **map, t_data *canva)
 		j = 0;
 		while(j < canva->longest_row)
 		{
-			if(map[i][j] == 0 || ft_isplayer(map[i][j],canva))
+			if(map[i][j] == 0 || map[i][j] == 2)
 			{
 				int k = i;
 				int l = j;
 				while(k >= 0)
 				{
-					if( j < canva->lengths[k] && map[k][j] == 1)
+					if(map[k][j] == 1)
 						break;
-					else if (j > canva->lengths[k])
-						error_free(canva, -1, "Error: Invalid zeroes\n");
 					k--;
 				}
 				if(k == -1)
-					error_free(canva, -1, "Error: Invalid zeroes\n");
+					error_free(canva, -1, "Error: Invalid zero or player position\n");
 				k = i;
 				while(k < canva->final_c)
 				{
-					if( j < canva->lengths[k] && map[k][j] == 1)
+					if( j < canva->longest_row && map[k][j] == 1)
 						break;
-					else if (j > canva->lengths[k])
-						error_free(canva, -1, "Error: Invalid zeroes\n");
+					else if (j > canva->longest_row)
+						error_free(canva, -1, "Error: Invalid zero or player position\n");
 					k++;
 				}
 				if(k == canva->final_c)
-					error_free(canva, -1, "Error: Invalid zeroes\n");
-
+					error_free(canva, -1, "Error: Invalid zero or player position\n");
 				while(l >= 0)
 				{
-					if( l < canva->lengths[i] && map[i][l] == 1)
+					if(map[i][l] == 1)
 						break;
 					l--;
 				}
 				if(l == -1)
-					error_free(canva, -1, "Error: Invalid zeroes\n");
+					error_free(canva, -1, "Error: Invalid zero or player position\n");
 				l = j;
-				while(l < canva->lengths[i])
+				while(l < canva->longest_row)
 				{
-					if( l < canva->lengths[i] && map[i][l] == 1)
+					if(map[i][l] == 1)
 						break;
 					l++;
 				}
-				if(l == canva->lengths[i])
-					error_free(canva, -1, "Error: Invalid zeroes\n");
+				if(l == canva->longest_row)
+					error_free(canva, -1, "Error: Invalid zero or player position\n");
 			}
-		j++;
+			j++;
 		}
 		i++;
 	}
@@ -341,10 +338,10 @@ int extract_num(char *str, t_data *canva, int val, char type)
 		i++;
 	num_count = num_valid(str, i, 0);
 	i = i + num_count;
-	
+
 	if(num_count > 3 || (str[i] && (!ft_isspace(str[i]) && str[i] != ',')) || num_count == 0)
 	{
-		
+
 		error_free(canva, 1, "Error: RGB values are incorrect\n");
 	}
 	if(type == 'F' && ft_atoi(str) <= 255)
@@ -365,11 +362,11 @@ int extract_num(char *str, t_data *canva, int val, char type)
 void extract_rgb(char *tex, t_data *canva)
 {
 	int index;
-	
+
 	if(tex[1] && ft_isspace(tex[1]))
 	{
 		printf("%s\n", &tex[1]);
-			
+
 		index = extract_num(&tex[1], canva, 0, tex[0]);
 		index += extract_num(&tex[index + 1], canva, 1, tex[0]);
 		if(tex[index])
@@ -413,7 +410,7 @@ void condition_check(t_data *canva, char *line, int fd)
 	char *tex;
 	tex = ft_strtrim(line, " \n\t\f\r\v");
 	canva->cur_tex = &tex;
-	
+
 	if (tex && tex[0] && tex[1])
 	{
 		if((tex[0] =='S' && tex[1] == 'O') ||
