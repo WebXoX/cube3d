@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
+#    By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/12/28 09:10:50 by jperinch         ###   ########.fr        #
+#    Updated: 2023/12/29 10:26:29 by afarheen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ INCLIB=$(INC)/../lib
 SRC = 	 move_events2.c main.c wall.c tile.c player.c newray.c parsing.c drawline.c  #lovdev version for ray casting
 # SRC = 	 move_events.c try7.c ray2.c parsing.c drawline.c  # normal version
 # SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c #compiled version
-# SRC = ray4.c 
+# SRC = ray4.c
 # SRC = 	try6.c
 
 OBJ_DIR = obj
@@ -33,7 +33,7 @@ MLX_NAME_L	= libmlx.dylib
 MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
     # Run MacOS commands
 else
-LFLAGS = -L libft -lft -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm 
+LFLAGS = -L libft -lft -L./minilibx-linux -lmlx -L$(INCLIB) -lXext -lX11 -lm
 MLX_PATH_L	= ./minilibx-linux/
 MLX_NAME_L	= libmlx.a
 MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
