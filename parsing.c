@@ -4,8 +4,6 @@ void error_free(t_data *canva, int fd, char *msg)
 {
 	if(fd != -1)
 		close(canva->fd);
-	// if(canva)
-	// {
 		if(canva->cur_tex)
 			free(*canva->cur_tex);
 		if(canva->cur_line)
@@ -21,21 +19,14 @@ void error_free(t_data *canva, int fd, char *msg)
 			i = -1;
 			while(++i < canva->final_c)
 			{
-				// printf("%d\n", i);
 				if(canva->map[i])
 					free(canva->map[i]);
 			}
 			free(canva->map);
 		}
-		// int i = 0;
-		// printf("%s\n", canva.tex[i]);
-		// while(canva.tex[i] && i < 4)
-		// 	free(canva.tex[i++]);
 		if(canva->lengths)
 			free(canva->lengths);
-		// free(canva);
 		exit(0);
-	// }
 }
 int	ft_isspace(char c)
 {
@@ -107,7 +98,6 @@ int *get_numbers(char *line, t_data *canva, int row_num)
 	t_list *cur;
 
 	numbers = malloc(sizeof(int) * canva->longest_row);
-	// printf("%s", line);
 	while(line[++i])
 	{
 
@@ -116,7 +106,6 @@ int *get_numbers(char *line, t_data *canva, int row_num)
 		else if(!canva->player_count && ft_isplayer(line[i],canva))
 		{
 			(canva->player_count)++;
-			// printf("%d-????count-------.\n",canva->player_count);
 			numbers[i]=2;
 		}
 		else if(line[i] == ' ')
@@ -130,7 +119,6 @@ int *get_numbers(char *line, t_data *canva, int row_num)
 	canva->lengths[row_num] = i;
 	while(i < canva->longest_row)
 		numbers[i++] = ' ';
-		// printf(" %d %d ", i, canva.longest_row);
 	return numbers;
 }
 
@@ -292,11 +280,16 @@ char *join_all(char **rgb)
 
 void validate_file(char *file, t_data *canva, int i)
 {
+<<<<<<< HEAD
 	printf(".........%s\n",file);
+=======
+	printf("%s\n", file);
+	// 	exit(0);
+>>>>>>> 01e355a6a4b680920f14508a5cf0858527a8a589
 	canva->texture2[i].img = mlx_xpm_file_to_image(canva->mlx_ptr, file,
 		&canva->texture2[i].img_wid, &canva->texture2[i].img_hei);
 	if(canva->texture2[i].img <=0 || ft_strcmp(ft_strstr(file, "."), ".xpm") != 0)
-		error_free(canva, 1, "Error: Invalid file\n");
+		error_free(canva, 1, "Error: Invalid texture file\n");
 	canva->texture2[i].addr = (int *)mlx_get_data_addr(canva->texture2[i].img,
 		 &canva->texture2[i].bits_per_pixel, &canva->texture2[i].img_hei,
 		 	&canva->texture2[i].endian);

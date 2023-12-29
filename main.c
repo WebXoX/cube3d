@@ -3,7 +3,6 @@ int move(t_data *img);
 
 void    run(t_data *canva)
 {
-        // mlx_loop_hook(canva->mlx_ptr, &move, &canva);
     mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0,0);
     mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
     mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
@@ -96,10 +95,13 @@ int main(int argc, char *argv[])
 
 	if(argc > 1)
 	{
+         make_zero(&canva);
 		fd = open(argv[1], O_RDWR);
+		if(fd < 0)
+			error_free(&canva, -1, "Error: Invalid file\n");
 		canva.fd = fd;
          make_zero(&canva);
-         printf("HELLO %p\n",canva.texture2[0].img );
+        //  printf("HELLO %p\n",canva.texture2[0].img );
     canva.mlx_ptr = mlx_init();
 		line = validate_textures(&canva, fd);
 		canva.cur_tex = 0;
