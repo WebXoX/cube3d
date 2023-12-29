@@ -22,26 +22,26 @@ int move(t_data *img)
             drawline((int[]){0,i ,img->width ,i} ,img, (int[]){create_trgb(0,img->floor[0], img->floor[1],img->floor[2])});
         i++;
     }
-//   tile(img);
+  tile(img);
     ray(img);
-    // wall(img);
-    // player(img);
+    wall(img);
+    player(img);
     run(img);
     return (1);
 }
 void make_zero(t_data *canva)
 {
-    int i = 0;
+    int i = -1;
     canva->longest_row = 0;
 	 canva->cur_tex = 0;
 	  canva->cur_line = 0;
     ft_bzero(canva->tex, 4);
-    while(i < 6)
+    while(++i < 6)
 	{
-        canva->flag[i++] = 0;
+        canva->flag[i] = 0;
 		if(i < 4)
 			canva->texture2[i].img = 0;
-	}
+    }
 	canva->map =0;
     canva->player_count = 0;
 	canva->final_c = 0;
@@ -99,6 +99,7 @@ int main(int argc, char *argv[])
 		fd = open(argv[1], O_RDWR);
 		canva.fd = fd;
          make_zero(&canva);
+         printf("HELLO %p\n",canva.texture2[0].img );
     canva.mlx_ptr = mlx_init();
 		line = validate_textures(&canva, fd);
 		canva.cur_tex = 0;

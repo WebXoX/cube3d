@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/12/28 09:10:50 by jperinch         ###   ########.fr        #
+#    Updated: 2023/12/29 11:00:39 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ endif
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
-CFLAGS = -fsanitize=address -g3
+CFLAGS =  -g3
 
 CC = cc
 

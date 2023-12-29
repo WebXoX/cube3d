@@ -12,15 +12,13 @@ int setmove(int* key)
 }
 int	move_w(t_data *vars)
 {
-	double numb;
-	numb = 0.1;
 	while (vars->move.w == 1)
 	{
 		if (vars->cx + vars->player.dx*1  < vars->longest_row && vars->cx + vars->player.dx*1  >= 0 && vars->cy < vars->final_c && vars->cy >= 0
         && vars->map[(int)vars->cy][(int)(vars->cx + vars->player.dx*1) ] != 1)
 		{
 			vars->player.x += vars->player.dx*14;
-			vars->cx  += vars->player.dx*(PI/8.0) ;
+			vars->cx  += vars->player.dx*(0.8) ;
 		}
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
 		&& (int)(vars->cy  + vars->player.dy *1) < vars->final_c 
@@ -28,10 +26,9 @@ int	move_w(t_data *vars)
 			&& vars->map[(int)(vars->cy  + vars->player.dy *1)][(int)(vars->cx) ] != 1)
 		{
 			vars->player.y += vars->player.dy*14;
-			vars->cy  += vars->player.dy*(PI/8.0);
+			vars->cy  += vars->player.dy*(0.8);
 		}    
-		if(numb <0.9)
-			numb+= 0.1;
+	
 		move(vars);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
@@ -46,7 +43,7 @@ int	move_s(t_data *vars)
         && vars->map[(int)vars->cy][(int)(vars->cx - vars->player.dx*1) ] != 1)
 		{
 			vars->player.x -= vars->player.dx*14;
-			vars->cx  -= vars->player.dx*1 ;
+			vars->cx  -= vars->player.dx*0.8 ;
 		}
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
 		&& (int)(vars->cy  + vars->player.dy *1) < vars->final_c 
@@ -54,7 +51,7 @@ int	move_s(t_data *vars)
 			&& vars->map[(int)(vars->cy  - vars->player.dy *1)][(int)(vars->cx) ] != 1)
 		{
 			vars->player.y -= vars->player.dy*14;
-			vars->cy  -= vars->player.dy*1;
+			vars->cy  -= vars->player.dy*0.8;
 		}    
 		move(vars);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);

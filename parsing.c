@@ -11,8 +11,9 @@ void error_free(t_data *canva, int fd, char *msg)
 		if(canva->cur_line)
 			free(*canva->cur_line);
 			int i = -1;
+		printf("%p\n",canva->texture2[0].img );
 		while(++i < 4)
-			if(canva->texture2[i].img)
+			if(canva->texture2[i].img != 0)
 				mlx_destroy_image(canva->mlx_ptr, canva->texture2[i].img);
 		write(2, msg, ft_strlen(msg));
 		if(canva->map)
@@ -291,6 +292,7 @@ char *join_all(char **rgb)
 
 void validate_file(char *file, t_data *canva, int i)
 {
+	printf(".........%s\n",file);
 	canva->texture2[i].img = mlx_xpm_file_to_image(canva->mlx_ptr, file,
 		&canva->texture2[i].img_wid, &canva->texture2[i].img_hei);
 	if(canva->texture2[i].img <=0 || ft_strcmp(ft_strstr(file, "."), ".xpm") != 0)
@@ -352,8 +354,12 @@ int extract_num(char *str, t_data *canva, int val, char type)
 		i++;
 	num_count = num_valid(str, i, 0);
 	i = i + num_count;
+	
 	if(num_count > 3 || (str[i] && (!ft_isspace(str[i]) && str[i] != ',')) || num_count == 0)
+	{
+		
 		error_free(canva, 1, "Error: RGB values are incorrect\n");
+	}
 	if(type == 'F' && ft_atoi(str) <= 255)
 		canva->floor[val] = ft_atoi(str);
 	else if(type == 'C' && ft_atoi(str) <= 255)
@@ -372,9 +378,11 @@ int extract_num(char *str, t_data *canva, int val, char type)
 void extract_rgb(char *tex, t_data *canva)
 {
 	int index;
-
+	
 	if(tex[1] && ft_isspace(tex[1]))
 	{
+		printf("%s\n", &tex[1]);
+			
 		index = extract_num(&tex[1], canva, 0, tex[0]);
 		index += extract_num(&tex[index + 1], canva, 1, tex[0]);
 		if(tex[index])
@@ -418,6 +426,7 @@ void condition_check(t_data *canva, char *line, int fd)
 	char *tex;
 	tex = ft_strtrim(line, " \n\t\f\r\v");
 	canva->cur_tex = &tex;
+	
 	if (tex && tex[0] && tex[1])
 	{
 		if((tex[0] =='S' && tex[1] == 'O') ||

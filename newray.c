@@ -75,9 +75,9 @@ void ray(t_data *img)
                     mapX += stepX;
                     side = 0;
                      if (mapY >=0 && mapX+1 >= 0 && mapX+1 <img->longest_row && mapY < img->final_c && img->map[mapY][mapX+1] != 1 && rayDirX < 0)
-                        idx = 3;
-                    else
                         idx = 2;
+                    else
+                        idx = 3;
                 }
                 else
                 {
