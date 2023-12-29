@@ -280,12 +280,6 @@ char *join_all(char **rgb)
 
 void validate_file(char *file, t_data *canva, int i)
 {
-<<<<<<< HEAD
-	printf(".........%s\n",file);
-=======
-	printf("%s\n", file);
-	// 	exit(0);
->>>>>>> 01e355a6a4b680920f14508a5cf0858527a8a589
 	canva->texture2[i].img = mlx_xpm_file_to_image(canva->mlx_ptr, file,
 		&canva->texture2[i].img_wid, &canva->texture2[i].img_hei);
 	if(canva->texture2[i].img <=0 || ft_strcmp(ft_strstr(file, "."), ".xpm") != 0)
