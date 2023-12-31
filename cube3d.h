@@ -6,7 +6,7 @@
 /*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/31 16:34:45 by fathmanazme      ###   ########.fr       */
+/*   Updated: 2023/12/31 17:12:01 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,34 @@ typedef struct s_line
 	double	e2;
 }	t_line;
 
+char	*join_all(char **rgb);
+int		num_valid(char *str, int i, int num_count);
+int		extract_num(char *str, t_data *canva, int val, char type);
+void	extract_rgb(char *tex, t_data *canva);
+void	add_ceil_floor(char *tex, t_data *canva);
+void	create_arr(char arr[5][3]);
+void	check_valid(char *tex, t_data *canva);
+int		check_tex(t_data *canva);
+void	condition_check(t_data *canva, char *line, int fd);
+int		ft_isspace(char c);
+void	error_free(t_data *canva, int fd, char *msg);
+void	validate_file(char *file, t_data *canva, int i);
+int		tex_len(char **arr);
+void	check_vertical(int i, int j, t_data *canva, int **map);
+void	check_horizontal(int i, int j, t_data *canva, int **map);
+void	validate_zeroes(int **map, t_data *canva);
+int	check_surrounding(int i, int j, int **map, t_data *canva);
+void	validate_spaces(int **map, t_data *canva);
+int	*get_numbers(char *line, t_data *canva, int row_num);
+char	*new_line_check(char *line, t_data *canva);
+void	map_first_check(char *line, t_data *canva);
+char	*add_to_map(char *line, t_data *canva);
+void	map_filling(t_data *canva, char *file);
+void	init_struct(t_data *canva);
 
+char	*validate_textures(t_data *canva, int fd);
+void	set_values(t_data *data, char c);
+int		ft_isplayer(char c, t_data *data);
 float	FixAng(float a);
 int		ray_starter(t_data *img, int loop);
 void	ray_range(float *ra);

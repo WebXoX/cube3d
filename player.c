@@ -1,5 +1,45 @@
 #include "cube3d.h"
 
+void	set_values(t_data *data, char c)
+{
+	if (c == 'N')
+	{
+		data->player.dy = -1.0;
+		data->camaera.x = 0.66;
+		data->directionstart = 1;
+	}
+	else if (c == 'S')
+	{
+		data->player.dy += 1;
+		data->camaera.x -= 0.66;
+		data->directionstart = 1;
+	}
+	else if (c == 'E')
+	{
+		data->player.dx = 1;
+		data->camaera.y -= 0.66;
+		data->directionstart = -1;
+	}
+	else if (c == 'W')
+	{
+		data->player.dx -= 1;
+		data->camaera.y += 0.66;
+		data->directionstart = -1;
+	}
+}
+
+int	ft_isplayer(char c, t_data *data)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		(data->player_count)++;
+		set_values(data, c);
+		return (1);
+	}
+	else
+		return (0);
+}
+
 void player(t_data *img)
 {
     int i;

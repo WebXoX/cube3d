@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
+#    By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/12/29 12:00:31 by jperinch         ###   ########.fr        #
+#    Updated: 2023/12/31 17:10:27 by fathmanazme      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ INC=/usr/include
 INCLIB=$(INC)/../lib
 
 # SRC = 	try5.c wall.c tile.c ray.c
-SRC = 	 move_events2.c main.c wall.c tile.c player.c newray.c parsing.c drawline.c  finalray.c vertical_ray.c horizontal_ray.c  #lovdev version for ray casting
+SRC = 	 move_events2.c main.c wall.c tile.c player.c newray.c drawline.c  finalray.c vertical_ray.c horizontal_ray.c \
+		texture.c utils.c ceil_floor.c map_validation.c map.c struct_init.c #lovdev version for ray casting
 # SRC = 	 move_events.c try7.c ray2.c parsing.c drawline.c  # normal version
 # SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c #compiled version
 # SRC = ray4.c
@@ -42,7 +43,7 @@ endif
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
-CFLAGS =  -g3
+CFLAGS = -fsanitize=address -g3
 
 CC = cc
 
