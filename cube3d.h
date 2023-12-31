@@ -6,7 +6,7 @@
 /*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/30 15:33:47 by fathmanazme      ###   ########.fr       */
+/*   Updated: 2023/12/31 16:34:45 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,8 @@ typedef struct s_data
 	int				width;
 	int				height;
 	int				**map;
-	int				maph;
 	int				scale;
 	/*movement push keys boolean values*/
-	float			lookx;
-	float			looky;
 	move_t  		move;
 	/*end*/
 	/*player stuff*/
@@ -106,8 +103,6 @@ typedef struct s_data
 	/*end of player stuff*/
 
 	int				longest_row;
-	int				count;
-	int				line_count;
 	int				final_c;
 	int				player_count;
 	char			*tex[4];
@@ -115,7 +110,6 @@ typedef struct s_data
 	int				flag[6];
 	int				ceil[3];
 	int				first_lines;
-	t_tex			texture;
 	t_tex			texture2[4];
 	double			cx;
 	double			cy;
