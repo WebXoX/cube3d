@@ -1,6 +1,6 @@
 #include "cube3d.h"
 
-int	*get_numbers(char *line, t_data *canva, int row_num)
+int	*get_numbers(char *line, t_data *canva, int row)
 {
 	int		i;
 	int		*numbers;
@@ -12,11 +12,9 @@ int	*get_numbers(char *line, t_data *canva, int row_num)
 	{
 		if ((line[i] == '0' || line[i] == '1'))
 			numbers[i] = line[i] - '0';
-		else if (!canva->player_count && ft_isplayer(line[i], canva))
+		else if (!canva->player_count && ft_isplayer(line[i], canva, i, row))
 		{
 			numbers[i] = 2;
-			canva->cx = i;
-			canva->cy = row_num;
 		}
 		else if (line[i] == ' ')
 			numbers[i] = ' ';
@@ -39,7 +37,6 @@ void	init_struct(t_data *canva)
 	canva->longest_row = 0;
 	canva->cur_tex = 0;
 	canva->cur_line = 0;
-	ft_bzero(canva->tex, 4);
 	while (++i < 6)
 		canva->flag[i] = 0;
 	i = -1;

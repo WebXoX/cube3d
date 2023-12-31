@@ -28,11 +28,13 @@ void	set_values(t_data *data, char c)
 	}
 }
 
-int	ft_isplayer(char c, t_data *data)
+int	ft_isplayer(char c, t_data *data, int i, int row_num)
 {
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
 		(data->player_count)++;
+		data->cx = i;
+		data->cy = row_num;
 		set_values(data, c);
 		return (1);
 	}

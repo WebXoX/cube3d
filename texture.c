@@ -26,8 +26,7 @@ void	check_valid(char *tex, t_data *canva)
 			if (index >= 3 && tex[index] && !canva->flag[i])
 			{
 				canva->flag[i] = 1;
-				canva->tex[i] = ft_strdup(&tex[index]);
-				validate_file(canva->tex[i], canva, i);
+				validate_file(&tex[index], canva, i);
 			}
 			else
 				error_free(canva, 1, "Error: repeated texture\n");
@@ -78,9 +77,9 @@ char	*validate_textures(t_data *canva, int fd)
 
 	canva->mlx_ptr = mlx_init();
 	line = get_next_line(fd);
-	canva->cur_line = &line;
 	while (line)
 	{
+		canva->cur_line = &line;
 		if (ft_strcmp(line, "\n") && check_tex(canva))
 			break ;
 		else if (ft_strcmp(line, "\n"))
