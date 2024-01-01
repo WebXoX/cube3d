@@ -128,8 +128,8 @@ int move_d(t_data *vars)
 }
 int move_l(t_data *vars)
 {
-    while (vars->move.l == 1)
-    {
+    // while (vars->move.l == 1)
+    // {
         double rayAngle = vars->directionstart;
         double oldDirX = vars->player.dx;
         vars->player.dx = vars->player.dx * cos(-0.1 *rayAngle) - vars->player.dy * sin(-0.1 *rayAngle);
@@ -144,13 +144,13 @@ int move_l(t_data *vars)
 
         move(vars);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-    }
+    // }
     return(1);
 }
 int move_r(t_data *vars)
 {
-    while (vars->move.r == 1)
-    {
+    // while (vars->move.r == 1)
+    // {
         double rayAngle =  vars->directionstart;
         double oldDirX = vars->player.dx;
         vars->player.dx = vars->player.dx * cos(0.1 *rayAngle) - vars->player.dy * sin(0.1 *rayAngle);
@@ -164,7 +164,7 @@ int move_r(t_data *vars)
 		vars->player.mdy = sin(radiansfd(vars->player.da));
         move(vars);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-    }
+    // }
     return(1);
 }
 int moves(int keycode, t_data *vars)
