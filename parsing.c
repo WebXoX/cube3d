@@ -34,7 +34,19 @@ int	ft_isspace(char c)
 		return (1);
 	return (0);
 }
-
+void set_map_value(t_data *data, char c)
+{
+	if (c == 'N')
+		data->player.da = 90.0f;
+	else if (c == 'S')
+		data->player.da = 270.0f;
+	else if (c == 'E')
+		data->player.da = 0.0f;
+	else if (c == 'W')
+		data->player.da = 360.0f;
+	data->player.mdx = cos(radiansfd(data->player.da));
+	data->player.mdy = sin(radiansfd(data->player.da));
+}
 void	set_values(t_data *data, char c)
 {
 	if (c == 'N')
@@ -61,6 +73,7 @@ void	set_values(t_data *data, char c)
 		data->camaera.y += 0.66;
 		data->directionstart = -1;
 	}
+	set_map_value(data,c);
 }
 
 int	ft_isplayer(char c, t_data *data)

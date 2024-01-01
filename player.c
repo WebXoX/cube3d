@@ -25,5 +25,5 @@ void player(t_data *img)
             point.x=0;
             point.y+=img->scale;
         }
-    drawline((int[]){img->player.x +10/2,img->player.y + img->scale/4,img->player.x+10/2 -img->player.dx*10,img->player.y+ img->scale/4 - img->player.dy *10},img,(int[]){0x735674});
+    drawline((int[]){img->player.x +10/2,img->player.y + img->scale/4,img->player.x+10/2 -img->player.mdx*10,img->player.y+ img->scale/4 - img->player.mdy *10},img,(int[]){0x735674});
 }

@@ -7,99 +7,123 @@ int setmove(int* key)
         *key = 0;
     return(1);
 }
-int move_w(t_data *vars)
+int collisionNS(t_data *C, int i)
 {
-	while (vars->move.w == 1)
+	if ((C->player.da >= 0 && C->player.da <= 90) )//|| (C->player.da > 320 && C->player.da <= 360 ))
 	{
-		if (vars->cx + vars->player.dx*1  < vars->longest_row && vars->cx + vars->player.dx*1  >= 0 && vars->cy < vars->final_c && vars->cy >= 0
-        && vars->map[(int)vars->cy][(int)(vars->cx + vars->player.dx*1) ] != 1)
-		{
-			vars->player.x += vars->player.dx*14;
-			vars->cx  += vars->player.dx*(0.8) ;
-		}
+		if( i == 0 && C->map[(int)(C->player.y -C->player.dy *16)/C->scale ][(int)(C->player.x -C->player.dx *16)/C->scale]!=1)
+			return 1;
+		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 5.3) / C->scale ][(int)( C->player.x + 10 + C->player.dx * 5.3) / C->scale ] != 1)
+			return 1;
+	}
+	if (C->player.da > 90 && C->player.da <= 180)
+	{
+		if( i == 0 && C->map[(int)(C->player.y - C->player.dy *16)/C->scale ][(int)(C->player.x + 10 -C->player.dx *16)/C->scale]!=1)
+			return 1;
+		if( i == 1 &&  C->map[(int)( C->player.y + C->scale / 2 + C->player.dy * 10) / C->scale ][(int)( C->player.x + C->player.dx * 10) / C->scale ] != 1)
+			return 1;
+	}
+	if (C->player.da > 180 && C->player.da <= 270)
+	{
+		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy *16)/C->scale ][(int)(C->player.x + 10 -C->player.dx *16)/C->scale]!=1)
+			return 1;
+		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy *16) / C->scale ][(int)( C->player.x + C->player.dx *16) / C->scale ] != 1)
+			return 1;
+	}
+	if (C->player.da > 270 && C->player.da <= 360)
+	{
+		if( i == 0 && C->map[(int)(C->player.y + C->scale / 2 - C->player.dy *16)/C->scale ][(int)(C->player.x - C->player.dx *16)/C->scale]!=1)
+			return 1;
+		if( i == 1 &&  C->map[(int)( C->player.y + C->player.dy *16) / C->scale ][(int)( C->player.x + 10 + C->player.dx *16) / C->scale ] != 1)
+			return 1;
+	}
+	return 0 ;
+}
+int move_w(t_data *vars)
+{  
+	// while (vars->move.w == 1)
+	// {
+		if (vars->cx + vars->player.dx * 0.65   < vars->longest_row && vars->cx + vars->player.dx * 0.65   >= 0 && vars->cy < vars->final_c && vars->cy >= 0
+        && vars->map[(int)vars->cy][(int)(vars->cx + vars->player.dx * 0.65 ) ] != 1)
+			vars->cx  += vars->player.dx*(0.51 ) ;
+
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
-		&& (int)(vars->cy  + vars->player.dy *1) < vars->final_c 
-		&& (int)(vars->cy  + vars->player.dy *1) >= 0
-			&& vars->map[(int)(vars->cy  + vars->player.dy *1)][(int)(vars->cx) ] != 1)
+		&& (int)(vars->cy  + vars->player.dy * 0.65) < vars->final_c 
+		&& (int)(vars->cy  + vars->player.dy * 0.65) >= 0
+			&& vars->map[(int)(vars->cy  + vars->player.dy * 0.65)][(int)(vars->cx) ] != 1)
+			vars->cy  += vars->player.dy*(0.51);
+        if(collisionNS(vars,0) == 1)
 		{
-			vars->player.y += vars->player.dy*14;
-			vars->cy  += vars->player.dy*(0.8);
-		}    
-	
+			vars->player.y -= vars->player.mdy*0.2 *4;
+			vars->player.x -= vars->player.mdx*0.2 *4;
+        }
 		move(vars);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-    }
+    // }
     return(1);
 }
 int move_s(t_data *vars)
 {
-    while (vars->move.s == 1)
-    {
+    // while (vars->move.s == 1)
+    // {
         if ((int)vars->cx   < vars->longest_row && (int)vars->cx   >= 0//&& vars->cy < vars->final_c && vars->cy >= 0
-        && vars->map[(int)vars->cy][(int)(vars->cx - vars->player.dx*1) ] != 1)
-		{
-			vars->player.x -= vars->player.dx*14;
-			vars->cx  -= vars->player.dx*0.8 ;
-		}
+        && vars->map[(int)vars->cy][(int)(vars->cx - vars->player.dx*0.65) ] != 1)
+			vars->cx  -= vars->player.dx * 0.51 ;
 		if (vars->cx  < vars->longest_row && (vars->cx) >= 0 
-		&& (int)(vars->cy  + vars->player.dy *1) < vars->final_c 
-		&& (int)(vars->cy  + vars->player.dy *1) >= 0
-			&& vars->map[(int)(vars->cy  - vars->player.dy *1)][(int)(vars->cx) ] != 1)
+		&& (int)(vars->cy  + vars->player.dy * 0.65) < vars->final_c 
+		&& (int)(vars->cy  + vars->player.dy * 0.65) >= 0
+			&& vars->map[(int)(vars->cy - vars->player.dy * 0.65)][(int)(vars->cx) ] != 1)
+			vars->cy  -= vars->player.dy * 0.51;
+        if (collisionNS(vars,1) == 1)
 		{
-			vars->player.y -= vars->player.dy*14;
-			vars->cy  -= vars->player.dy*0.8;
-		}    
+
+			vars->player.y += vars->player.dy*0.2 *4;
+			vars->player.x += vars->player.dx*0.2 *4;
+        }
 		move(vars);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-    }
+        // mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
+    // }
     return(1);
 }
 int move_a(t_data *vars)
 {
-    while (vars->move.a == 1)
-    {
+    // while (vars->move.a == 1)
+    // {
         double rayAngle = (atan2l(vars->player.dy,vars->player.dx) -  vars->directionstart*( PI/2));
-        if (vars->cx +cos(rayAngle)*0.6  < vars->longest_row && vars->cx +cos(rayAngle)*0.6 >= 0 && vars->cy < vars->final_c && vars->cy >= 0
-        && vars->map[(int)vars->cy][(int)(vars->cx +cos(rayAngle)*0.6) ] != 1)
+        if (vars->cx +cos(rayAngle)*0.65  < vars->longest_row && vars->cx +cos(rayAngle)*0.65 >= 0 && vars->cy < vars->final_c && vars->cy >= 0
+        && vars->map[(int)vars->cy][(int)(vars->cx +cos(rayAngle)*0.65) ] != 1)
         {
-            vars->player.x -= vars->player.dx*0.8;
-            vars->cx  += cos(rayAngle)*0.5 ;
+            vars->cx  += cos(rayAngle)*0.51 ;
         }
         if (vars->cx  < vars->longest_row && (vars->cx) >= 0
-        && (int)(vars->cy +sin(rayAngle)*0.6) < vars->final_c
-        && (int)(vars->cy + sin(rayAngle)*0.6) >= 0
-            && vars->map[(int)(vars->cy + sin(rayAngle)*0.6)][(int)(vars->cx) ] != 1)
+        && (int)(vars->cy +sin(rayAngle)*0.65) < vars->final_c
+        && (int)(vars->cy + sin(rayAngle)*0.65) >= 0
+            && vars->map[(int)(vars->cy + sin(rayAngle)*0.65)][(int)(vars->cx) ] != 1)
         {
-            vars->player.y+= vars->player.dy*0.5;
-            vars->cy += sin(rayAngle)*0.5 ;
+            vars->cy += sin(rayAngle)*0.51 ;
         }
         move(vars);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-    }
+    // }
     return(1);
 }
 int move_d(t_data *vars)
 {
-    while (vars->move.d == 1)
-    {
+    // while (vars->move.d == 1)
+    // {
         double rayAngle = (atan2l(vars->player.dy,vars->player.dx) - vars->directionstart*(PI/2));
-        if (vars->cx - cos(rayAngle)*0.4  < vars->longest_row && vars->cx - cos(rayAngle)*0.4 >= 0 && vars->cy -  sin(rayAngle)*0.4< vars->final_c && vars->cy -  sin(rayAngle)*0.4 >= 0
-            && vars->map[(int)(vars->cy)][(int)(vars->cx - cos(rayAngle)*0.4) ] != 1)
+        if (vars->cx - cos(rayAngle)*0.65  < vars->longest_row && vars->cx - cos(rayAngle)*0.65 >= 0 && vars->cy -  sin(rayAngle)*0.65< vars->final_c && vars->cy -  sin(rayAngle)*0.65 >= 0
+            && vars->map[(int)(vars->cy)][(int)(vars->cx - cos(rayAngle)*0.65) ] != 1)
         {
-            vars->player.x -= vars->player.dx*0.3;
-            vars->cx  -= cos(rayAngle)*0.3 ;
+            vars->cx  -= cos(rayAngle)*0.51 ;
         }
         if (vars->cx  < vars->longest_row && (vars->cx) >= 0
-        && (int)(vars->cy  - sin(rayAngle)*0.4) < vars->final_c
-        && (int)(vars->cy  - sin(rayAngle)*0.4) >= 0
-            && vars->map[(int)(vars->cy -sin(rayAngle)*0.4) ][(int)(vars->cx) ] != 1)
+        && (int)(vars->cy  - sin(rayAngle)*0.65) < vars->final_c
+        && (int)(vars->cy  - sin(rayAngle)*0.65) >= 0
+            && vars->map[(int)(vars->cy -sin(rayAngle)*0.65) ][(int)(vars->cx) ] != 1)
         {
-            vars->player.y -= vars->player.dy*0.4;
-            vars->cy  -= sin(rayAngle)*0.3;
+            vars->cy  -= sin(rayAngle)*0.51;
         }
         move(vars);
-        mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
-    }
+    // }
     return(1);
 }
 int move_l(t_data *vars)
@@ -113,6 +137,11 @@ int move_l(t_data *vars)
         double oldPlaneX = vars->camaera.x;
         vars->camaera.x = vars->camaera.x * cos(-0.1 *rayAngle) - vars->camaera.y * sin(-0.1 *rayAngle);
         vars->camaera.y = oldPlaneX * sin(-0.1 *rayAngle) + vars->camaera.y * cos(-0.1 *rayAngle);
+        vars->player.da -= 2;
+		vars->player.da = FixAng(vars->player.da);
+		vars->player.mdx = cos(radiansfd(vars->player.da));
+		vars->player.mdy = sin(radiansfd(vars->player.da));
+
         move(vars);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
     }
@@ -129,6 +158,10 @@ int move_r(t_data *vars)
         double oldPlaneX = vars->camaera.x;
         vars->camaera.x = vars->camaera.x * cos(0.1 *rayAngle) - vars->camaera.y * sin(0.1 *rayAngle);
         vars->camaera.y = oldPlaneX * sin(0.1 *rayAngle) + vars->camaera.y * cos(0.1 *rayAngle);
+        vars->player.da += 2;
+		vars->player.da = FixAng(vars->player.da);
+		vars->player.mdx = cos(radiansfd(vars->player.da));
+		vars->player.mdy = sin(radiansfd(vars->player.da));
         move(vars);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
     }
@@ -136,7 +169,6 @@ int move_r(t_data *vars)
 }
 int moves(int keycode, t_data *vars)
 {
-    printf("keycode :: %d\n",keycode);
     if ((keycode == 13 || keycode == 119) && setmove(&vars->move.w))
         move_w(vars);
     else if ((keycode == 1|| keycode == 115) && setmove(&vars->move.s))
@@ -159,7 +191,6 @@ int moves(int keycode, t_data *vars)
     {
         move_l(vars);
     }
-    printf("cy%f, cy%f, px%f, py%f \n",vars->camaera.x, vars->camaera.y, vars->player.dx,vars->player.dy);
     if (keycode == 53 || keycode == 65307)
 		exit(0);
         // error_free(vars, -1, "Exit\n");

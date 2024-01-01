@@ -2,146 +2,170 @@
 #include <math.h>
 float radiansfd(float angle)
 {
-	return (angle * PI / 180.0f);
+    return (angle * PI / 180.0f);
 }
-void draw_pixel(int x, int y, int color, void *mlx, void *win)
+
+void ray_init(t_data *data)
 {
-    mlx_pixel_put(mlx, win, x, y, color);
+    data->ray.pos.x = data->cx;
+    data->ray.pos.y = data->cy;
+    data->ray.dir.x = data->player.dx;
+    data->ray.dir.y = data->player.dy;
+    data->ray.cam.x = data->camaera.x;
+    data->ray.cam.y = data->camaera.y;
+    data->ray.x = (int)data->cx;
+    data->ray.y = (int) data->cy;
+    data->ray.raydir.x = 0;
+    data->ray.raydir.y = 0;
+    data->ray.sidedis.x = 0.0;
+    data->ray.sidedis.y = 0.0;
+    data->ray.deltadis.x = 0.0;
+    data->ray.deltadis.y = 0.0;
+    data->ray.stepx = 0.0;
+    data->ray.stepy = 0.0;
+    data->ray.hit = 0.0;
+    data->ray.side = 0.0;
+    data->ray.idx= 0.0;
+    data->ray.perpdis = 0;
+    data->ray.fov = 0.0;
+}
+
+void ray_steps(t_data *data,int x)
+{
+    ray_t *ray;
+    ray = &data->ray;
+    ray->fov = 2 * x / (double)data->width - 1 ;
+    ray->raydir.x = ray->dir.x + ray->cam.x * ray->fov;
+    ray->raydir.y = ray->dir.y + ray->cam.y * ray->fov;
+    ray->x = (int)ray->pos.x;
+    ray->y = (int) ray->pos.y;
+    ray->deltadis.x =  fabs(1 / ray->raydir.x);
+    ray->deltadis.y =  fabs(1 / ray->raydir.y);
+    ray->perpdis = 0.0;
+}
+
+void ray_hit(t_data *img, ray_t *ray)
+{
+    if (ray->sidedis.x < ray->sidedis.y)
+    {
+        ray->sidedis.x += ray->deltadis.x;
+        ray->x += ray->stepx;
+        ray->side = 0;
+        if (ray->y >=0 && ray->x+1 >= 0 && ray->x+1 <img->longest_row && ray->y < img->final_c && img->map[ray->y][ray->x+1] != 1 && ray->raydir.x < 0)
+            ray->idx = 2;
+        else
+            ray->idx = 3;
+    }
+    else
+    {
+        ray->sidedis.y += ray->deltadis.y;
+        ray->y += ray->stepy;
+        ray->side = 1;
+        if (ray->x >=0 && ray->y-1 >= 0 && ray->x <img->longest_row && ray->y-1 < img->final_c && img->map[ray->y-1][ray->x] != 1 && ray->raydir.y > 0)
+            ray->idx = 1;
+        else
+            ray->idx = 0;
+    }
+    if (ray->x < img->longest_row && ray->x >= 0 && ray->y < img->final_c && ray->y >= 0 && img->map[ray->y][ray->x] == 1)
+    {
+        ray->hit = 1;
+        ray->perpdis = 0;
+    }
+}
+
+void raystep_direction(t_data *img,ray_t *ray)
+{
+    if (ray->raydir.x < 0)
+    {
+        ray->stepx = -1;
+        ray->sidedis.x = (ray->pos.x - ray->x) * ray->deltadis.x;
+    }
+    else
+    {
+        ray->stepx = 1;
+        ray->sidedis.x = (ray->x + 1.0 - ray->pos.x) * ray->deltadis.x;
+    }
+    if (ray->raydir.y < 0)
+    {
+        ray->stepy = -1;
+        ray->sidedis.y = (ray->pos.y - ray->y) * ray->deltadis.y;
+    }
+    else
+    {
+        ray->stepy = 1;
+        ray->sidedis.y = (ray->y + 1.0 - ray->pos.y) * ray->deltadis.y;
+    }
+    ray->idx = 0;
+    while (ray->hit == 0)
+        ray_hit(img,ray);    
+}
+
+void texture_render(t_data *img, ray_t *ray, int x)
+{
+    double texPos;
+    int texy;
+    texy = 0 ;
+    texPos = ( ray->drawStart - img->height / 2 +  ray->lineHeight / 2) * ray->dy;
+    while(ray->lo <  ray->drawEnd)
+    {
+        texy = (int)texPos;
+        texPos+=ray->dy;
+        my_mlx_pixel_put(img, x, ray->lo+1, img->texture2[ray->idx].addr[(texy * img->texture2[ray->idx].img_hei/4 + (ray->color))]);
+        ray->lo += 1;
+    }
+}
+
+void texture_calc(t_data *img, ray_t *ray,int x)
+{
+    ray->wallx = 0;
+    ray->perpdis =0;
+    if (ray->side == 0)
+    {
+        ray->perpdis = (ray->sidedis.x - ray->deltadis.x);//* cos(ray->fov);
+        ray->wallx = ray->pos.y + ray->perpdis * ray->raydir.y;
+    }
+    else
+    {
+        ray->perpdis = (ray->sidedis.y - ray->deltadis.y);//* cos(ray->fov);
+        ray->wallx = ray->pos.x + ray->perpdis * ray->raydir.x;
+    }
+    ray->wallx -= floor((ray->wallx));
+    ray->lineHeight = 0;
+    ray->lineHeight = (int)(img->height / ray->perpdis);
+    ray->drawStart =  img->height / 2 - ray->lineHeight / 2;
+    if ( ray->drawStart < 0)
+            ray->drawStart = 0;
+        ray->drawEnd =  ray->lineHeight / 2 + img->height / 2;
+    if ( ray->drawEnd >= img->height)
+            ray->drawEnd = img->height - 1;
+    ray->color = floor( ray->wallx*64);
+    ray->lo =  ray->drawStart;
+    ray->dy =  (64.0)/( ray->lineHeight ) ;
+    ray->lo =  ray->drawStart;
+
+    texture_render(img,ray,x);
 }
 
 
 void ray(t_data *img)
 {
-    double posX = img->cx, posY = img->cy;
-    double dirX =img->player.dx, dirY = img->player.dy;
-    double planeX = img->camaera.x, planeY =  img->camaera.y;
+    ray_t   *ray ;
+    int     x;
 
-            double cameraX = 0;
-            double rayDirX = 0;
-            double rayDirY = 0;
-            int mapX = 0;
-            int mapY = 0;
-            double sideDistX = 0;
-            double sideDistY = 0;
-            double deltaDistX = 0;
-            double deltaDistY = 0;
-        for (int x = 0; x < img->width; x++)
-        {
-             cameraX = 2 * x / (double)img->width - 1 ;
+    x = 0;
+    ray_init(img);
+    ray = &img->ray;
 
-             rayDirX = dirX + planeX * cameraX;
-             rayDirY = dirY + planeY * cameraX;
-             mapX = (int)posX;
-             mapY = (int) posY;
-
-
-            double deltaDistX =  fabs(1 / rayDirX);
-            double deltaDistY =  fabs(1 / rayDirY);
-
-            double perpWallDist = 0;
-
-            int stepX;
-            int stepY;
-
-            int hit = 0;
-            int side;
-
-            if (rayDirX < 0)
-            {
-                stepX = -1;
-                sideDistX = (posX - mapX) * deltaDistX;
-            }
-            else
-            {
-                stepX = 1;
-                sideDistX = (mapX + 1.0 - posX) * deltaDistX;
-            }
-            if (rayDirY < 0)
-            {
-                stepY = -1;
-                sideDistY = (posY - mapY) * deltaDistY;
-            }
-            else
-            {
-                stepY = 1;
-                sideDistY = (mapY + 1.0 - posY) * deltaDistY;
-            }
-            int idx;
-            while (hit == 0)
-            {
-                if (sideDistX < sideDistY)
-                {
-                    sideDistX += deltaDistX;
-                    mapX += stepX;
-                    side = 0;
-                     if (mapY >=0 && mapX+1 >= 0 && mapX+1 <img->longest_row && mapY < img->final_c && img->map[mapY][mapX+1] != 1 && rayDirX < 0)
-                        idx = 2;
-                    else
-                        idx = 3;
-                }
-                else
-                {
-                    sideDistY += deltaDistY;
-                    mapY += stepY;
-                    side = 1;
-                    if (mapX >=0 && mapY-1 >= 0 && mapX <img->longest_row && mapY-1 < img->final_c && img->map[mapY-1][mapX] != 1 && rayDirY > 0)
-                        idx = 1;
-                    else
-                        idx = 0;
-                }
-                if (mapX < img->longest_row && mapX >= 0 && mapY < img->final_c && mapY >= 0 && img->map[mapY][mapX] == 1)
-                {
-                    hit = 1;
-                    perpWallDist = 0;
-                }
-            }
-        double wallX, wallY;
-        wallX = 0 ;
-        wallY = 0 ;
-            if (side == 0)
-            {
-                perpWallDist = (sideDistX - deltaDistX);//* cos(cameraX);
-                wallX = posY + perpWallDist * rayDirY;
-            }
-            else
-            {
-                 perpWallDist = (sideDistY - deltaDistY);//* cos(cameraX);
-                wallX = posX + perpWallDist * rayDirX;
-            }
-            wallX -= floor((wallX));
-            int lineHeight = 0;
-             lineHeight = (int)(img->height / perpWallDist);
-
-            int drawStart =  img->height / 2 -lineHeight / 2;
-            if (drawStart < 0)
-                drawStart = 0;
-            int drawEnd = lineHeight / 2 + img->height / 2;
-            if (drawEnd >= img->height)
-                drawEnd = img->height - 1;
-            int color;
-            color = floor( wallX*64);
-            // printf("mapx %d\n",color );
-
-            // if (side == 1)
-            //     color /= 2;
-
-            // printf("sidex %f, sidey %f`\n",wallX,wallX);
-
-        // drawline((int []){(i*8)+529,0,(i*8)+529,lh},img,(int[]){0xFF0000});
-        int j=0;
-       		float lo = drawStart;
-        float dy =  (64.0)/(lineHeight ) ;
-            int k = 0;
-            lo = drawStart;
-			double texPos = (drawStart - img->height / 2 + lineHeight / 2) * dy;
-            while(lo < drawEnd)
-            {
-					int texy = (int)texPos;
-					texPos+=dy;
-                    // drawline((int []){((x)),lo,x,lo+1},img,(int[]){img->texture2[idx].addr[(texy * img->texture2[idx].img_hei/4 + (color))]});
-					my_mlx_pixel_put(img, x, lo+1, img->texture2[idx].addr[(texy * img->texture2[idx].img_hei/4 + (color))]);
-                    lo += 1;
-            }
-            j++;
-        }
+    while (x < img->width)
+    {
+        ray_steps(img, x);
+        ray->stepx = 0.0;
+        ray->stepy = 0.0;
+        ray->hit = 0.0;
+        ray->side = 0.0;
+        ray->perpdis = 0.0;
+        raystep_direction(img,ray);
+        texture_calc(img,ray, x);
+        x++;
+    }
 }

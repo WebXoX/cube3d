@@ -1,15 +1,13 @@
 #include "cube3d.h"
 
-
-
-int setmove(int* key)
-{
-	if(*key == 0)
-		*key = 1;
-	else
-		*key = 0;
-	return(1);
-}
+// int setmove(int* key)
+// {
+// 	if(*key == 0)
+// 		*key = 1;
+// 	else
+// 		*key = 0;
+// 	return(1);
+// }
 int collisionNS(t_data *C, int i)
 {
 	if ((C->player.da >= 0 && C->player.da <= 90) )//|| (C->player.da > 320 && C->player.da <= 360 ))
@@ -45,17 +43,12 @@ int collisionNS(t_data *C, int i)
 int	move_w(t_data *vars)
 {
 
-	while (vars->move_w == 1)
+	while (vars->move.w == 1)
 	{
 		if(collisionNS(vars,0) == 1)
 		{
-			// vars->player.y -= vars->player.dy*0.2 *4;
-			// vars->player.x -= vars->player.dx*0.2 *4;
-			vars->player.x -= vars->player.dx*1;
-			vars->player.y -= vars->player.dy*1;
-			vars->cx  += vars->player.dx*1 ;
-			vars->cy  += vars->player.dy*1 ;
-
+			vars->player.y -= vars->player.dy*0.2 *4;
+			vars->player.x -= vars->player.dx*0.2 *4;
 			move(vars,0,0);
 			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		}
@@ -74,38 +67,21 @@ int	move_s(t_data *vars)
 {
 	while (vars->move_s == 1)
 	{
-		// if(vars->map[(int)(vars->player.y +vars->scale/2 +vars->player.dy *5.1)/vars->scale ][(int)(vars->player.x + 10+vars->player.dx *5.1)/vars->scale ]!=1)
 		if (collisionNS(vars,1) == 1)
 		{
 
 			// vars->player.y += vars->player.dy*15;
 			// vars->player.x += vars->player.dx*15;
-			vars->player.x += vars->player.dx*1;
-			vars->player.y += vars->player.dy*1;
-
-			vars->cx -= vars->player.dx ;
-			vars->cy -= vars->player.dy ;
-
 			move(vars,0,0);
 			mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 		}
-		// else
-		// {
-		// 	printf("hitt\n");
-		// 	printf("maps %d\n",(vars->map[(int)(vars->player.y +vars->player.dy *5.5)/vars->scale ][(int)(vars->player.x +vars->player.dx *5.5)/vars->scale ]));
-		// 	vars->move_s = 0;
-		// 	break;
-		// }
-		// if(vars->map[(int)vars->player.y/vars->scale][(int)(vars->player.x +vars->player.dx *5.2)/vars->scale ]==0)
-		// if(vars->map[(int)vars->cy ][(int)(vars->cx - vars->player.dx )] == 0) vars->cx -= vars->player.dx ;
-        // if(vars->map[(int)(vars->cy  - vars->player.dy )][(int)vars->cx ] == 0) vars->cy -= vars->player.dy ;
 	}
 	return(1);
 }
 
 int	move_a(t_data *vars)
 {
-	while (vars->move_a == 1)
+	while (vars->move.a == 1)
 	{
 		// vars->player.da -=0.1;
 		// if (vars->player.da < 0)
@@ -114,16 +90,6 @@ int	move_a(t_data *vars)
 		vars->player.da = FixAng(vars->player.da);
 		vars->player.dx = cos(radiansfd(vars->player.da));
 		vars->player.dy = sin(radiansfd(vars->player.da));
-
-			
-		// vars->player.dx = cos(radiansfd(vars->player.da));
-		// vars->player.dy = sin(radiansfd(vars->player.da));
-		// double oldDirX = vars->player.dx;
-		// vars->player.dx = vars->player.dx * cos(4.0*PI/180.0) - vars->player.dy * sin(4.0*PI/180.0);
-		// vars->player.dy = oldDirX * sin(4.0*PI/180.0) + vars->player.dy * cos(4.0*PI/180.0);
-		// double oldPlaneX = vars->camaera.x;
-		// vars->camaera.x = vars->camaera.x * cos(4.0*PI/180.0) - vars->camaera.y * sin(4.0*PI/180.0);
-		// vars->camaera.y = oldPlaneX * sin(4.0*PI/180.0) + vars->camaera.y * cos(4.0*PI/180.0);
 		move(vars,0,0);
         mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}

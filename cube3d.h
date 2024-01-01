@@ -42,6 +42,8 @@ typedef struct point3d
     float z;
     float dx;
     float dy;
+	float mdx;
+    float mdy;
     float da;
 }   coordinate_t;
 
@@ -54,6 +56,10 @@ typedef struct ray
 	coordinate_t	cam;
 	coordinate_t	sidedis;
 	coordinate_t	deltadis;
+	double			fov;
+	double			perpdis;
+	float			lo;
+	float			dy;
 	int				x;
 	int				y;
 	int				stepx;
@@ -61,6 +67,12 @@ typedef struct ray
 	int				side;
 	int				hit;
 	int				idx;
+	int				lineHeight;
+	int				drawStart;
+	int				drawEnd;
+	int				color;
+	double			wallx;
+	int				wally;
 }   ray_t;
 
 
@@ -132,6 +144,7 @@ typedef struct s_line
 	double	e2;
 }	t_line;
 
+int collisionNS(t_data *C, int i);
 
 float	FixAng(float a);
 int		ray_starter(t_data *img, int loop);
