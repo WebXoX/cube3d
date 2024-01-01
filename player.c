@@ -1,4 +1,61 @@
 #include "cube3d.h"
+void set_map_value(t_data *data, char c)
+{
+	if (c == 'N')
+		data->player.da = 90.0f;
+	else if (c == 'S')
+		data->player.da = 270.0f;
+	else if (c == 'E')
+		data->player.da = 0.0f;
+	else if (c == 'W')
+		data->player.da = 360.0f;
+	data->player.mdx = cos(radiansfd(data->player.da));
+	data->player.mdy = sin(radiansfd(data->player.da));
+}
+
+void	set_values(t_data *data, char c)
+{
+	if (c == 'N')
+	{
+		data->player.dy = -1.0;
+		data->camaera.x = 0.66;
+		data->directionstart = 1;
+	}
+	else if (c == 'S')
+	{
+		data->player.dy += 1;
+		data->camaera.x -= 0.66;
+		data->directionstart = 1;
+	}
+	else if (c == 'E')
+	{
+		data->player.dx = 1;
+		data->camaera.y -= 0.66;
+		data->directionstart = -1;
+	}
+	else if (c == 'W')
+	{
+		data->player.dx -= 1;
+		data->camaera.y += 0.66;
+		data->directionstart = -1;
+	}
+	set_map_value(data,c);
+
+}
+
+int	ft_isplayer(char c, t_data *data, int i, int row_num)
+{
+	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		(data->player_count)++;
+		data->cx = i;
+		data->cy = row_num;
+		set_values(data, c);
+		return (1);
+	}
+	else
+		return (0);
+}
 
 void player(t_data *img)
 {

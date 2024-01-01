@@ -137,7 +137,7 @@ int move_l(t_data *vars)
         double oldPlaneX = vars->camaera.x;
         vars->camaera.x = vars->camaera.x * cos(-0.1 *rayAngle) - vars->camaera.y * sin(-0.1 *rayAngle);
         vars->camaera.y = oldPlaneX * sin(-0.1 *rayAngle) + vars->camaera.y * cos(-0.1 *rayAngle);
-        vars->player.da -= 2;
+        vars->player.da += 2;
 		vars->player.da = FixAng(vars->player.da);
 		vars->player.mdx = cos(radiansfd(vars->player.da));
 		vars->player.mdy = sin(radiansfd(vars->player.da));
@@ -158,7 +158,7 @@ int move_r(t_data *vars)
         double oldPlaneX = vars->camaera.x;
         vars->camaera.x = vars->camaera.x * cos(0.1 *rayAngle) - vars->camaera.y * sin(0.1 *rayAngle);
         vars->camaera.y = oldPlaneX * sin(0.1 *rayAngle) + vars->camaera.y * cos(0.1 *rayAngle);
-        vars->player.da += 2;
+        vars->player.da -= 2;
 		vars->player.da = FixAng(vars->player.da);
 		vars->player.mdx = cos(radiansfd(vars->player.da));
 		vars->player.mdy = sin(radiansfd(vars->player.da));
