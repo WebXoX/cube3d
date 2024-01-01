@@ -15,11 +15,11 @@ int compare(float d1, float d2, int i , t_data *img)
 
 	if((d1 == 0 && (d2 > 0)) ||(d1 != 0 && (d2 != 0)) &&( d1 > d2 ))
 	{
-		drawline((int []){img->player.x +10/2,img->player.y + img->scale/4,img->verticalp.x,img->verticalp.y},img,(int[]){0xFF0000});
+		drawline((int []){img->player.x +10/4,img->player.y + img->scale/6,img->verticalp.x,img->verticalp.y},img,(int[]){0xFF0000});
 	}
 	else
 	{
-		drawline((int []){img->player.x +10/2 ,img->player.y + img->scale/4,img->horizontalp.x,img->horizontalp.y},img,(int[]){0xFF0000});
+		drawline((int []){img->player.x +10/4 ,img->player.y + img->scale/6,img->horizontalp.x,img->horizontalp.y},img,(int[]){0xFF0000});
 	}
 	
 	return 1;
@@ -33,9 +33,9 @@ int ray_starter(t_data *img, int loop)
 
 	i = -1;
 	ray = FixAng(img->player.da -30);
-	while (++i < img->width)
+	while (++i < 120)
 	{
-		img->ra =ray+ i*60/img->width ;
+		img->ra =ray+ i*80/120 ;
 		compare(horizontal_inter(img),vertical_inter(img,0,0),i,img);
 	}
 	return 1;

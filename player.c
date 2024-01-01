@@ -64,8 +64,10 @@ void player(t_data *img)
     int c;
     coordinate_t point;
 	
-	img->player.x = (img->scale * img->cx) + img->scale / 4;
-	img->player.y = (img->scale * img->cy) + img->scale / 4;
+	img->player.x = (img->scale * (int)img->cx) + img->scale / 4;
+	img->player.y = (img->scale * (int)img->cy) + img->scale / 4;
+	printf("cx%f cy %f\n", img->cx, img->cy);
+	printf("px%f py %f\n", img->player.x, img->player.y);
     i = -1;
         while (++i < img->final_c)
         {
@@ -75,9 +77,9 @@ void player(t_data *img)
                 if(img->map[i][j]==2)
                 {
                     c = -1;
-                    while (++c < img->scale/2)
+                    while (++c < img->scale/4)
                         drawline((int[]){img->player.x ,img->player.y + c ,
-							img->player.x+ 10 ,img->player.y + c} ,img,(int[]){0x735674});
+							img->player.x+ 5 ,img->player.y + c} ,img,(int[]){0x735674});
                 }
                 point.x+=img->scale;
             }

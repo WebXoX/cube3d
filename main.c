@@ -5,6 +5,7 @@ void	run(t_data *canva)
 	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0, 0);
 	mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
 	mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
+	mlx_key_hook(canva->win_ptr, &map_key, &(*canva));
 	mlx_loop(canva->mlx_ptr);
 }
 
@@ -23,11 +24,15 @@ int	move(t_data *img)
 			{create_trgb(0, img->floor[0], img->floor[1], img->floor[2])});
 		i++;
 	}
+	
 	ray(img);
-	tile(img);
-	ray_starter(img, 120);
-	wall(img);
-	player(img);
+	if (img->key_m == 1)
+    {
+		wall(img);
+		tile(img);
+		player(img);
+		ray_starter(img, 120);
+    }
 	run(img);
 	return (1);
 }
@@ -54,9 +59,6 @@ void	call(t_data *img)
 		i++;
 	}
 	ray(img);
-	wall(img);
-	tile(img);
-	player(img);
 	run(img);
 }
 

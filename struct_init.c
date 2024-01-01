@@ -43,6 +43,7 @@ void	init_struct(t_data *canva)
 	while (++i < 4)
 		canva->texture2[i].img = 0;
 	canva->map = 0;
+	canva->key_m = 0;
 	canva->player_count = 0;
 	canva->final_c = 0;
 	canva->first_lines = 0;
@@ -54,7 +55,7 @@ void	init_struct(t_data *canva)
 	canva->height = 1020;
 	canva->width = 1060;
 	canva->scale = 10;
-	canva->player.da = 90.0f * PI / 180.0f;
+	canva->player.da = 90.0f;
 }
 
 

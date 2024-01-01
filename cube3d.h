@@ -101,6 +101,7 @@ typedef struct s_data
 	int				scale;
 	/*movement push keys boolean values*/
 	move_t  		move;
+	int				key_m;
 	/*end*/
 	/*player stuff*/
 	coordinate_t	player;
@@ -137,6 +138,7 @@ typedef struct s_line
 	double	e2;
 }	t_line;
 
+int		map_key(int keycode,t_data *vars);
 int		collisionNS(t_data *C, int i);
 char	*join_all(char **rgb);
 int		num_valid(char *str, int i, int num_count);

@@ -21,6 +21,7 @@ int move(t_data *img)
             drawline((int[]){0,i ,img->width ,i} ,img, (int[]){create_trgb(0,img->floor[0], img->floor[1],img->floor[2])});
         i++;
     }
+    if (img->key_m == 1)
     tile(img);
     ray(img);
     wall(img);
