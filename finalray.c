@@ -32,7 +32,7 @@ int ray_starter(t_data *img, int loop)
 	float ray;
 
 	i = -1;
-	ray = FixAng(img->player.da -30);
+	ray = FixAng(img->player.da -40);
 	while (++i < 120)
 	{
 		img->ra =ray+ i*80/120 ;
