@@ -105,8 +105,8 @@ typedef struct s_data
 	/*player stuff*/
 	coordinate_t	player;
 	coordinate_t	camaera;
-	coordinate_t 	horizontal_points; //rx
-	coordinate_t 	vertical_points;	//rx
+	coordinate_t 	horizontalp; //rx
+	coordinate_t 	verticalp;	//rx
 	ray_t			ray;
 	int				dof;
 	int				side;
@@ -177,7 +177,7 @@ int		ray_starter(t_data *img, int loop);
 void	ray_range(float *ra);
 float	horizontal_inter(t_data *img);
 int		create_trgb(int t, int r, int g, int b);
-float	vertical_inter(t_data *img);
+float	vertical_inter(t_data *img,int mx,int my);
 int		move(t_data *img);
 int		move_w(t_data *vars);
 int		move_s(t_data *vars);
