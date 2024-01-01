@@ -1,11 +1,18 @@
 #include "cube3d.h"
 
+int	close_win(t_data *vars)
+{
+	error_free(vars, -1, "Exit\n");
+	return (0);
+}
+
 void	run(t_data *canva)
 {
 	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0, 0);
 	mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
 	mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
 	mlx_key_hook(canva->win_ptr, &map_key, &(*canva));
+	mlx_hook(canva->win_ptr, 17, 0, close_win, canva);
 	mlx_loop(canva->mlx_ptr);
 }
 
@@ -24,7 +31,7 @@ int	move(t_data *img)
 			{create_trgb(0, img->floor[0], img->floor[1], img->floor[2])});
 		i++;
 	}
-	
+
 	ray(img);
 	if (img->key_m == 1)
     {
