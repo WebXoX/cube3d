@@ -48,8 +48,8 @@ int	ft_isplayer(char c, t_data *data, int i, int row_num)
 	if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
 		(data->player_count)++;
-		data->cx = i;
-		data->cy = row_num;
+		data->cx = i + 0.5;
+		data->cy = row_num + 0.5;
 		set_values(data, c);
 		return (1);
 	}
@@ -63,7 +63,9 @@ void player(t_data *img)
     int j;
     int c;
     coordinate_t point;
-
+	
+	img->player.x = (img->scale * img->cx) + img->scale / 4;
+	img->player.y = (img->scale * img->cy) + img->scale / 4;
     i = -1;
         while (++i < img->final_c)
         {

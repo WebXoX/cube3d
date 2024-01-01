@@ -53,7 +53,7 @@ void	init_struct(t_data *canva)
 	canva->camaera.y = 0;
 	canva->height = 1020;
 	canva->width = 1060;
-	canva->scale = 8;
+	canva->scale = 10;
 	canva->player.da = 90.0f * PI / 180.0f;
 }
 
