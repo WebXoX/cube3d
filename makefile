@@ -3,27 +3,22 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+         #
+#    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/12/31 17:10:27 by fathmanazme      ###   ########.fr        #
+#    Updated: 2024/01/02 11:54:03 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-NAME = cube3d
+NAME = cub3D
 
 INC=/usr/include
 
 INCLIB=$(INC)/../lib
 
-# SRC = 	try5.c wall.c tile.c ray.c
-SRC = 	 move_events2.c main.c wall.c tile.c player.c newray.c drawline.c  finalray.c vertical_ray.c horizontal_ray.c \
+SRC = 	 move_events2.c main.c wall.c tile.c player.c newray.c drawline.c  mapray.c vertical_ray.c horizontal_ray.c \
 		texture.c utils.c ceil_floor.c map_validation.c map.c struct_init.c #lovdev version for ray casting
-# SRC = 	 move_events.c try7.c ray2.c parsing.c drawline.c  # normal version
-# SRC = 	 main.c move_events.c wall.c tile.c player.c finalray.c vertical_ray.c horizontal_ray.c parsing.c drawline.c #compiled version
-# SRC = ray4.c
-# SRC = 	try6.c
 
 OBJ_DIR = obj
 OS := $(shell uname)
@@ -72,6 +67,7 @@ clean:
 	@make clean -sC libft
 
 fclean:
+	rm  $(NAME)
 	rm -rf $(OBJ_DIR)
 	@make clean -sC $(MLX_PATH_L)
 	rm -rf $(MLX_NAME_L)
