@@ -13,11 +13,13 @@ int	move_w(t_data *vars)
 {
 	while (vars->move.w == 1)
 	{
-	if (vars->cx + vars->player.dx * 0.1 < vars->longest_row && vars->cx
-		+ vars->player.dx * 0.1 >= 0 &&(int)(vars->cy
-			+ vars->player.dy * 0.1) < vars->final_c
+	if (vars->cx + vars->player.dx * 0.55 < vars->longest_row && vars->cx
+		+ vars->player.dx * 0.55 >= 0 &&(int)(vars->cy
+			+ vars->player.dy * 0.55) < vars->final_c
 		&& (int)(vars->cy
-			+ vars->player.dy * 0.1)>= 0 && (vars->map[(int)(vars->cy
+			+ vars->player.dy * 0.55)>= 0 && (vars->map[(int)(vars->cy
+			+ vars->player.dy * 0.55)][(int)(vars->cx
+			+ vars->player.dx * 0.55)] != 1 || vars->map[(int)(vars->cy
 			+ vars->player.dy * 0.1)][(int)(vars->cx
 			+ vars->player.dx * 0.1)] != 1 ))
 	{	
@@ -42,10 +44,12 @@ int	move_s(t_data *vars)
 	{
 	if ((int)vars->cx - vars->player.dx < vars->longest_row && (int)vars->cx - vars->player.dx >= 0
 		&& (int)(vars->cy
-			- vars->player.dy * 0.1) < vars->final_c && (int)(vars->cy
-			- vars->player.dy * 0.1) >= 0 && vars->map[(int)(vars->cy
-			- vars->player.dy * 0.1)][(int)(vars->cx - vars->player.dx
-				* 0.1)] != 1)
+			- vars->player.dy * 0.55) < vars->final_c && (int)(vars->cy
+			- vars->player.dy * 0.55) >= 0 && (vars->map[(int)(vars->cy
+			- vars->player.dy * 0.55)][(int)(vars->cx - vars->player.dx
+				* 0.55)] != 1 || vars->map[(int)(vars->cy
+			- vars->player.dy * 0.1)][(int)(vars->cx
+			- vars->player.dx * 0.1)] != 1 ))
                 {
                     vars->cx -= vars->player.dx * 0.05;
                     vars->cy -= vars->player.dy * 0.05;
@@ -68,11 +72,12 @@ int	move_a(t_data *vars)
 	{
 	rayAngle = (atan2l(vars->player.dy, vars->player.dx) - vars->directionstart
 			* (PI / 2));
-	if (vars->cx + cos(rayAngle) * 0.1 < vars->longest_row && vars->cx
-		+ cos(rayAngle) * 0.1 >= 0 && (int)(vars->cy
-			+ sin(rayAngle) * 0.1) < vars->final_c && (int)(vars->cy
-			+ sin(rayAngle) * 0.1) >= 0 && vars->map[(int)(vars->cy+ sin(rayAngle) * 0.1)][(int)(vars->cx + cos(rayAngle)
-			* 0.1)] != 1)
+	if (vars->cx + cos(rayAngle) * 0.55 < vars->longest_row && vars->cx
+		+ cos(rayAngle) * 0.55 >= 0 && (int)(vars->cy
+			+ sin(rayAngle) * 0.55) < vars->final_c && (int)(vars->cy
+			+ sin(rayAngle) * 0.55) >= 0 && (vars->map[(int)(vars->cy+ sin(rayAngle) * 0.55)][(int)(vars->cx + cos(rayAngle)
+			* 0.55)] != 1 || vars->map[(int)(vars->cy+ sin(rayAngle) * 0.1)][(int)(vars->cx + cos(rayAngle)
+			* 0.1)] != 1))
 	{
 		vars->cx += cos(rayAngle) * 0.05;
 		vars->cy += sin(rayAngle) * 0.05;
@@ -95,18 +100,19 @@ int	move_d(t_data *vars)
 	{
 	rayAngle = (atan2l(vars->player.dy, vars->player.dx) - vars->directionstart
 			* (PI / 2));
-	if (vars->cx - cos(rayAngle) * 0.1 < vars->longest_row && vars->cx
-		- cos(rayAngle) * 0.1 >= 0 && vars->cy - sin(rayAngle)
-		* 0.1 < vars->final_c && vars->cy - sin(rayAngle) * 0.1 >= 0
-		&& vars->map[(int)(vars->cy- sin(rayAngle) * 0.1 -0.01)][(int)(vars->cx - cos(rayAngle)
-			* 0.1)] != 1)
+	if (vars->cx - cos(rayAngle) * 0.55 < vars->longest_row && vars->cx
+		- cos(rayAngle) * 0.55 >= 0 && vars->cy - sin(rayAngle)
+		* 0.55 < vars->final_c && vars->cy - sin(rayAngle) * 0.55 >= 0
+		&& (vars->map[(int)(vars->cy- sin(rayAngle) * 0.55)][(int)(vars->cx - cos(rayAngle)
+			* 0.55)] != 1 || vars->map[(int)(vars->cy- sin(rayAngle) * 0.1)][(int)(vars->cx - cos(rayAngle)
+			* 0.1)] != 1))
 	{
 		vars->cx -= cos(rayAngle) * 0.05;
 		vars->cy -= sin(rayAngle) * 0.05;
 	}
     //  printf("moved curr ------->%d %dc %d\n",vars->map[(int)(vars->cy)][(int)(vars->cx)],(int)vars->cx,(int)vars->cy );
-    // printf("moved ------->%d\n",vars->map[(int)(vars->cy- sin(rayAngle) * 0.05)][(int)(vars->cx - cos(rayAngle)
-	// 		* 0.05)] );
+    // printf("moved ------->%d\n",vars->map[(int)(vars->cy- sin(rayAngle) * 0.5)][(int)(vars->cx - cos(rayAngle)
+	// 		* 0.5)] );
 	// if (vars->cx < vars->longest_row && (vars->cx) >= 0 && (int)(vars->cy
 	// 		- sin(rayAngle) * 0.95) < vars->final_c && (int)(vars->cy
 	// 		- sin(rayAngle) * 0.95) >= 0 && vars->map[(int)(vars->cy
@@ -127,16 +133,16 @@ int	move_l(t_data *vars)
 	{
 	rayAngle = vars->directionstart;
 	oldDirX = vars->player.dx;
-	vars->player.dx = vars->player.dx * cos(-0.1 * rayAngle) - vars->player.dy
-		* sin(-0.1 * rayAngle);
-	vars->player.dy = oldDirX * sin(-0.1 * rayAngle) + vars->player.dy
-		* cos(-0.1 * rayAngle);
+	vars->player.dx = vars->player.dx * cos(-0.15 * rayAngle) - vars->player.dy
+		* sin(-0.15 * rayAngle);
+	vars->player.dy = oldDirX * sin(-0.15 * rayAngle) + vars->player.dy
+		* cos(-0.15 * rayAngle);
 	oldPlaneX = vars->camaera.x;
-	vars->camaera.x = vars->camaera.x * cos(-0.1 * rayAngle) - vars->camaera.y
-		* sin(-0.1 * rayAngle);
-	vars->camaera.y = oldPlaneX * sin(-0.1 * rayAngle) + vars->camaera.y
-		* cos(-0.1 * rayAngle);
-	vars->player.da -= 6;
+	vars->camaera.x = vars->camaera.x * cos(-0.15 * rayAngle) - vars->camaera.y
+		* sin(-0.15 * rayAngle);
+	vars->camaera.y = oldPlaneX * sin(-0.15 * rayAngle) + vars->camaera.y
+		* cos(-0.15 * rayAngle);
+	vars->player.da -= 6 * vars->directionstart;
 	vars->player.da = FixAng(vars->player.da);
 	vars->player.mdx = cos(radiansfd(vars->player.da));
 	vars->player.mdy = sin(radiansfd(vars->player.da));
@@ -154,16 +160,16 @@ int	move_r(t_data *vars)
 	{
 	rayAngle = vars->directionstart;
 	oldDirX = vars->player.dx;
-	vars->player.dx = vars->player.dx * cos(0.1 * rayAngle) - vars->player.dy
-		* sin(0.1 * rayAngle);
-	vars->player.dy = oldDirX * sin(0.1 * rayAngle) + vars->player.dy * cos(0.1
+	vars->player.dx = vars->player.dx * cos(0.15 * rayAngle) - vars->player.dy
+		* sin(0.15 * rayAngle);
+	vars->player.dy = oldDirX * sin(0.15 * rayAngle) + vars->player.dy * cos(0.15
 			* rayAngle);
 	oldPlaneX = vars->camaera.x;
-	vars->camaera.x = vars->camaera.x * cos(0.1 * rayAngle) - vars->camaera.y
-		* sin(0.1 * rayAngle);
-	vars->camaera.y = oldPlaneX * sin(0.1 * rayAngle) + vars->camaera.y
-		* cos(0.1 * rayAngle);
-	vars->player.da += 6;
+	vars->camaera.x = vars->camaera.x * cos(0.15 * rayAngle) - vars->camaera.y
+		* sin(0.15 * rayAngle);
+	vars->camaera.y = oldPlaneX * sin(0.15 * rayAngle) + vars->camaera.y
+		* cos(0.15 * rayAngle);
+	vars->player.da += 6* vars->directionstart;
 	vars->player.da = FixAng(vars->player.da);
 	vars->player.mdx = cos(radiansfd(vars->player.da));
 	vars->player.mdy = sin(radiansfd(vars->player.da));
@@ -196,7 +202,7 @@ int map_key(int keycode,t_data *vars)
 {
     printf("keycodemao :: -> %d\n",keycode);
 
-    if (keycode == 109 || keycode == 0)
+    if (keycode == 109 || keycode == 46)
     {
         setmove(&vars->key_m);
         move(vars);
