@@ -33,7 +33,7 @@ void wall(t_data *img)
                 c = -1;
                 while (++c < img->scale - 2)
                     drawline((int[]){point.x ,point.y + c ,point.x
-                            + img->scale-2 ,point.y + c} , img, (int[]){create_trgb(0,200,200,200)});
+                            + img->scale-2 ,point.y + c} , img, create_trgb(0,200,200,200));
             }
             point.x+=img->scale;
         }

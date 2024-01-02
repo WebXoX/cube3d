@@ -1,11 +1,11 @@
 
 
 C                 254  ,   100 ,    0
-NO wood.xpm
+NO texture/wood.xpm
 
-SO purplestone.xpm
-WE RED-BRICK.xpm
-EA winter.xpm
+SO texture/purplestone.xpm
+WE texture/RED-BRICK.xpm
+EA texture/winter.xpm
 
 F 0   , 100    ,  100
 

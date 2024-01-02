@@ -36,11 +36,11 @@ int	move(t_data *img)
 	while (i < img->height)
 	{
 		if (i < img->height / 2)
-			drawline((int []){0, i, img->width, i}, img, (int [])
-			{create_trgb(0, img->ceil[0], img->ceil[1], img->ceil[2])});
+			drawline((int []){0, i, img->width, i}, img,
+			create_trgb(0, img->ceil[0], img->ceil[1], img->ceil[2]));
 		else
-			drawline((int []){0, i, img->width, i}, img, (int [])
-			{create_trgb(0, img->floor[0], img->floor[1], img->floor[2])});
+			drawline((int []){0, i, img->width, i}, img,
+			create_trgb(0, img->floor[0], img->floor[1], img->floor[2]));
 		i++;
 	}
 
@@ -70,11 +70,11 @@ void	call(t_data *img)
 	while (i < img->height)
 	{
 		if (i < img->height / 2)
-			drawline((int []){0, i, img->width, i}, img, (int [])
-			{create_trgb(0, img->ceil[0], img->ceil[1], img->ceil[2])});
+			drawline((int []){0, i, img->width, i}, img,
+			create_trgb(0, img->ceil[0], img->ceil[1], img->ceil[2]));
 		else
-			drawline((int []){0, i, img->width, i}, img, (int [])
-			{create_trgb(0, img->floor[0], img->floor[1], img->floor[2])});
+			drawline((int []){0, i, img->width, i}, img,
+			create_trgb(0, img->floor[0], img->floor[1], img->floor[2]));
 		i++;
 	}
 	ray(img);
