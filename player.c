@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   player.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:52:05 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:52:06 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:28:40 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-void set_map_value(t_data *data, char c)
+
+void	set_map_value(t_data *data, char c)
 {
 	if (c == 'N')
 		data->player.da = 90.0f;
@@ -51,7 +52,7 @@ void	set_values(t_data *data, char c)
 		data->camaera.y -= 0.66;
 		data->directionstart = 1;
 	}
-	set_map_value(data,c);
+	set_map_value(data, c);
 }
 
 int	ft_isplayer(char c, t_data *data, int i, int row_num)
@@ -67,35 +68,40 @@ int	ft_isplayer(char c, t_data *data, int i, int row_num)
 	else
 		return (0);
 }
-
-void player(t_data *img)
+void draw_player(t_data *img, int i, int j)
 {
-    int i;
-    int j;
-    int c;
-    coordinate_t point;
+	int	c;
+
+	if (img->map[i][j] == 2)
+	{
+		c = -1;
+		while (++c < img->scale / 4)
+			drawline((int []){img->player.x, img->player.y + c,
+				img->player.x + 5, img->player.y + c}, img, 0x735674);
+	}
+}
+
+void	player(t_data *img)
+{
+	int				i;
+	int				j;
+	coordinate_t	point;
 
 	img->player.x = (img->scale * (int)img->cx) + img->scale / 4;
 	img->player.y = (img->scale * (int)img->cy) + img->scale / 4;
-	printf("cx%f cy %f\n", img->cx, img->cy);
-	printf("px%f py %f\n", img->player.x, img->player.y);
-    i = -1;
-        while (++i < img->final_c)
-        {
-            j = -1;
-            while (++j < img->longest_row)
-            {
-                if(img->map[i][j]==2)
-                {
-                    c = -1;
-                    while (++c < img->scale/4)
-                        drawline((int[]){img->player.x ,img->player.y + c ,
-							img->player.x+ 5 ,img->player.y + c} ,img, 0x735674);
-                }
-                point.x+=img->scale;
-            }
-            point.x=0;
-            point.y+=img->scale;
-        }
-    drawline((int[]){img->player.x +10/2,img->player.y + img->scale/4,img->player.x+10/2 -img->player.mdx*10,img->player.y+ img->scale/4 - img->player.mdy *10},img, 0x735674);
+	i = -1;
+	while (++i < img->final_c)
+	{
+		j = -1;
+		while (++j < img->longest_row)
+		{
+			draw_player(img, i, j);
+			point.x += img->scale;
+		}
+		point.x = 0;
+		point.y += img->scale;
+	}
+	drawline((int []){img->player.x + 10 / 2, img->player.y + img->scale / 4,
+		img->player.x + 10 / 2 - img->player.mdx * 10, img->player.y
+		+ img->scale / 4 - img->player.mdy * 10}, img, 0x735674);
 }
