@@ -33,7 +33,7 @@ else
     MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
 endif
 
-CFLAGS = -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror  -g3
 CC = gcc
 
 all: $(MLX_L) $(OBJ_DIR) $(NAME)

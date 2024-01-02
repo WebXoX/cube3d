@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:53:13 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 15:33:57 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:47:36 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	move(t_data *img)
 		wall(img);
 		tile(img);
 		player(img);
-		ray_starter(img, 120);
+		ray_starter(img, 66);
 	}
 	run(img);
 	return (1);

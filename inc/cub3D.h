@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 14:58:32 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:33:26 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void				add_ceil_floor(char *tex, t_data *canva);
 void				create_arr(char arr[5][3]);
 void				check_valid(char *tex, t_data *canva);
 int					check_tex(t_data *canva);
-void				condition_check(t_data *canva, char *line, int fd);
+void				condition_check(t_data *canva, char *line);
 int					ft_isspace(char c);
 void				error_free(t_data *canva, int fd, char *msg);
 void				validate_file(char *file, t_data *canva, int i);
