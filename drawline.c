@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   drawline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 10:19:34 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 11:46:38 by afarheen         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 int	create_trgb(int t, int r, int g, int b)
 {

@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:08:35 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 12:50:35 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 int	move_l(t_data *vars)
 {
@@ -31,8 +31,8 @@ int	move_l(t_data *vars)
 			- vars->camaera.y * sin(-0.15 * rayangle);
 		vars->camaera.y = oldplanex * sin(-0.15 * rayangle) + vars->camaera.y
 			* cos(-0.15 * rayangle);
-		vars->player.da -= (cos(0.15 * rayangle) + sin(0.15 * rayangle)) *7.5;
-		vars->player.da = FixAng(vars->player.da);
+		vars->player.da -= (cos(0.15 * rayangle) + sin(0.15 * rayangle)) * 7.5;
+		vars->player.da = fixang(vars->player.da);
 		vars->player.mdx = cos(radiansfd(vars->player.da));
 		vars->player.mdy = sin(radiansfd(vars->player.da));
 		move(vars);
@@ -59,8 +59,8 @@ int	move_r(t_data *vars)
 			- vars->camaera.y * sin(0.15 * rayangle);
 		vars->camaera.y = oldplanex * sin(0.15 * rayangle) + vars->camaera.y
 			* cos(0.15 * rayangle);
-		vars->player.da +=  (cos(0.15 * rayangle) + sin(0.15 * rayangle)) *7.5;
-		vars->player.da = FixAng(vars->player.da);
+		vars->player.da += (cos(0.15 * rayangle) + sin(0.15 * rayangle)) * 7.5;
+		vars->player.da = fixang(vars->player.da);
 		vars->player.mdx = cos(radiansfd(vars->player.da));
 		vars->player.mdy = sin(radiansfd(vars->player.da));
 		move(vars);

@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:51:40 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 12:09:09 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 int	move_w(t_data *vars)
 {

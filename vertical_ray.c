@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:52:19 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:52:19 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 void	ray_vertical(t_data *img, float tan)
 {
@@ -45,7 +45,7 @@ float	vertical_inter(t_data *img, int mx, int my)
 {
 	float	tan2;
 
-	img->ra = FixAng(img->ra);
+	img->ra = fixang(img->ra);
 	tan2 = -tan(radiansfd(img->ra));
 	img->dof = 0;
 	ray_vertical(img, tan2);

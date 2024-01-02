@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2024/01/02 12:20:28 by jperinch         ###   ########.fr        #
+#    Updated: 2024/01/02 13:20:20 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ INC=/usr/include
 INCLIB=$(INC)/../lib
 
 SRC = 	 move_events.c main.c wall.c tile.c player.c newray.c drawline.c  mapray.c vertical_ray.c horizontal_ray.c \
-		texture.c utils.c ceil_floor.c map_validation.c map.c struct_init.c event.c rotation_events.c #lovdev version for ray casting
+		texture.c utils.c ceil_floor.c map_validation.c map.c struct_init.c event.c rotation_events.c textureray.c #lovdev version for ray casting
 
 OBJ_DIR = obj
 OS := $(shell uname)

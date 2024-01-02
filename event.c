@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:10:28 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 12:11:18 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:33:25 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 int	setmove(int *key)
 {
@@ -42,7 +42,6 @@ int	moves(int keycode, t_data *vars)
 
 int	map_key(int keycode, t_data *vars)
 {
-	printf("keycodemao :: -> %d\n", keycode);
 	if (keycode == 109 || keycode == 46)
 	{
 		setmove(&vars->key_m);

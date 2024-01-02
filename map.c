@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:00:55 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 12:00:56 by afarheen         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 char	*new_line_check(char *line, t_data *canva)
 {

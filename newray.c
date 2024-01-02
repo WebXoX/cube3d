@@ -6,17 +6,12 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:51:49 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:51:51 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 #include <math.h>
-
-float	radiansfd(float angle)
-{
-	return (angle * PI / 180.0f);
-}
 
 void	ray_init(t_data *data)
 {
@@ -45,7 +40,7 @@ void	ray_init(t_data *data)
 
 void	ray_steps(t_data *data, int x)
 {
-	ray_t	*ray;
+	t_ray	*ray;
 
 	ray = &data->ray;
 	ray->fov = 2 * x / (double)data->width - 1;
@@ -57,28 +52,8 @@ void	ray_steps(t_data *data, int x)
 	ray->deltadis.y = fabs(1 / ray->raydir.y);
 	ray->perpdis = 0.0;
 }
-void	idxset(t_data *img, ray_t *ray, int flag)
-{
-	if (flag == 0)
-	{
-		if (ray->y >= 0 && ray->x + 1 >= 0 && ray->x + 1 < img->longest_row
-			&& ray->y < img->final_c && img->map[ray->y][ray->x + 1] != 1
-			&& ray->raydir.x < 0)
-			ray->idx = 2;
-		else
-			ray->idx = 3;
-	}
-	else
-	{
-		if (ray->x >= 0 && ray->y - 1 >= 0 && ray->x < img->longest_row
-			&& ray->y - 1 < img->final_c && img->map[ray->y - 1][ray->x] != 1
-			&& ray->raydir.y > 0)
-			ray->idx = 1;
-		else
-			ray->idx = 0;
-	}
-}
-void	ray_hit(t_data *img, ray_t *ray)
+
+void	ray_hit(t_data *img, t_ray *ray)
 {
 	if (ray->sidedis.x < ray->sidedis.y)
 	{
@@ -102,7 +77,7 @@ void	ray_hit(t_data *img, ray_t *ray)
 	}
 }
 
-void	raystep_direction(t_data *img, ray_t *ray)
+void	raystep_direction(t_data *img, t_ray *ray)
 {
 	if (ray->raydir.x < 0)
 	{
@@ -129,56 +104,9 @@ void	raystep_direction(t_data *img, ray_t *ray)
 		ray_hit(img, ray);
 }
 
-void	texture_render(t_data *img, ray_t *ray, int x)
-{
-	double	texPos;
-	int		texy;
-
-	texy = 0;
-	texPos = (ray->drawStart - img->height / 2 + ray->lineHeight / 2) * ray->dy;
-	while (ray->lo < ray->drawEnd)
-	{
-		texy = (int)texPos;
-		texPos += ray->dy;
-		my_mlx_pixel_put(img, x, ray->lo + 1, img->texture2[ray->idx].addr[(texy
-				* img->texture2[ray->idx].img_hei / 4 + (ray->color))]);
-		ray->lo += 1;
-	}
-}
-
-void	texture_calc(t_data *img, ray_t *ray, int x)
-{
-	ray->wallx = 0;
-	ray->perpdis = 0;
-	if (ray->side == 0)
-	{
-		ray->perpdis = (ray->sidedis.x - ray->deltadis.x); //* cos(ray->fov);
-		ray->wallx = ray->pos.y + ray->perpdis * ray->raydir.y;
-	}
-	else
-	{
-		ray->perpdis = (ray->sidedis.y - ray->deltadis.y); //* cos(ray->fov);
-		ray->wallx = ray->pos.x + ray->perpdis * ray->raydir.x;
-	}
-	ray->wallx -= floor((ray->wallx));
-	ray->lineHeight = 0;
-	ray->lineHeight = (int)(img->height / ray->perpdis);
-	ray->drawStart = img->height / 2 - ray->lineHeight / 2;
-	if (ray->drawStart < 0)
-		ray->drawStart = 0;
-	ray->drawEnd = ray->lineHeight / 2 + img->height / 2;
-	if (ray->drawEnd >= img->height)
-		ray->drawEnd = img->height - 1;
-	ray->color = floor(ray->wallx * 64);
-	ray->lo = ray->drawStart;
-	ray->dy = (64.0) / (ray->lineHeight);
-	ray->lo = ray->drawStart;
-	texture_render(img, ray, x);
-}
-
 void	ray(t_data *img)
 {
-	ray_t	*ray;
+	t_ray	*ray;
 	int		x;
 
 	x = 0;

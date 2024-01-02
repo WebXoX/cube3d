@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:52:05 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:52:06 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:33:37 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 void set_map_value(t_data *data, char c)
 {
 	if (c == 'N')
@@ -73,12 +73,10 @@ void player(t_data *img)
     int i;
     int j;
     int c;
-    coordinate_t point;
+    t_coordinate point;
 
 	img->player.x = (img->scale * (int)img->cx) + img->scale / 4;
 	img->player.y = (img->scale * (int)img->cy) + img->scale / 4;
-	printf("cx%f cy %f\n", img->cx, img->cy);
-	printf("px%f py %f\n", img->player.x, img->player.y);
     i = -1;
         while (++i < img->final_c)
         {

@@ -6,17 +6,17 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:52:24 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:52:24 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 void wall(t_data *img)
 {
     int i;
     int j;
-    coordinate_t point;
+    t_coordinate point;
 
     point.x = 0 ;
     point.y = 0 ;

@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:52:42 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:52:42 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 13:32:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cube3d.h"
+#include "cub3D.h"
 
 void	ray_horizontal_direction(t_data *img, float tan1)
 {
@@ -47,7 +47,7 @@ float	horizontal_inter(t_data *img)
 	int		mx;
 	int		my;
 
-	img->ra = FixAng(img->ra);
+	img->ra = fixang(img->ra);
 	tan1 = -1 / tan(radiansfd(img->ra));
 	img->dof = 0;
 	ray_horizontal_direction(img, tan1);
