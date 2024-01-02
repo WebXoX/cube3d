@@ -6,7 +6,7 @@
 #    By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2024/01/02 13:20:20 by jperinch         ###   ########.fr        #
+#    Updated: 2024/01/02 13:37:29 by jperinch         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,9 +67,8 @@ clean:
 	@make clean -sC libft
 
 fclean:
-	rm  $(NAME)
 	rm -rf $(OBJ_DIR)
-	rm -rf $(NAME)
+	rm -f $(NAME)
 	@make clean -sC $(MLX_PATH_L)
 	rm -rf $(MLX_NAME_L)
 	@make fclean -sC libft

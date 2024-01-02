@@ -21,6 +21,7 @@
 		"vector": "c",
 		"complex": "c",
 		"get_next_line.h": "c",
-		"old": "c"
+		"old": "c",
+		"cub3d.h": "c"
 	}
 }
