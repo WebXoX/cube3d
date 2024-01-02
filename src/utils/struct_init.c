@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:01:37 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 15:33:43 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/03 00:06:06 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

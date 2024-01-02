@@ -3,28 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:53:13 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 15:47:36 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/03 00:06:27 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3D.h"
 
-int	close_win(t_data *vars)
+int	close_win(t_data *canva)
 {
-	error_free(vars, -1, "Exit\n");
-	return (0);
+	int	i;
+
+	if (canva->cur_tex)
+		free(*canva->cur_tex);
+	if (canva->cur_line)
+		free(*canva->cur_line);
+	i = -1;
+	while (++i < 4)
+		if (canva->texture2[i].img != 0)
+			mlx_destroy_image(canva->mlx_ptr, canva->texture2[i].img);
+	if (canva->map)
+	{
+		i = -1;
+		while (++i < canva->final_c)
+		{
+			if (canva->map[i])
+				free(canva->map[i]);
+		}
+		free(canva->map);
+	}
+	if (canva->img)
+		mlx_destroy_image(canva->mlx_ptr, canva->img);
+	exit(0);
 }
 
 void	run(t_data *canva)
 {
 	mlx_put_image_to_window(canva->mlx_ptr, canva->win_ptr, (canva)->img, 0, 0);
+	mlx_hook(canva->win_ptr, 17, 0, close_win, canva);
 	mlx_hook(canva->win_ptr, 2, 1L << 0, moves, &(*canva));
 	mlx_hook(canva->win_ptr, 3, 1L << 1, moves, &(*canva));
 	mlx_key_hook(canva->win_ptr, &map_key, &(*canva));
-	mlx_hook(canva->win_ptr, 17, 0, close_win, canva);
 	mlx_loop(canva->mlx_ptr);
 }
 
@@ -88,6 +109,8 @@ int	main(int argc, char *argv[])
 	if (argc > 1)
 	{
 		init_struct(&canva);
+		canva.win_ptr = 0;
+		canva.img = 0;
 		canva.fd = open(argv[1], O_RDWR);
 		if (canva.fd < 0 || ft_strcmp(ft_strrchr(argv[1], '.'), ".cub") != 0)
 			error_free(&canva, -1, "Error: Invalid file\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:02:09 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 14:04:56 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 23:59:31 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,13 @@ int	tex_len(char **arr)
 
 void	error_free(t_data *canva, int fd, char *msg)
 {
-	int	i;
-
 	if (fd != -1)
 		close(canva->fd);
-	if (canva->cur_tex)
-		free(*canva->cur_tex);
-	if (canva->cur_line)
-		free(*canva->cur_line);
-	i = -1;
-	while (++i < 4)
-		if (canva->texture2[i].img != 0)
-			mlx_destroy_image(canva->mlx_ptr, canva->texture2[i].img);
 	write (2, msg, ft_strlen(msg));
-	if (canva->map)
-	{
-		i = -1;
-		while (++i < canva->final_c)
-		{
-			if (canva->map[i])
-				free(canva->map[i]);
-		}
-		free(canva->map);
-	}
-	exit(0);
+	if(canva->win_ptr)
+		mlx_destroy_window(canva->mlx_ptr, canva->win_ptr);
+	else
+		close_win(canva);
 }
 
 int	ft_isspace(char c)
