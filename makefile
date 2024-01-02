@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+         #
+#    By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/12 12:01:22 by jperinch          #+#    #+#              #
-#    Updated: 2023/12/31 17:10:27 by fathmanazme      ###   ########.fr        #
+#    Updated: 2024/01/02 10:08:07 by afarheen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,6 +73,7 @@ clean:
 
 fclean:
 	rm -rf $(OBJ_DIR)
+	rm -rf $(NAME)
 	@make clean -sC $(MLX_PATH_L)
 	rm -rf $(MLX_NAME_L)
 	@make fclean -sC libft

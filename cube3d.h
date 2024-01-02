@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2023/12/31 18:20:27 by fathmanazme      ###   ########.fr       */
+/*   Updated: 2024/01/02 11:50:27 by afarheen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,7 @@ int		moves(int keycode, t_data *vars);
 int		*get_numbers(char *line, t_data *canva, int row_num);
 float	radiansfd(float angle);
 void	my_mlx_pixel_put(t_data *data, int x, int y, int color);
-void	drawline(int *vals, t_data *img, int *color_list);
+void	drawline(int *vals, t_data *img, int color);
 void	ray(t_data *img);
 void	wall(t_data *img);
 void	tile(t_data *img);

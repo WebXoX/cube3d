@@ -5,7 +5,7 @@ void re_tile(t_data *img,coordinate_t  *point, int c)
      while (c < img->scale - 2)
     {
         drawline((int[]){point->x ,point->y + c ,point->x
-                + img->scale-2 ,point->y + c} , img, (int[]){0x000});
+                + img->scale-2 ,point->y + c} , img, 0x000);
         c++;
     }
 }
@@ -30,7 +30,7 @@ void tile(t_data *img)
                 c = -1;
                 while (++c < img->scale - 2)
                     drawline((int[]){point.x ,point.y + c ,point.x
-                            + img->scale-2 ,point.y + c} , img, (int[]){create_trgb(0,10,10,10)});
+                            + img->scale-2 ,point.y + c} , img, create_trgb(0,10,10,10));
             }
             point.x+=img->scale;
         }
