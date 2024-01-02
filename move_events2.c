@@ -13,27 +13,19 @@ int	move_w(t_data *vars)
 {
 	while (vars->move.w == 1)
 	{
-	if (vars->cx + vars->player.dx * 0.55 < vars->longest_row && vars->cx
-		+ vars->player.dx * 0.55 >= 0 &&(int)(vars->cy
-			+ vars->player.dy * 0.55) < vars->final_c
+	if (vars->cx + vars->player.dx * 0.5 < vars->longest_row && vars->cx
+		+ vars->player.dx * 0.5 >= 0 &&(int)(vars->cy
+			+ vars->player.dy * 0.5) < vars->final_c
 		&& (int)(vars->cy
-			+ vars->player.dy * 0.55)>= 0 && (vars->map[(int)(vars->cy
-			+ vars->player.dy * 0.55)][(int)(vars->cx
-			+ vars->player.dx * 0.55)] != 1 || vars->map[(int)(vars->cy
-			+ vars->player.dy * 0.1)][(int)(vars->cx
-			+ vars->player.dx * 0.1)] != 1 ))
+			+ vars->player.dy * 0.5)>= 0 && (vars->map[(int)(vars->cy
+			+ vars->player.dy * 0.5)][(int)(vars->cx
+			+ vars->player.dx * 0.5)] != 1 && vars->map[(int)(vars->cy
+			+ vars->player.dy * 0.01)][(int)(vars->cx
+			+ vars->player.dx * 0.01)] != 1 ))
 	{	
-        vars->cx += vars->player.dx * (0.05);
-		vars->cy += vars->player.dy * (0.05);
+        vars->cx += vars->player.dx * (0.1);
+		vars->cy += vars->player.dy * (0.1);
     }
-	// // if (vars->cx < vars->longest_row && (vars->cx) >= 0 && (int)(vars->cy
-	// // 		+ vars->player.dy * 0.3) < vars->final_c && (int)(vars->cy
-	// // 		+ vars->player.dy * 0.3) >= 0 && vars->map[(int)(vars->cy
-	// // 		+ vars->player.dy * 0.3)][(int)(vars->cx)] != 1)
-    //      printf("wmove x------->%d\n", vars->map[(int)vars->cy][(int)(vars->cx
-	// 		+ vars->player.dx * 0.3)]);
-    // printf("wmove y------->%d\n", vars->map[(int)(vars->cy
-	// 		+ vars->player.dy * 0.3)][(int)(vars->cx)]);
 	move(vars);
 	}
 	return (1);
@@ -44,23 +36,18 @@ int	move_s(t_data *vars)
 	{
 	if ((int)vars->cx - vars->player.dx < vars->longest_row && (int)vars->cx - vars->player.dx >= 0
 		&& (int)(vars->cy
-			- vars->player.dy * 0.55) < vars->final_c && (int)(vars->cy
-			- vars->player.dy * 0.55) >= 0 && (vars->map[(int)(vars->cy
-			- vars->player.dy * 0.55)][(int)(vars->cx - vars->player.dx
-				* 0.55)] != 1 || vars->map[(int)(vars->cy
-			- vars->player.dy * 0.1)][(int)(vars->cx
-			- vars->player.dx * 0.1)] != 1 ))
+			- vars->player.dy * 0.5) < vars->final_c && (int)(vars->cy
+			- vars->player.dy * 0.5) >= 0 && (vars->map[(int)(vars->cy
+			- vars->player.dy * 0.5)][(int)(vars->cx - vars->player.dx
+				* 0.5)] != 1 && vars->map[(int)(vars->cy
+			- vars->player.dy * 0.01)][(int)(vars->cx
+			- vars->player.dx * 0.01)] != 1 ))
                 {
-                    vars->cx -= vars->player.dx * 0.05;
-                    vars->cy -= vars->player.dy * 0.05;
+                    vars->cx -= vars->player.dx * 0.1;
+                    vars->cy -= vars->player.dy * 0.1;
 
                 }
-	// if (vars->cx < vars->longest_row && (vars->cx) >= 0 && (int)(vars->cy
-	// 		+ vars->player.dy * 0.3) < vars->final_c && (int)(vars->cy
-	// 		+ vars->player.dy * 0.3) >= 0 && vars->map[(int)(vars->cy
-	// 		- vars->player.dy * 0.3)][(int)(vars->cx)] != 1)
 	move(vars);
-	// mlx_clear_window((vars)->mlx_ptr, (vars)->win_ptr);
 	}
 	return (1);
 }
@@ -72,22 +59,16 @@ int	move_a(t_data *vars)
 	{
 	rayAngle = (atan2l(vars->player.dy, vars->player.dx) - vars->directionstart
 			* (PI / 2));
-	if (vars->cx + cos(rayAngle) * 0.55 < vars->longest_row && vars->cx
-		+ cos(rayAngle) * 0.55 >= 0 && (int)(vars->cy
-			+ sin(rayAngle) * 0.55) < vars->final_c && (int)(vars->cy
-			+ sin(rayAngle) * 0.55) >= 0 && (vars->map[(int)(vars->cy+ sin(rayAngle) * 0.55)][(int)(vars->cx + cos(rayAngle)
-			* 0.55)] != 1 || vars->map[(int)(vars->cy+ sin(rayAngle) * 0.1)][(int)(vars->cx + cos(rayAngle)
-			* 0.1)] != 1))
+	if (vars->cx + cos(rayAngle) * 0.5 < vars->longest_row && vars->cx
+		+ cos(rayAngle) * 0.5 >= 0 && (int)(vars->cy
+			+ sin(rayAngle) * 0.5) < vars->final_c && (int)(vars->cy
+			+ sin(rayAngle) * 0.5) >= 0 && (vars->map[(int)(vars->cy+ sin(rayAngle) * 0.5)][(int)(vars->cx + cos(rayAngle)
+			* 0.5)] != 1 && vars->map[(int)(vars->cy+ sin(rayAngle) * 0.01)][(int)(vars->cx + cos(rayAngle)
+			* 0.01)] != 1))
 	{
-		vars->cx += cos(rayAngle) * 0.05;
-		vars->cy += sin(rayAngle) * 0.05;
+		vars->cx += cos(rayAngle) * 0.1;
+		vars->cy += sin(rayAngle) * 0.1;
 	}
-	// if (vars->cx < vars->longest_row && (vars->cx) >= 0 && (int)(vars->cy
-	// 		+ sin(rayAngle) * 0.95) < vars->final_c && (int)(vars->cy
-	// 		+ sin(rayAngle) * 0.95) >= 0 && vars->map[(int)(vars->cy
-	// 		+ sin(rayAngle) * 0.95)][(int)(vars->cx)] != 1)
-	// {
-	// }
 	move(vars);
 	}
 	return (1);
@@ -100,25 +81,16 @@ int	move_d(t_data *vars)
 	{
 	rayAngle = (atan2l(vars->player.dy, vars->player.dx) - vars->directionstart
 			* (PI / 2));
-	if (vars->cx - cos(rayAngle) * 0.55 < vars->longest_row && vars->cx
-		- cos(rayAngle) * 0.55 >= 0 && vars->cy - sin(rayAngle)
-		* 0.55 < vars->final_c && vars->cy - sin(rayAngle) * 0.55 >= 0
-		&& (vars->map[(int)(vars->cy- sin(rayAngle) * 0.55)][(int)(vars->cx - cos(rayAngle)
-			* 0.55)] != 1 || vars->map[(int)(vars->cy- sin(rayAngle) * 0.1)][(int)(vars->cx - cos(rayAngle)
-			* 0.1)] != 1))
+	if (vars->cx - cos(rayAngle) * 0.5 < vars->longest_row && vars->cx
+		- cos(rayAngle) * 0.5 >= 0 && vars->cy - sin(rayAngle)
+		* 0.5 < vars->final_c && vars->cy - sin(rayAngle) * 0.5 >= 0
+		&& (vars->map[(int)(vars->cy- sin(rayAngle) * 0.5)][(int)(vars->cx - cos(rayAngle)
+			* 0.5)] != 1 && vars->map[(int)(vars->cy- sin(rayAngle) * 0.01)][(int)(vars->cx - cos(rayAngle)
+			* 0.01)] != 1))
 	{
-		vars->cx -= cos(rayAngle) * 0.05;
-		vars->cy -= sin(rayAngle) * 0.05;
+		vars->cx -= cos(rayAngle) * 0.1;
+		vars->cy -= sin(rayAngle) * 0.1;
 	}
-    //  printf("moved curr ------->%d %dc %d\n",vars->map[(int)(vars->cy)][(int)(vars->cx)],(int)vars->cx,(int)vars->cy );
-    // printf("moved ------->%d\n",vars->map[(int)(vars->cy- sin(rayAngle) * 0.5)][(int)(vars->cx - cos(rayAngle)
-	// 		* 0.5)] );
-	// if (vars->cx < vars->longest_row && (vars->cx) >= 0 && (int)(vars->cy
-	// 		- sin(rayAngle) * 0.95) < vars->final_c && (int)(vars->cy
-	// 		- sin(rayAngle) * 0.95) >= 0 && vars->map[(int)(vars->cy
-	// 		- sin(rayAngle) * 0.95)][(int)(vars->cx)] != 1)
-	// {
-	// }
 	move(vars);
 	}
 	return (1);
