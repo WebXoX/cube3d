@@ -6,11 +6,11 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:53:13 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 14:05:06 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 14:59:01 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/cub3D.h"
+#include "../../inc/cub3D.h"
 
 int	close_win(t_data *vars)
 {
