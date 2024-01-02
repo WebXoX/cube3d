@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:01:55 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 14:04:56 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:33:34 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	check_tex(t_data *canva)
 	return (1);
 }
 
-void	condition_check(t_data *canva, char *line, int fd)
+void	condition_check(t_data *canva, char *line)
 {
 	char	*tex;
 
@@ -95,7 +95,7 @@ char	*validate_textures(t_data *canva, int fd)
 		if (ft_strcmp(line, "\n") && check_tex(canva))
 			break ;
 		else if (ft_strcmp(line, "\n"))
-			condition_check(canva, line, fd);
+			condition_check(canva, line);
 		canva->first_lines++;
 		free(line);
 		line = get_next_line(fd);

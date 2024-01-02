@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 12:01:37 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 14:04:40 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:33:43 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	*get_numbers(char *line, t_data *canva, int row)
 {
 	int		i;
 	int		*numbers;
-	t_list	*cur;
 
 	i = -1;
 	numbers = malloc(sizeof(int) * canva->longest_row);

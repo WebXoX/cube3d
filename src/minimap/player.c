@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:52:05 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 14:04:56 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:24:33 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ int	ft_isplayer(char c, t_data *data, int i, int row_num)
 	else
 		return (0);
 }
-void draw_player(t_data *img, int i, int j)
+
+void	draw_player(t_data *img, int i, int j)
 {
 	int	c;
 

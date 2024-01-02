@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:53:13 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 14:59:01 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:33:57 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	move(t_data *img)
 
 void	call(t_data *img)
 {
-	int	status;
 	int	i;
 
 	i = -1;
@@ -85,7 +84,6 @@ int	main(int argc, char *argv[])
 {
 	t_data	canva;
 	char	*line;
-	int		*numbers;
 
 	if (argc > 1)
 	{

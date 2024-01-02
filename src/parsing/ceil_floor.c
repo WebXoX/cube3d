@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 10:06:28 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 14:04:56 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 15:30:50 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ void	extract_rgb(char *tex, t_data *canva)
 
 void	add_ceil_floor(char *tex, t_data *canva)
 {
-	int	fd;
-
 	if (tex[0] == 'C' && !canva->flag[5])
 		canva->flag[5] = 1;
 	else if (tex[0] == 'F' && !canva->flag[4])
