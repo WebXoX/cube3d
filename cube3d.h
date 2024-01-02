@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 11:50:27 by afarheen         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:21:25 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,8 +138,9 @@ typedef struct s_line
 	double	e2;
 }	t_line;
 
+int		move_l(t_data *vars);
+int		move_r(t_data *vars);
 int		map_key(int keycode,t_data *vars);
-int		collisionNS(t_data *C, int i);
 char	*join_all(char **rgb);
 int		num_valid(char *str, int i, int num_count);
 int		extract_num(char *str, t_data *canva, int val, char type);

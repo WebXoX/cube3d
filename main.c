@@ -6,7 +6,7 @@
 /*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 11:53:13 by jperinch          #+#    #+#             */
-/*   Updated: 2024/01/02 11:53:13 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:00:28 by jperinch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,25 @@ int	move(t_data *img)
 	while (i < img->height)
 	{
 		if (i < img->height / 2)
-			drawline((int []){0, i, img->width, i}, img,
-			create_trgb(0, img->ceil[0], img->ceil[1], img->ceil[2]));
+			drawline((int []){0, i, img->width, i}, img, create_trgb(0,
+					img->ceil[0], img->ceil[1], img->ceil[2]));
 		else
-			drawline((int []){0, i, img->width, i}, img,
-			create_trgb(0, img->floor[0], img->floor[1], img->floor[2]));
+			drawline((int []){0, i, img->width, i}, img, create_trgb(0,
+					img->floor[0], img->floor[1], img->floor[2]));
 		i++;
 	}
-
 	ray(img);
 	if (img->key_m == 1)
-    {
+	{
 		wall(img);
 		tile(img);
 		player(img);
 		ray_starter(img, 120);
-    }
+	}
 	run(img);
 	return (1);
 }
+
 void	call(t_data *img)
 {
 	int	status;
@@ -62,19 +62,19 @@ void	call(t_data *img)
 
 	i = -1;
 	img->img = mlx_new_image(img->mlx_ptr, img->width, img->height);
-	img->addr = mlx_get_data_addr(img->img, &img->bpp,
-			&img->line_bytes, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_bytes,
+			&img->endian);
 	img->win_ptr = mlx_new_window(img->mlx_ptr, img->width, img->height, "3d");
 	img->player.x = (img->scale * img->cx) + img->scale / 4;
 	img->player.y = (img->scale * img->cy) + img->scale / 4;
 	while (i < img->height)
 	{
 		if (i < img->height / 2)
-			drawline((int []){0, i, img->width, i}, img,
-			create_trgb(0, img->ceil[0], img->ceil[1], img->ceil[2]));
+			drawline((int []){0, i, img->width, i}, img, create_trgb(0,
+					img->ceil[0], img->ceil[1], img->ceil[2]));
 		else
-			drawline((int []){0, i, img->width, i}, img,
-			create_trgb(0, img->floor[0], img->floor[1], img->floor[2]));
+			drawline((int []){0, i, img->width, i}, img, create_trgb(0,
+					img->floor[0], img->floor[1], img->floor[2]));
 		i++;
 	}
 	ray(img);
