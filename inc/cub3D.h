@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jperinch <jperinch@student.42.fr>          +#+  +:+       +#+        */
+/*   By: fathmanazmeen <fathmanazmeen@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 11:01:28 by afarheen          #+#    #+#             */
-/*   Updated: 2024/01/02 15:33:26 by jperinch         ###   ########.fr       */
+/*   Updated: 2024/01/02 23:59:04 by fathmanazme      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,5 +189,6 @@ void				ray(t_data *img);
 void				wall(t_data *img);
 void				tile(t_data *img);
 void				player(t_data *img);
+int					close_win(t_data *canva);
 
 #endif
