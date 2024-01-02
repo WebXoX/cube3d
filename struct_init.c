@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct_init.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/02 12:01:37 by afarheen          #+#    #+#             */
+/*   Updated: 2024/01/02 12:01:45 by afarheen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
 int	*get_numbers(char *line, t_data *canva, int row)
@@ -57,5 +69,3 @@ void	init_struct(t_data *canva)
 	canva->scale = 10;
 	canva->player.da = 90.0f;
 }
-
-

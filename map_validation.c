@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_validation.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: afarheen <afarheen@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/02 12:00:26 by afarheen          #+#    #+#             */
+/*   Updated: 2024/01/02 12:00:42 by afarheen         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cube3d.h"
 
 void	check_vertical(int i, int j, t_data *canva, int **map)
@@ -112,6 +124,3 @@ void	validate_spaces(int **map, t_data *canva)
 		i++;
 	}
 }
-
-
-
