@@ -3,11 +3,11 @@ NAME = cub3D
 INC = /usr/include
 INCLIB = $(INC)/../lib
 
-SRC_E = event.c move_events.c rotation_events.c 
-SRC_M = player.c tile.c wall.c 						
-SRC_P = ceil_floor.c map.c map_validation.c 				
-SRC_R = horizontal_ray.c mapray.c newray.c vertical_ray.c 
-SRC_T = texture.c textureray.c 
+SRC_E = event.c move_events.c rotation_events.c
+SRC_M = player.c tile.c wall.c
+SRC_P = ceil_floor.c map.c map_validation.c
+SRC_R = horizontal_ray.c mapray.c newray.c vertical_ray.c
+SRC_T = texture.c textureray.c
 SRC_U = drawline.c struct_init.c utils.c main.c
 
 SRC = $(addprefix events/, $(SRC_E)) \
@@ -33,7 +33,7 @@ else
     MLX_L			= $(MLX_PATH_L)$(MLX_NAME_L)
 endif
 
-CFLAGS = -Wall -Wextra -Werror  -g3
+CFLAGS = -Wall -Wextra -Werror -g3
 CC = gcc
 
 all: $(MLX_L) $(OBJ_DIR) $(NAME)
@@ -58,7 +58,7 @@ $(OBJ_DIR)/%.o: ./src/parsing/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: ./src/ray/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@	
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: ./src/textures/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
